@@ -5,6 +5,7 @@ import java.util.List;
 
 public class CardStack {
 	List<Integer> cardStack = new ArrayList<Integer>();
+	
+	public CardStack() {	
+	}
 }
-
-//public CardStack
