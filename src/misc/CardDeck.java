@@ -1,4 +1,4 @@
-package poker;
+package misc;
 
 public class CardDeck {
 
