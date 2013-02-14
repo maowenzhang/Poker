@@ -10,7 +10,7 @@ public class Deck extends CardStack{
 	}
 	
 	public void generate() {
-		cardStack.clear();
+		super.generate();
 		for (int loopCount = 0; loopCount < 52; loopCount++) {
 			cardStack.add(loopCount+1);
 		}

@@ -9,4 +9,7 @@ public class CardStack {
 		cardStack = initial;
 	}
 
+	public void generate() {
+		cardStack.clear();
+	}
 }

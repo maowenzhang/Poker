@@ -10,7 +10,7 @@ package misc;
  */
 import java.util.Scanner;
 
-public class Poker {
+public class Poker_Old {
 
     /**
      * @param args the command line arguments
