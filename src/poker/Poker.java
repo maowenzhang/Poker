@@ -41,14 +41,56 @@ public class Poker {
 
 	public static void playSingleRound(){
 		deal();
+		cardExchange();
 		scoreKeeper(evaluate());
 	}
 
+	public static void cardExchange() {
+		playerCardExchange();
+		dealerCardExchange();
+	}
+	
+	public static void playerCardExchange() {
+		int numToSwap;
+		int cardToDiscard;
+		
+		//TO WRITE - GIVE PLAYER CHANCE TO EXCHANGE UP TO 3 CARDS. - sets "numToSwap" - 1 used as test. Need to pass in index of card to be discarded - 3 used as test.
+		
+		numToSwap = 1;
+		cardToDiscard = 3;
+		
+		for (int loopCount = 1; loopCount <= numToSwap; loopCount++) {
+			playerHand.discardCard(cardToDiscard)
+			playerHand.takeNewCard(deck.dealCard());
+		}
+	}
+	
+	public static void dealerCardExchange() {
+		int bestHand;
+		
+		bestHand = dealerHand.evaluateHandType();
+		
+		//some sort of logic/statistical engine based on current hand and highest card - or find existing library to use!
+	
+		int numToSwap;
+		int cardToDiscard;
+		
+		//TO WRITE - GIVE DEALER CHANCE TO EXCHANGE UP TO 3 CARDS. - sets "numToSwap" - 1 used as test. Need to pass in index of card to be discarded - 3 used as test.
+		
+		numToSwap = 1;
+		cardToDiscard = 3;
+		for (int loopCount = 1; loopCount <= numToSwap; loopCount++) {
+			dealerHand.discardCard(cardToDiscard)
+			dealerHand.takeNewCard(deck.dealCard());
+		}
+	}
+	
+
 	private static void scoreKeeper(String winner) {
 		if (winner.equals("Dealer")) {
-			dealerScore =+ 1;
+			dealerScore += 1;
 		} else {
-			playerScore =+ 1;
+			playerScore += 1;
 		}
 	}
 
