@@ -14,6 +14,10 @@ public class Hand extends CardStack{
 		cardStack.add(newCard);
 	}
 	
+	public void discardCard(int cardToDiscard) {
+		cardStack.remove(cardToDiscard);
+	}
+	
 	public int evaluateHandType() {
 		Collections.sort(cardStack);
 		int handScore = 1;
