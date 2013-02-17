@@ -1,8 +1,8 @@
 package poker;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Poker {
@@ -23,6 +23,8 @@ public class Poker {
 	private static Scanner scanner = new Scanner(System.in);
 
 	public static void main (String [] args){
+		//USE LINE BELOW TO TURN LOGGING TO CONSOLE OUTPUT OFF!
+		//log.setLevel(Level.OFF);
 		playRounds();
 		displayScores();
 	}
@@ -51,17 +53,16 @@ public class Poker {
 	}
 	
 	public static void playerCardExchange() {
-		int numToSwap;
-		int cardToDiscard;
-		
 		//TO WRITE - GIVE PLAYER CHANCE TO EXCHANGE UP TO 3 CARDS. - sets "numToSwap" - 1 used as test. Need to pass in index of card to be discarded - 3 used as test.
-		
-		numToSwap = 1;
-		cardToDiscard = 3;
-		
+		int numToSwap = 1;
+		int cardToDiscard = 3;
+		discardCards(playerHand, numToSwap, cardToDiscard);
+	}
+
+	private static void discardCards(Hand hand, int numToSwap, int cardToDiscard) {
 		for (int loopCount = 1; loopCount <= numToSwap; loopCount++) {
-			playerHand.discardCard(cardToDiscard)
-			playerHand.takeNewCard(deck.dealCard());
+			hand.discardCard(cardToDiscard);
+			hand.takeNewCard(deck.dealCard());
 		}
 	}
 	
@@ -71,18 +72,12 @@ public class Poker {
 		bestHand = dealerHand.evaluateHandType();
 		
 		//some sort of logic/statistical engine based on current hand and highest card - or find existing library to use!
-	
-		int numToSwap;
-		int cardToDiscard;
+		
 		
 		//TO WRITE - GIVE DEALER CHANCE TO EXCHANGE UP TO 3 CARDS. - sets "numToSwap" - 1 used as test. Need to pass in index of card to be discarded - 3 used as test.
-		
-		numToSwap = 1;
-		cardToDiscard = 3;
-		for (int loopCount = 1; loopCount <= numToSwap; loopCount++) {
-			dealerHand.discardCard(cardToDiscard)
-			dealerHand.takeNewCard(deck.dealCard());
-		}
+		int numToSwap = 1;
+		int cardToDiscard = 3;
+		discardCards(dealerHand, numToSwap, cardToDiscard);
 	}
 	
 
@@ -97,14 +92,16 @@ public class Poker {
 	private static String evaluate() {
 		// DELETE THIS LINE FOR PROPER RUNNING!!!
 		//playerHand.highestUsedCard = 2;
-		
-		String winner = compareHands(playerHand.evaluateHandType(), playerHand.highestUsedCard, dealerHand.evaluateHandType(), dealerHand.highestUsedCard);
 
+		String winner = compareHands(playerHand.evaluateHandType(), playerHand.getHighestUsedCard(), dealerHand.evaluateHandType(), dealerHand.getHighestUsedCard());
+
+		outputHand("PLAYER final", playerHand, playerHand.evaluateHandType());
+		outputHand("DEALER final", dealerHand, dealerHand.evaluateHandType());
 			// DELETE THESE FOR PROPER RUNNING!!!
-			for (int loopCount = 0; loopCount < playerHand.cardStack.size(); loopCount++) {
-				log.info(String.valueOf("SORTED player card: " + (loopCount + 1) + " is: " + playerHand.cardStack.get(loopCount)));
-			}
-		
+			//for (int loopCount = 0; loopCount < playerHand.cardStack.size(); loopCount++) {
+			//	log.info(String.valueOf("SORTED player card: " + (loopCount + 1) + " is: " + playerHand.cardStack.get(loopCount)));
+			//}
+
 		return winner;
 	}
 
@@ -125,37 +122,43 @@ public class Poker {
 	}
 
 	private static void deal() {
-		log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
-		log.info("Player Hand size: " + String.valueOf(playerHand.cardStack.size()));
-		log.info("Dealer Hand size: " + String.valueOf(dealerHand.cardStack.size()));
+		
+		//log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
+		//log.info("Player Hand size: " + String.valueOf(playerHand.cardStack.size()));
+		//log.info("Dealer Hand size: " + String.valueOf(dealerHand.cardStack.size()));
 
 		deck.generate();
 		playerHand.generate();
 		dealerHand.generate();
 
-		log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
-		log.info("Player Hand size: " + String.valueOf(playerHand.cardStack.size()));
+		//log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
+		//log.info("Player Hand size: " + String.valueOf(playerHand.cardStack.size()));
 
 		DealPlayerHand();
 
-		log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
-		log.info("Player Hand size: " + String.valueOf(playerHand.cardStack.size()));
+		//log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
+		//log.info("Player Hand size: " + String.valueOf(playerHand.cardStack.size()));
 
-		for (int loopCount = 0; loopCount < playerHand.cardStack.size(); loopCount++) {
-			log.info(String.valueOf("Player card: " + (loopCount + 1) + " is: " + playerHand.cardStack.get(loopCount)));
-		}
+		//outputHand("PLAYER initial", playerHand);
 
-		log.info(String.valueOf("Deck size: " + deck.cardStack.size()));
-		log.info(String.valueOf("Dealer Hand size: " + playerHand.cardStack.size()));
+		//log.info(String.valueOf("Deck size: " + deck.cardStack.size()));
+		//log.info(String.valueOf("Dealer Hand size: " + playerHand.cardStack.size()));
 
 		DealDealerHand();
 
-		log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
-		log.info("Dealer Hand size: " + String.valueOf(dealerHand.cardStack.size()));
+		//log.info("Deck size: " + String.valueOf(deck.cardStack.size()));
+		//log.info("Dealer Hand size: " + String.valueOf(dealerHand.cardStack.size()));
 
-		for (int loopCount = 0; loopCount < dealerHand.cardStack.size(); loopCount++) {
-			log.info(String.valueOf("Dealer card: " + (loopCount + 1) + " is: " + dealerHand.cardStack.get(loopCount)));
+		//outputHand("DEALER initial", dealerHand);
+	}
+
+	private static void outputHand(String handName, Hand hand, int handScore) {
+		String handContents = handName + " hand: ";
+		for (int loopCount = 0; loopCount < hand.cardStack.size(); loopCount++) {
+			handContents = handContents + hand.cardStack.get(loopCount) + ".";
 		}
+		handContents = handContents + " Hand score: " + handScore;
+		log.info(handContents);
 	}
 
 	private static void DealDealerHand() {
