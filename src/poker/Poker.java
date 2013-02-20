@@ -1,18 +1,14 @@
 package poker;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Poker {
 
-	private static ArrayList<Integer> emptyDeck = new ArrayList<Integer>();
-	private static Deck deck = new Deck(emptyDeck);
-	private static ArrayList<Integer> emptyPlayerHand = new ArrayList<Integer>();
-	private static Hand playerHand = new Hand(emptyPlayerHand);
-	private static ArrayList<Integer> emptyDealerHand = new ArrayList<Integer>();
-	private static Hand dealerHand = new Hand(emptyDealerHand);
+	private static Deck deck = new Deck();
+	private static Hand playerHand = new Hand();
+	private static Hand dealerHand = new Hand();
 
 	static int roundNumber = 0;
 	static int playerScore = 0;
@@ -56,16 +52,16 @@ public class Poker {
 		//TO WRITE - GIVE PLAYER CHANCE TO EXCHANGE UP TO 3 CARDS. - sets "numToSwap" - 1 used as test. Need to pass in index of card to be discarded - 3 used as test.
 		int numToSwap = 1;
 		int cardToDiscard = 3;
-		discardCards(playerHand, numToSwap, cardToDiscard);
-	}
-
-	private static void discardCards(Hand hand, int numToSwap, int cardToDiscard) {
 		for (int loopCount = 1; loopCount <= numToSwap; loopCount++) {
-			hand.discardCard(cardToDiscard);
-			hand.takeNewCard(deck.dealCard());
+			discardCards(playerHand, cardToDiscard);
 		}
 	}
-	
+
+	private static void discardCards(Hand hand, int cardToDiscard) {
+		hand.discardCard(cardToDiscard);
+		hand.takeNewCard(deck.dealCard());
+	}
+
 	public static void dealerCardExchange() {
 		int bestHand;
 		
@@ -77,7 +73,9 @@ public class Poker {
 		//TO WRITE - GIVE DEALER CHANCE TO EXCHANGE UP TO 3 CARDS. - sets "numToSwap" - 1 used as test. Need to pass in index of card to be discarded - 3 used as test.
 		int numToSwap = 1;
 		int cardToDiscard = 3;
-		discardCards(dealerHand, numToSwap, cardToDiscard);
+		for (int loopCount = 1; loopCount <= numToSwap; loopCount++) {
+			discardCards(dealerHand, cardToDiscard);
+		}
 	}
 	
 
@@ -97,6 +95,8 @@ public class Poker {
 
 		outputHand("PLAYER final", playerHand, playerHand.evaluateHandType());
 		outputHand("DEALER final", dealerHand, dealerHand.evaluateHandType());
+		outputRoundWinner(roundNumber, winner);
+		
 			// DELETE THESE FOR PROPER RUNNING!!!
 			//for (int loopCount = 0; loopCount < playerHand.cardStack.size(); loopCount++) {
 			//	log.info(String.valueOf("SORTED player card: " + (loopCount + 1) + " is: " + playerHand.cardStack.get(loopCount)));
@@ -105,7 +105,7 @@ public class Poker {
 		return winner;
 	}
 
-	private static String compareHands(int playerHandType, int playerHighestUsedCard, int dealerHandType, int dealerHighestUsedCard) {
+	private static String compareHands(int playerHandType, PlayingCard playerHighestUsedCard, int dealerHandType, PlayingCard dealerHighestUsedCard) {
 		String winner = "";
 		if (playerHandType > dealerHandType) {
 			winner = "Player";
@@ -113,7 +113,7 @@ public class Poker {
 			if (dealerHandType > playerHandType) {
 				winner = "Dealer";
 			} else {
-				if (playerHighestUsedCard > dealerHighestUsedCard) {
+				if ((playerHighestUsedCard.getPlayingCardValue() * playerHighestUsedCard.getPlayingCardSuit())> (dealerHighestUsedCard.getPlayingCardValue() * dealerHighestUsedCard.getPlayingCardSuit())) {
 					winner = "Player";
 				}
 			}
@@ -153,12 +153,17 @@ public class Poker {
 	}
 
 	private static void outputHand(String handName, Hand hand, int handScore) {
-		String handContents = handName + " hand: ";
-		for (int loopCount = 0; loopCount < hand.cardStack.size(); loopCount++) {
-			handContents = handContents + hand.cardStack.get(loopCount) + ".";
+		String handContents = handName + " hand: \n";
+		for (int loopCount = 0; loopCount < hand.getCardStackSize(); loopCount++) {
+			handContents = handContents + hand.getCard(loopCount).getPlayingCardFullName() + "\n";
 		}
-		handContents = handContents + " Hand score: " + handScore;
+		handContents = handContents + "Hand score: " + handScore;
 		log.info(handContents);
+	}
+
+	private static void outputRoundWinner(int roundNumber, String winner) {
+		String roundWinner = "The winner of round " + roundNumber + " is: " + winner;
+		log.info(roundWinner);		
 	}
 
 	private static void DealDealerHand() {
@@ -174,18 +179,18 @@ public class Poker {
 	}
 
 	private static void displayScores() {
-		log.info("After " + String.valueOf(roundNumber) + " rounds:");
-		log.info("Dealer score is: " + String.valueOf(dealerScore));
-		log.info("Player score is: " + String.valueOf(playerScore));
+		String finalScore = "After " + String.valueOf(roundNumber) + " rounds:\nDealer score is: " + String.valueOf(dealerScore) + "\nPlayer score is: " + String.valueOf(playerScore) + "\n";
 
 		if (playerScore > dealerScore) {
-			log.info("Winner is Player!");
+			finalScore = finalScore + "Winner is Player!";
 		} else {
 			if (dealerScore > playerScore) {
-				log.info("Winner is Dealer!");
+				finalScore = finalScore + "Winner is Dealer!";
 			} else {
-				log.info("Game is a draw!");
+				finalScore = finalScore + "Game is a draw!";
 			}
 		}
+		
+		log.info(finalScore);
 	}
 }

@@ -9,11 +9,12 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import poker.Hand;
+import poker.PlayingCard;
 
 public class HandEvaluationTest {
 
-	ArrayList<Integer> emptyTestHand = new ArrayList<Integer>();
-	Hand testHand = new Hand(emptyTestHand);
+	//ArrayList<Integer> emptyTestHand = new ArrayList<Integer>();
+	Hand testHand = new Hand();
 
 	private static Logger log = Logger.getLogger("NewLogger");
 	
@@ -29,11 +30,22 @@ public class HandEvaluationTest {
 		//	handContents = handContents + loopCount + ".";
 		//}
 
-		testHand.takeNewCard(1);
-		testHand.takeNewCard(2);
-		testHand.takeNewCard(3);
-		testHand.takeNewCard(4);
-		testHand.takeNewCard(5);
+		PlayingCard test1 = null;
+		test1.setPlayingCard(1, 1);
+		PlayingCard test2 = null;
+		test2.setPlayingCard(2, 1);
+		PlayingCard test3 = null;
+		test3.setPlayingCard(3, 1);
+		PlayingCard test4 = null;
+		test4.setPlayingCard(4, 1);
+		PlayingCard test5 = null;
+		test5.setPlayingCard(5, 1);
+		
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
 		
 		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
 		assertEquals("Straight Flush not correctly detected", 8, testHand.evaluateHandType());

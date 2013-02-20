@@ -4,24 +4,24 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class Hand extends CardStack{
-	private int highestUsedCard;
+	private PlayingCard highestUsedCard;
 	private boolean aceHigh = false;
 
-	public Hand(ArrayList<Integer> initial) {
-		super(initial);
-	}
+	//public Hand(ArrayList<Integer> initial) {
+	//	super(initial);
+	//}
 
-	public void takeNewCard(int newCard) {
-		cardStack.add(newCard);
+	public void takeNewCard(PlayingCard newCard) {
+		super.addCard(newCard);
 	}
 
 	public void discardCard(int cardToDiscard) {
-		cardStack.remove(cardToDiscard);
+		super.deleteCard(cardToDiscard);
 	}
 
 	public int evaluateHandType() {
-		Collections.sort(cardStack);
-		setHighestUsedCard(cardStack.get(0));
+		super.sortCards();
+		setHighestUsedCard(super.getCard(0));
 		int handScore = 0;
 
 		if (straightAndFlushCalculator("StraightFlush")) {
@@ -71,8 +71,8 @@ public class Hand extends CardStack{
 		int secondPairValue = 0;
 		ArrayList<Integer> handWithoutSuits = new ArrayList<Integer>();
 
-		for (int loopCount = 0; loopCount <= cardStack.size()-1; loopCount++) {
-			handWithoutSuits.add(cardStack.get(loopCount) % 13);
+		for (int loopCount = 0; loopCount <= super.getCardStackSize()-1; loopCount++) {
+			handWithoutSuits.add(super.getCard(loopCount).getPlayingCardValue());
 		}
 		
 		Collections.sort(handWithoutSuits);
@@ -134,20 +134,20 @@ public class Hand extends CardStack{
 		return false;
 	}
 
-	private int findHighestUsedCard(Integer cardTypeToFind) {
-		int highestValueCardOfTypeToFind = 0;
+	private PlayingCard findHighestUsedCard(Integer cardTypeToFind) {
+		PlayingCard highestValueCardOfTypeToFind = null;
 		
 		if (cardTypeToFind == 0) {
 			for (int counter = 0; counter <= 4; counter++) {
-				if (cardStack.get(counter) % 13 == cardTypeToFind) {
-					highestValueCardOfTypeToFind = cardStack.get(counter);
+				if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
+					highestValueCardOfTypeToFind = super.getCard(counter);
 					return highestValueCardOfTypeToFind;
 				}
 			}
 		} else {
 			for (int counter = 4; counter >= 0; counter--) {
-				if (cardStack.get(counter) % 13 == cardTypeToFind) {
-					highestValueCardOfTypeToFind = cardStack.get(counter);
+				if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
+					highestValueCardOfTypeToFind = super.getCard(counter);
 				}
 			}
 		}
@@ -164,19 +164,19 @@ public class Hand extends CardStack{
 		int cardDiffMem = 0;
 		int suit = 0;
 
-		for (int loopCount = 1; loopCount <= cardStack.size(); loopCount++) {
+		for (int loopCount = 1; loopCount <= super.getCardStackSize(); loopCount++) {
 			//checks if ace is present
-			if (cardStack.get(loopCount-1) % 13 == 1) {
+			if (super.getCard(loopCount-1).getPlayingCardValue() == 1) {
 				acePresent = true;
 			}
 
 			// on first iteration, sets current suit to compare for flush
 			if (loopCount == 1) {
-				suit = suitCheck(cardStack.get(loopCount-1));
+				suit = super.getCard(loopCount-1).getPlayingCardSuit();
 			} else {
 				// cardDiffMem tracks total of all "gaps" between cards - if only one at a time, then straight is possible
-				cardDiffMem = cardDiffMem + ((cardStack.get(loopCount-1) % 13) - (cardStack.get(loopCount-2) % 13));
-				if (suit != suitCheck(cardStack.get(loopCount-1))) {
+				cardDiffMem = cardDiffMem + ((super.getCard(loopCount-1).getPlayingCardValue()) - (super.getCard(loopCount-2).getPlayingCardValue()));
+				if (suit != super.getCard(loopCount-1).getPlayingCardSuit()) {
 					straightFlush = false;
 					flushPossible = false;
 				} else {
@@ -213,21 +213,21 @@ public class Hand extends CardStack{
 		return false;
 	}
 
-	private int suitCheck(int cardID) {
-		int suit = 0;
-		if (cardID % 13 != 0) {
-			suit = cardID / 13;
-		} else {
-			suit = (cardID / 13) - 1;
-		}
-		return suit;
-	}
+	//private int suitCheck(int cardID) {
+	//	int suit = 0;
+	//	if (cardID % 13 != 0) {
+	//		suit = cardID / 13;
+	//	} else {
+	//		suit = (cardID / 13) - 1;
+	//	}
+	//	return suit;
+	//}
 
-	public void setHighestUsedCard(int highestUsedCard) {
+	public void setHighestUsedCard(PlayingCard highestUsedCard) {
 		this.highestUsedCard = highestUsedCard;
 	}
 
-	public int getHighestUsedCard() {
+	public PlayingCard getHighestUsedCard() {
 		return highestUsedCard;
 	}
 
