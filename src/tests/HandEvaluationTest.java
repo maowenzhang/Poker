@@ -14,13 +14,13 @@ import poker.PlayingCard;
 public class HandEvaluationTest {
 
 	//ArrayList<Integer> emptyTestHand = new ArrayList<Integer>();
-	Hand testHand = new Hand();
 
+	Hand testHand = new Hand();
 	private static Logger log = Logger.getLogger("NewLogger");
 	
-	@BeforeClass
-	public static void setUp() {
-	}
+	//@BeforeClass
+	//public static void setUp() {
+	//}
 	
 	@Test
 	public void straightFlushCheck() {
@@ -30,15 +30,15 @@ public class HandEvaluationTest {
 		//	handContents = handContents + loopCount + ".";
 		//}
 
-		PlayingCard test1 = null;
+		PlayingCard test1 = new PlayingCard();
 		test1.setPlayingCard(1, 1);
-		PlayingCard test2 = null;
+		PlayingCard test2 = new PlayingCard();
 		test2.setPlayingCard(2, 1);
-		PlayingCard test3 = null;
+		PlayingCard test3 = new PlayingCard();
 		test3.setPlayingCard(3, 1);
-		PlayingCard test4 = null;
+		PlayingCard test4 = new PlayingCard();
 		test4.setPlayingCard(4, 1);
-		PlayingCard test5 = null;
+		PlayingCard test5 = new PlayingCard();
 		test5.setPlayingCard(5, 1);
 		
 		testHand.takeNewCard(test1);
@@ -47,7 +47,7 @@ public class HandEvaluationTest {
 		testHand.takeNewCard(test4);
 		testHand.takeNewCard(test5);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("Straight Flush not correctly detected", 8, testHand.evaluateHandType());
 	}
 	
@@ -55,13 +55,24 @@ public class HandEvaluationTest {
 	public void fourOfAKindCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(9);
-		testHand.takeNewCard(22);
-		testHand.takeNewCard(31);
-		testHand.takeNewCard(35);
-		testHand.takeNewCard(48);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(9, 1);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(9, 2);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(5, 3);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(9, 3);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(9, 4);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("FOAK not correctly detected", 7, testHand.evaluateHandType());
 	}
 	
@@ -69,13 +80,24 @@ public class HandEvaluationTest {
 	public void fullHouseCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(2);
-		testHand.takeNewCard(19);
-		testHand.takeNewCard(28);
-		testHand.takeNewCard(45);
-		testHand.takeNewCard(32);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(2, 1);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(6, 2);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(2, 3);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(6, 4);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(6, 3);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("Full House not correctly detected", 6, testHand.evaluateHandType());
 	}
 	
@@ -83,13 +105,24 @@ public class HandEvaluationTest {
 	public void flushCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(28);
-		testHand.takeNewCard(31);
-		testHand.takeNewCard(32);
-		testHand.takeNewCard(36);
-		testHand.takeNewCard(39);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(2, 3);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(5, 3);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(6, 3);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(10, 3);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(13, 3);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("Flush not correctly detected", 5, testHand.evaluateHandType());
 	}
 	
@@ -97,13 +130,24 @@ public class HandEvaluationTest {
 	public void straightCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(4);
-		testHand.takeNewCard(18);
-		testHand.takeNewCard(19);
-		testHand.takeNewCard(33);
-		testHand.takeNewCard(34);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(6, 2);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(7, 2);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(9, 2);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(12, 4);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(10, 3);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("Straight not correctly detected", 4, testHand.evaluateHandType());
 	}
 	
@@ -111,13 +155,24 @@ public class HandEvaluationTest {
 	public void threeOfAKindCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(2);
-		testHand.takeNewCard(33);
-		testHand.takeNewCard(46);
-		testHand.takeNewCard(7);
-		testHand.takeNewCard(24);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(2, 1);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(7, 3);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(7, 4);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(7, 1);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(11, 2);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("3 OAK not correctly detected", 3, testHand.evaluateHandType());
 	}
 	
@@ -125,13 +180,24 @@ public class HandEvaluationTest {
 	public void twoPairCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(25);
-		testHand.takeNewCard(3);
-		testHand.takeNewCard(35);
-		testHand.takeNewCard(9);
-		testHand.takeNewCard(16);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(12, 2);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(3, 1);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(9, 3);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(9, 1);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(3, 2);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("2 Pair not correctly detected", 2, testHand.evaluateHandType());
 	}
 	
@@ -139,13 +205,24 @@ public class HandEvaluationTest {
 	public void onePairCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(25);
-		testHand.takeNewCard(3);
-		testHand.takeNewCard(35);
-		testHand.takeNewCard(9);
-		testHand.takeNewCard(52);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(12, 2);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(3, 1);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(9, 3);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(9, 4);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(13, 4);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("1 Pair not correctly detected", 1, testHand.evaluateHandType());
 	}
 	
@@ -153,13 +230,24 @@ public class HandEvaluationTest {
 	public void highCardCheck() {
 		String handContents = "Test hand: ";
 
-		testHand.takeNewCard(1);
-		testHand.takeNewCard(15);
-		testHand.takeNewCard(29);
-		testHand.takeNewCard(43);
-		testHand.takeNewCard(6);
+		PlayingCard test1 = new PlayingCard();
+		test1.setPlayingCard(2, 1);
+		PlayingCard test2 = new PlayingCard();
+		test2.setPlayingCard(3, 2);
+		PlayingCard test3 = new PlayingCard();
+		test3.setPlayingCard(4, 3);
+		PlayingCard test4 = new PlayingCard();
+		test4.setPlayingCard(5, 5);
+		PlayingCard test5 = new PlayingCard();
+		test5.setPlayingCard(7, 1);
 		
-		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard());
+		testHand.takeNewCard(test1);
+		testHand.takeNewCard(test2);
+		testHand.takeNewCard(test3);
+		testHand.takeNewCard(test4);
+		testHand.takeNewCard(test5);
+		
+		log.info(handContents + "Hand value is: " + testHand.evaluateHandType() + ". Highest card is: " + testHand.getHighestUsedCard().getPlayingCardFullName());
 		assertEquals("High not correctly detected", 0, testHand.evaluateHandType());
 	}
 }

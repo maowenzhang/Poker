@@ -74,7 +74,7 @@ public class Hand extends CardStack{
 		for (int loopCount = 0; loopCount <= super.getCardStackSize()-1; loopCount++) {
 			handWithoutSuits.add(super.getCard(loopCount).getPlayingCardValue());
 		}
-		
+
 		Collections.sort(handWithoutSuits);
 
 		for (int loopCount = 0; loopCount <= handWithoutSuits.size()-1; loopCount++) {
@@ -93,13 +93,13 @@ public class Hand extends CardStack{
 						}
 					}
 				}
-				
+
 				if ((loopCount >= 2) && (handWithoutSuits.get(loopCount) == handWithoutSuits.get(loopCount-1)) && (handWithoutSuits.get(loopCount-1) == handWithoutSuits.get(loopCount-2))) {
 					threeOfAKind = true;
 					trioValue = handWithoutSuits.get(loopCount);
 					setHighestUsedCard(findHighestUsedCard(handWithoutSuits.get(loopCount)));
 				}
-				
+
 				if ((loopCount >= 3) && (handWithoutSuits.get(loopCount) == handWithoutSuits.get(loopCount-1)) && (handWithoutSuits.get(loopCount-1) == handWithoutSuits.get(loopCount-2)) && (handWithoutSuits.get(loopCount-2) == handWithoutSuits.get(loopCount-3))) {
 					if (handType.equals("FourOfAKind")) {
 						fourOfAKind = true;
@@ -109,14 +109,14 @@ public class Hand extends CardStack{
 				}
 			}
 		}
-		
+
 		if (onePair && threeOfAKind && (firstPairValue > 0) && (secondPairValue > 0) && (trioValue > 0) && ((firstPairValue != trioValue) || (secondPairValue != trioValue))) {
 			if (handType.equals("FullHouse")) {
 				fullHouse = true;
 				return fullHouse;
 			}
 		}
-		
+
 		if (threeOfAKind) {
 			if (handType.equals("ThreeOfAKind")) {
 				return threeOfAKind;
@@ -130,13 +130,13 @@ public class Hand extends CardStack{
 				}				
 			}
 		}
-		
+
 		return false;
 	}
 
 	private PlayingCard findHighestUsedCard(Integer cardTypeToFind) {
 		PlayingCard highestValueCardOfTypeToFind = null;
-		
+
 		if (cardTypeToFind == 0) {
 			for (int counter = 0; counter <= 4; counter++) {
 				if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
@@ -151,7 +151,7 @@ public class Hand extends CardStack{
 				}
 			}
 		}
-		
+
 		return highestValueCardOfTypeToFind;
 	}
 
@@ -186,9 +186,9 @@ public class Hand extends CardStack{
 				}
 			}
 		}
-		
-		
-		
+
+
+
 		// as cards in a row and there is a flush, then it must be straight flush
 		if ((cardDiffMem == 4) && (flush == true)) {
 			straightFlush = true;
@@ -197,19 +197,22 @@ public class Hand extends CardStack{
 				straight = true;
 			}
 		}
-		
+
 		if (handType.equals("StraightFlush")) {
+			setWholeHandAsUsed();
 			return straightFlush;
 		} else {
 			if (handType.equals("Flush")) {
+				setWholeHandAsUsed();
 				return flush;
 			} else {
 				if (handType.equals("Straight")) {
+					setWholeHandAsUsed();
 					return straight;
 				}
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -222,6 +225,12 @@ public class Hand extends CardStack{
 	//	}
 	//	return suit;
 	//}
+
+	private void setWholeHandAsUsed() {
+		for (int loopCount = 0; loopCount < super.getCardStackSize(); loopCount++) {
+			super.getCard(loopCount).setUsedInScoringHand(true);
+		}
+	}
 
 	public void setHighestUsedCard(PlayingCard highestUsedCard) {
 		this.highestUsedCard = highestUsedCard;
