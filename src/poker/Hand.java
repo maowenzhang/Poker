@@ -84,12 +84,12 @@ public class Hand extends CardStack{
 						onePair = true;
 						firstPair = false;
 						firstPairValue = handWithoutSuits.get(loopCount);
-						setHighestUsedCard(findHighestUsedCard(handWithoutSuits.get(loopCount)));
+						setHighestUsedCard(findHighestUsedCard_PairTrioQuad(handWithoutSuits.get(loopCount)));
 					} else {
 						if (handWithoutSuits.get(loopCount-1) != firstPairValue) {
 							twoPair = true;
 							secondPairValue = handWithoutSuits.get(loopCount);
-							setHighestUsedCard(findHighestUsedCard(handWithoutSuits.get(loopCount)));
+							setHighestUsedCard(findHighestUsedCard_PairTrioQuad(handWithoutSuits.get(loopCount)));
 						}
 					}
 				}
@@ -97,13 +97,13 @@ public class Hand extends CardStack{
 				if ((loopCount >= 2) && (handWithoutSuits.get(loopCount) == handWithoutSuits.get(loopCount-1)) && (handWithoutSuits.get(loopCount-1) == handWithoutSuits.get(loopCount-2))) {
 					threeOfAKind = true;
 					trioValue = handWithoutSuits.get(loopCount);
-					setHighestUsedCard(findHighestUsedCard(handWithoutSuits.get(loopCount)));
+					setHighestUsedCard(findHighestUsedCard_PairTrioQuad(handWithoutSuits.get(loopCount)));
 				}
 
 				if ((loopCount >= 3) && (handWithoutSuits.get(loopCount) == handWithoutSuits.get(loopCount-1)) && (handWithoutSuits.get(loopCount-1) == handWithoutSuits.get(loopCount-2)) && (handWithoutSuits.get(loopCount-2) == handWithoutSuits.get(loopCount-3))) {
 					if (handType.equals("FourOfAKind")) {
 						fourOfAKind = true;
-						setHighestUsedCard(findHighestUsedCard(handWithoutSuits.get(loopCount)));
+						setHighestUsedCard(findHighestUsedCard_PairTrioQuad(handWithoutSuits.get(loopCount)));
 						return fourOfAKind;
 					}
 				}
@@ -134,23 +134,30 @@ public class Hand extends CardStack{
 		return false;
 	}
 
-	private PlayingCard findHighestUsedCard(Integer cardTypeToFind) {
+	private PlayingCard findHighestUsedCard_PairTrioQuad(Integer cardTypeToFind) {
 		PlayingCard highestValueCardOfTypeToFind = null;
 
-		if (cardTypeToFind == 0) {
-			for (int counter = 0; counter <= 4; counter++) {
-				if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
-					highestValueCardOfTypeToFind = super.getCard(counter);
-					return highestValueCardOfTypeToFind;
-				}
-			}
-		} else {
-			for (int counter = 4; counter >= 0; counter--) {
-				if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
-					highestValueCardOfTypeToFind = super.getCard(counter);
-				}
+		for (int counter = 0; counter <= super.getCardStackSize()-1; counter++) {
+			if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
+				highestValueCardOfTypeToFind = super.getCard(counter);
+				return highestValueCardOfTypeToFind;
 			}
 		}
+
+		//if (cardTypeToFind == 0) {
+		//	for (int counter = 0; counter <= 4; counter++) {
+		//		if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
+		//			highestValueCardOfTypeToFind = super.getCard(counter);
+		//			return highestValueCardOfTypeToFind;
+		//		}
+		//	}
+		//} else {
+		//	for (int counter = 4; counter >= 0; counter--) {
+		//		if (super.getCard(counter).getPlayingCardValue() == cardTypeToFind) {
+		//			highestValueCardOfTypeToFind = super.getCard(counter);
+		//		}
+		//	}
+		//}
 
 		return highestValueCardOfTypeToFind;
 	}
@@ -200,14 +207,21 @@ public class Hand extends CardStack{
 
 		if (handType.equals("StraightFlush")) {
 			setWholeHandAsUsed();
+			if ((super.getCard(0).getPlayingCardValue() == 1) && (super.getCard(1).getPlayingCardValue() == 2)) {
+				setHighestUsedCard(super.getCard(0));
+			} else {
+				setHighestUsedCard(super.getCard(super.getCardStackSize()-1));
+			}
 			return straightFlush;
 		} else {
 			if (handType.equals("Flush")) {
 				setWholeHandAsUsed();
+				//setHighestUsedCard(findHighestUsedCard_StraightFlush());
 				return flush;
 			} else {
 				if (handType.equals("Straight")) {
 					setWholeHandAsUsed();
+					//setHighestUsedCard(findHighestUsedCard_StraightFlush());
 					return straight;
 				}
 			}

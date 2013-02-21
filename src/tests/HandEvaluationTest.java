@@ -135,9 +135,9 @@ public class HandEvaluationTest {
 		PlayingCard test2 = new PlayingCard();
 		test2.setPlayingCard(7, 2);
 		PlayingCard test3 = new PlayingCard();
-		test3.setPlayingCard(9, 2);
+		test3.setPlayingCard(8, 2);
 		PlayingCard test4 = new PlayingCard();
-		test4.setPlayingCard(12, 4);
+		test4.setPlayingCard(9, 4);
 		PlayingCard test5 = new PlayingCard();
 		test5.setPlayingCard(10, 3);
 		
@@ -237,7 +237,7 @@ public class HandEvaluationTest {
 		PlayingCard test3 = new PlayingCard();
 		test3.setPlayingCard(4, 3);
 		PlayingCard test4 = new PlayingCard();
-		test4.setPlayingCard(5, 5);
+		test4.setPlayingCard(5, 4);
 		PlayingCard test5 = new PlayingCard();
 		test5.setPlayingCard(7, 1);
 		
