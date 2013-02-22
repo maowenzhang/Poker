@@ -4,7 +4,7 @@ public class PlayingCard {
 	private int cardValue;
 	private int suit;
 	private String fullName;
-	private boolean usedInScoringHand;
+	private boolean usedInScoringHand = false;
 
 	// does this break rule of encapsulation? only needed for tests, which are a lot neater.
 	//public PlayingCard (int cardValue, int suit) {
