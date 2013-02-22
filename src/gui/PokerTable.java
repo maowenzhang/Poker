@@ -8,11 +8,10 @@ import javax.swing.JPanel;
 
 public class PokerTable extends JFrame{
 	
-	final int FRAME_WIDTH = 1000;
-	final int FRAME_HEIGHT = 600;
+	final int FRAME_WIDTH = 1280;
+	final int FRAME_HEIGHT = 800;
 	
 	private JPanel panel;
-	private TableComponent table;
 	
 	public PokerTable(){
 		
@@ -25,14 +24,7 @@ public class PokerTable extends JFrame{
 		
 	private void drawTable() {
 		
-		table = new TableComponent();
-		panel = new JPanel();
-
-		table.setPreferredSize(new Dimension(FRAME_WIDTH,FRAME_HEIGHT));
-		
-		panel.add(table);
-		
-		panel.setBackground(Color.BLACK);
+		panel = new BackgroundPanel();
 		
 		add(panel);
 		
