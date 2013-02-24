@@ -7,8 +7,21 @@ import org.junit.Test;
 public class HandTest {
 	
 	Deck deck = new Deck();
-	Hand testHand = new Hand(deck);
+	Hand testHand1 = new Hand(deck);
+	Hand testHand2 = new Hand(deck);
+	
+	@Test
+	public void sortTest(){
+		
+		testHand1.sort();
+		
+		assertTrue(testHand1.get(0).getPlayingCardValue() >= testHand1.get(1).getPlayingCardValue() || testHand1.get(0).getPlayingCardValue() == 1);
+		assertTrue(testHand1.get(1).getPlayingCardValue() >= testHand1.get(2).getPlayingCardValue() || testHand1.get(1).getPlayingCardValue() == 1);
+		assertTrue(testHand1.get(2).getPlayingCardValue() >= testHand1.get(3).getPlayingCardValue() || testHand1.get(2).getPlayingCardValue() == 1);
+		assertTrue(testHand1.get(3).getPlayingCardValue() >= testHand1.get(4).getPlayingCardValue() || testHand1.get(3).getPlayingCardValue() == 1);
 
+	}
+	
 	@Test
 	public void getHandValueTest() {
 		
@@ -26,11 +39,11 @@ public class HandTest {
 		
 		for (int i = 0; i < Hand.HANDSIZE; i++){
 			
-			expectedCardValues[i] = testHand.get(i).getPlayingCardValue();
-			expectedSuitValues[i] = testHand.get(i).getPlayingCardSuit();
+			expectedCardValues[i] = testHand2.get(i).getPlayingCardValue();
+			expectedSuitValues[i] = testHand2.get(i).getPlayingCardSuit();
 			
-			actualCardValues[i] = testHand.getHandValue()[i][0];	
-			actualSuitValues[i] = testHand.getHandValue()[i][1];
+			actualCardValues[i] = testHand2.getHandValue()[i][0];	
+			actualSuitValues[i] = testHand2.getHandValue()[i][1];
 			
 			assertEquals(expectedCardValues[i],actualCardValues[i]);
 			assertEquals(expectedSuitValues[i],actualSuitValues[i]);

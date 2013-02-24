@@ -1,5 +1,7 @@
 package pokerfork;
 
+import java.util.Collections;
+
 @SuppressWarnings("serial")
 public class Hand extends CardStack{
 	
@@ -15,6 +17,13 @@ public class Hand extends CardStack{
 			
 		}
 		
+	}
+	
+	/* Sorts the hand by card values - ace is high*/
+	public void sort(){
+	
+		Collections.sort(this);
+		Collections.reverse(this);
 	}
 
 	/* 

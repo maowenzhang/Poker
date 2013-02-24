@@ -1,9 +1,38 @@
 package pokerfork;
 
-public class PlayingCard {
+public class PlayingCard implements Comparable<PlayingCard>{
 	private int cardValue;
 	private int suit;
 	private String fullName;
+
+public int compareTo(PlayingCard card){
+		
+		/* ace treated as high card */
+		if(this.cardValue == 1 && card.cardValue == 1){
+			return 0;
+		}
+		
+		if(this.cardValue == 1){
+			return 1;
+		}
+		
+		if(card.cardValue ==1){
+			return -1;
+		}
+		
+		if (this.cardValue > card.cardValue){
+			return 1;
+		}
+		
+		if (this.cardValue < card.cardValue){
+			return -1;
+		}
+		
+		else{
+			return 0;
+		}
+		
+	}
 
 	public void setPlayingCard (int cardValue, int suit) {
 		this.cardValue = cardValue;
@@ -66,16 +95,16 @@ public class PlayingCard {
 
 		switch (this.suit) {
 		case 1:
-			this.fullName = this.fullName + "Spades";
-			break;
-		case 2:
-			this.fullName = this.fullName + "Hearts";
-			break;
-		case 3:
 			this.fullName = this.fullName + "Clubs";
 			break;
-		case 4:
+		case 2:
 			this.fullName = this.fullName + "Diamonds";
+			break;
+		case 3:
+			this.fullName = this.fullName + "Hearts";
+			break;
+		case 4:
+			this.fullName = this.fullName + "Spades";
 			break;
 		default:
 			this.fullName = this.fullName + "ERROR: invalid suit value: " + this.suit;
