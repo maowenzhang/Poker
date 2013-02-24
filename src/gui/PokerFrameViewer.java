@@ -2,11 +2,11 @@ package gui;
 
 import javax.swing.JFrame;
 
-public class PokerTableViewer {
+public class PokerFrameViewer {
 
 	public static void main(String[] args) {
 		
-		JFrame frame = new PokerTable();
+		JFrame frame = new PokerFrame();
 		
 		frame.setTitle("Poker");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -1,6 +1,5 @@
 package gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -8,15 +7,15 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 
+@SuppressWarnings("serial")
 public class BackgroundPanel extends JPanel {
 	
-	private TableComponent table;
+	private BackgroundComponent table;
 	private BufferedImage carpet;
 	
-	private final int PANEL_WIDTH = 1000;
+	private final int PANEL_WIDTH = 950;
 	private final int PANEL_HEIGHT = 600;
 	
 	public BackgroundPanel(){
@@ -33,7 +32,7 @@ public class BackgroundPanel extends JPanel {
 		
 		finally{
 		
-			table = new TableComponent();
+			table = new BackgroundComponent();
 			
 			table.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
 			
