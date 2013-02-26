@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 
 @SuppressWarnings("serial")
@@ -21,7 +22,7 @@ public class BackgroundPanel extends JPanel {
 	public BackgroundPanel(){
 		
 		try{
-			carpet = ImageIO.read(new File("floor.jpg"));
+			carpet = ImageIO.read(new File("res/graphics/floor.jpg"));
 		}
 		
 		catch(IOException exception){
@@ -31,12 +32,13 @@ public class BackgroundPanel extends JPanel {
 		}
 		
 		finally{
-		
+
 			table = new BackgroundComponent();
 			
 			table.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
+			//this.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
 			
-			add(table);
+			//add(table);
 		
 		}
 	
@@ -46,6 +48,7 @@ public class BackgroundPanel extends JPanel {
 	@Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        add(table);
         g.drawImage(carpet, 0, 0, null);
     }
 
