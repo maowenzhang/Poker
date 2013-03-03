@@ -42,13 +42,13 @@ public class BackgroundPanel extends JPanel {
 		
 		}
 	
-		
+
+        add(table);
 	}
 	
 	@Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        add(table);
         g.drawImage(carpet, 0, 0, null);
     }
 
