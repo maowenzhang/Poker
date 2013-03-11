@@ -8,7 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class ControlPanel extends JPanel implements ActionListener{
+public class ControlPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	JButton btnDeal = new JButton("Deal");
@@ -33,7 +33,9 @@ public class ControlPanel extends JPanel implements ActionListener{
 		if (actionEvent.getActionCommand().equals("Deal")) {
 			btnDeal.setEnabled(false);
 			btnCardExchange.setEnabled(true);
+			System.out.println("test: " + this.p);
 		}
+		
 		
 		if (actionEvent.getActionCommand().equals("Exchange Cards")) {
 			btnCardExchange.setEnabled(false);
