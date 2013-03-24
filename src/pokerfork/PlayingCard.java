@@ -5,33 +5,33 @@ public class PlayingCard implements Comparable<PlayingCard>{
 	private int suit;
 	private String fullName;
 
-public int compareTo(PlayingCard card){
-		
+	public int compareTo(PlayingCard card){
+
 		/* ace treated as high card */
 		if(this.cardValue == 1 && card.cardValue == 1){
 			return 0;
 		}
-		
+
 		if(this.cardValue == 1){
 			return 1;
 		}
-		
+
 		if(card.cardValue ==1){
 			return -1;
 		}
-		
+
 		if (this.cardValue > card.cardValue){
 			return 1;
 		}
-		
+
 		if (this.cardValue < card.cardValue){
 			return -1;
 		}
-		
+
 		else{
 			return 0;
 		}
-		
+
 	}
 
 	public void setPlayingCard (int cardValue, int suit) {
@@ -46,7 +46,7 @@ public int compareTo(PlayingCard card){
 	public int getPlayingCardSuit() {
 		return this.suit;
 	}
-	
+
 	public String getPlayingCardFullName() {
 		switch (this.cardValue) {
 		case 1:

@@ -10,6 +10,7 @@ public class Poker {
 	private static Hand playerHand = new Hand();
 	private static Hand dealerHand = new Hand();
 
+	private int playerCardsforExchange = 0;
 	static int roundNumber = 0;
 	static int playerScore = 0;
 	static int dealerScore = 0;

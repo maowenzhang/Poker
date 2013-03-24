@@ -12,5 +12,4 @@ public abstract class CardStack extends ArrayList<PlayingCard>{
 		return new PlayingCard();
 		
 	}
-
 }
