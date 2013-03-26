@@ -63,13 +63,16 @@ public class Evaluator {
 					card4suit == card5suit){
 
 				handValue = STRAIGHT_FLUSH;
-
+				highCardWithin = card1value;
+				highCardWithout = card1suit;
 
 			}
 
 			else{
 
 				handValue = STRAIGHT;
+				highCardWithin = card1value;
+				highCardWithout = card1suit;
 
 			}
 
@@ -83,6 +86,7 @@ public class Evaluator {
 						card4value == card5value)){
 
 			handValue = FOUROFAKIND;
+			highCardWithin = card3value;
 
 			if(card1value != card2value){
 				highCardWithout = card1value;
@@ -93,6 +97,74 @@ public class Evaluator {
 				highCardWithout = card5value;
 			}
 
+		}
+
+		if (handValue == 0 && card1suit == card2suit &&
+				card2suit == card3suit &&
+				card3suit == card4suit &&
+				card4suit == card5suit) {
+			handValue = FLUSH;
+			highCardWithin = card1value;
+		}
+
+		if (handValue == 0) {
+			//handValue = pairdAndTrioCheck(hand);
+			if (card1value == card3value || card3value == card5value || card2value == card4value) {
+				handValue = THREEOFAKIND;
+				highCardWithin = card3value;
+			}
+
+			if (card1value == card3value) {
+				if (card4value == card5value) {
+					handValue = FULLHOUSE;
+				}
+			}
+
+			if (card3value == card5value) {
+				if (card1value == card2value) {
+					handValue = FULLHOUSE;
+				}
+			}
+		}
+
+		if (handValue == 0) {
+			if ((card1value == card2value && card3value == card4value) || (card1value == card2value && card4value == card5value) || (card2value == card3value && card4value == card5value)) {
+				handValue = TWOPAIR;
+				highCardWithin = card2value;
+				highCardWithout = card4value;
+			}
+		}
+
+		if (handValue == 0) {
+			if (card1value == card2value) {
+				handValue = ONEPAIR;
+				highCardWithin = card1value;
+				highCardWithout = card3value;	
+			} else {
+				if (card2value == card3value) {
+					handValue = ONEPAIR;
+					highCardWithin = card2value;
+					highCardWithout = card1value;
+				} else {
+					if (card3value == card4value) {
+						handValue = ONEPAIR;
+						highCardWithin = card3value;
+						highCardWithout = card2value;
+					} else {
+						if (card4value == card5value) {
+							handValue = ONEPAIR;
+							highCardWithin = card4value;
+							highCardWithout = card3value;
+						}
+					}
+				}
+			}
+		}
+		
+
+		if (handValue == 0) {
+			highCardWithin = card1value;
+			highCardWithout = card2value;
 		}
 
 		int returnValue[] = {handValue,highCardWithin,highCardWithout};

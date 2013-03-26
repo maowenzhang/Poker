@@ -95,10 +95,10 @@ public class PlayingCard implements Comparable<PlayingCard>{
 
 		switch (this.suit) {
 		case 1:
-			this.fullName = this.fullName + "Clubs";
+			this.fullName = this.fullName + "Diamonds";
 			break;
 		case 2:
-			this.fullName = this.fullName + "Diamonds";
+			this.fullName = this.fullName + "Clubs";
 			break;
 		case 3:
 			this.fullName = this.fullName + "Hearts";

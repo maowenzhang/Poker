@@ -61,6 +61,6 @@ public class DealerHandPanel extends JPanel {
 		testCardDisplay2.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 2) + ".png"));
 		testCardDisplay3.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 3) + ".png"));
 		testCardDisplay4.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 4) + ".png"));
-		testCardDisplay5.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 4) + ".png"));
+		testCardDisplay5.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 5) + ".png"));
 	}
 }

@@ -64,40 +64,14 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		//BoxLayout playingCardLayout = new BoxLayout(FlowLayout.CENTER,20,0);
 		//setLayout(playingCardLayout);
 
-		ImageIcon testCard1 = new ImageIcon("res/graphics/classic-cards/b2fv.png");
-		cardDisplay1 = new JLabel(testCard1);
+		setPlayerCardsToBack();
+
 		cardDisplay1.addMouseListener(this);
-		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		//cardDisplay1.setVisible(false);
-
-		/*		cardDisplay1.addMouseListener(new MouseAdapter(){
-			public void mouseReleased(MouseEvent e) {
-				System.out.println("Card: " + ", clicked at: " + e.getPoint());
-				//testCard1.setIcon("wew");
-			}
-		});*/
-
-		ImageIcon testCard2 = new ImageIcon("res/graphics/classic-cards/b2fv.png");
-		cardDisplay2 = new JLabel(testCard2);
 		cardDisplay2.addMouseListener(this);
-		cardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-
-		ImageIcon testCard3 = new ImageIcon("res/graphics/classic-cards/b2fv.png");
-		cardDisplay3 = new JLabel(testCard3);
-		cardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		cardDisplay3.addMouseListener(this);
-
-		ImageIcon testCard4 = new ImageIcon("res/graphics/classic-cards/b2fv.png");
-		cardDisplay4 = new JLabel(testCard4);
-		cardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		cardDisplay4.addMouseListener(this);
-
-		ImageIcon testCard5 = new ImageIcon("res/graphics/classic-cards/b2fv.png");
-		cardDisplay5 = new JLabel(testCard5);
-		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		cardDisplay5.addMouseListener(this);
-
-
+		
 		add(cardDisplay1);
 		add(cardDisplay2);
 		add(cardDisplay3);
@@ -136,6 +110,29 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		}
 		 */
 
+	}
+	
+	public void repaintPlayerHand() {
+		this.repaint();
+	}
+
+	public static void setPlayerCardsToBack() {
+		ImageIcon testCard = new ImageIcon("res/graphics/classic-cards/b2fv.png");
+		
+		cardDisplay1 = new JLabel(testCard);
+		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+
+		cardDisplay2 = new JLabel(testCard);
+		cardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+
+		cardDisplay3 = new JLabel(testCard);
+		cardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+
+		cardDisplay4 = new JLabel(testCard);
+		cardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+
+		cardDisplay5 = new JLabel(testCard);
+		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 	}
 
 	//	public void exchangeCard(JLabel clickedCard) {

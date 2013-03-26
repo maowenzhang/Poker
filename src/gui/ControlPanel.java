@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.FlowLayout;
+import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -14,6 +15,7 @@ import javax.swing.JPanel;
 import pokerLauncher.GUIController;
 import pokerLauncher.GuiToGameLink;
 import pokerfork.Evaluator;
+import pokerLauncher.Poker;
 
 public class ControlPanel extends JPanel implements ActionListener {
 
@@ -40,7 +42,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		btnShowDealerHand.addActionListener(this);
 		btnShowDealerHand.setEnabled(false);
 		add(btnShowDealerHand);
-		
+
 		btnScoreHands.addActionListener(this);
 		btnScoreHands.setEnabled(false);
 		add(btnScoreHands);
@@ -90,13 +92,30 @@ public class ControlPanel extends JPanel implements ActionListener {
 				showDealerHand();
 			}
 		}
-		
+
 		if (actionEvent.getActionCommand().equals("Score Hands")) {
 			String[] results = GuiToGameLink.evaluateHands();
 
 			JOptionPane.showMessageDialog(this, results[0] + "\n" + results[1] + "\n\n" + results[2] + " has won the round!",
 					"Results",
 					JOptionPane.OK_OPTION);
+
+			if (JOptionPane.showConfirmDialog(this, "Player score is: " + GuiToGameLink.getPlayerScore() + "\nDealer score is: " + GuiToGameLink.getDealerScore() + "\n\nDo you want to play another round?\nWell, do ya, punk?",
+					"Another Round?",
+					JOptionPane.YES_NO_OPTION) == 0) {
+				// RESET GAME
+				int temp = 3;
+				temp=54;
+				PlayerHandPanel.setPlayerCardsToBack();
+				//PlayerHandPanel.
+				this.repaint();
+			} else {
+				// END PROGRAMME
+				int temp = 3;
+				temp=54;
+				
+			}
+
 		}
 	}
 
@@ -106,7 +125,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		guiControl.showDealerHand();
 		btnScoreHands.setEnabled(true);
 	}
-	
+
 	private void exchangePlayerCards() {
 		btnCardExchange.setEnabled(false);
 		//btnDeal.setEnabled(true);
