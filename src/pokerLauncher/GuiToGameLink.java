@@ -69,14 +69,14 @@ public class GuiToGameLink {
 	}
 
 	public static String[] evaluateHands() {
-		int playerHandScore = playerHand.evaluate();
-		int dealerHandScore = dealerHand.evaluate();
+		playerHand.evaluate();
+		dealerHand.evaluate();
 		String[] results = new String[3];
 
 		results[0] = "Player has: " + playerHand.getHandDescription();
 		results[1] = "Dealer has: " + dealerHand.getHandDescription();
 
-		if (playerHandScore > dealerHandScore) {
+		if (playerHand.getHandScore() > dealerHand.getHandScore()) {
 			setPlayerScore(getPlayerScore() + 1);
 			results[2] = "PLAYER";
 		} else {

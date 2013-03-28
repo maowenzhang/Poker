@@ -95,6 +95,39 @@ public class PlayingCard implements Comparable<PlayingCard> {
 		}
 	}
 
+	public String getPlayingCardValueNamePlural() {
+		switch (this.cardValue) {
+		case 1:
+			return "Aces";
+		case 2:
+			return "Twos";
+		case 3:
+			return "Threes";
+		case 4:
+			return "Fours";
+		case 5:
+			return "Fives";
+		case 6:
+			return "Sixes";
+		case 7:
+			return "Sevens";
+		case 8:
+			return "Eights";
+		case 9:
+			return "Nines";
+		case 10:
+			return "Tens";
+		case 11:
+			return "Jacks";
+		case 12:
+			return "Queens";
+		case 13:
+			return "Kings";
+		default:
+			return "ERROR: invalid card value";
+		}
+	}
+
 	public String getPlayingCardSuitName() {
 		switch (this.suit) {
 		case 1:
