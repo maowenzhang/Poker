@@ -116,12 +116,12 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		this.repaint();
 	}
 
-	public static void setPlayerCardsToBack() {
+	public void setPlayerCardsToBack() {
 		ImageIcon testCard = new ImageIcon("res/graphics/classic-cards/b2fv.png");
 		
 		cardDisplay1 = new JLabel(testCard);
 		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-
+		
 		cardDisplay2 = new JLabel(testCard);
 		cardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 
@@ -133,6 +133,8 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 		cardDisplay5 = new JLabel(testCard);
 		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+		
+		repaintPlayerHand();
 	}
 
 	//	public void exchangeCard(JLabel clickedCard) {

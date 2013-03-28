@@ -106,17 +106,19 @@ public class ControlPanel extends JPanel implements ActionListener {
 				// RESET GAME
 				//int temp = 3;
 				//temp=54;
-				PlayerHandPanel.setPlayerCardsToBack();
+				guiControl.setPlayerCardsToBack();
 				//PlayerHandPanel.
 				this.repaint();
 			} else {
-				// END PROGRAMME
-				int temp = 3;
-				temp=54;
-				
+				System.exit(0);
 			}
 
 		}
+	}
+
+	public static void setPlayerCardsToBack() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void showDealerHand() {

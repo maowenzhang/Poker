@@ -9,7 +9,7 @@ import gui.DealerHandPanel;
 import gui.PlayerHandPanel;
 
 public class GUIController {
-	private PlayerHandPanel playerHandPanel;
+	private static PlayerHandPanel playerHandPanel;
 	private DealerHandPanel dealerHandPanel;
 	private static ControlPanel controlPanel;
 
@@ -63,5 +63,9 @@ public class GUIController {
 		} else {
 			return true;
 		}
+	}
+
+	public static void setPlayerCardsToBack() {
+		playerHandPanel.setPlayerCardsToBack();
 	}
 }

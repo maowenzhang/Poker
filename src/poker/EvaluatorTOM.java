@@ -12,10 +12,6 @@ public class EvaluatorTOM {
 	public static final int THREEOFAKIND = 3;
 	public static final int TWOPAIR = 2;
 	public static final int ONEPAIR = 1;
-
-	public static final int ONEPAIR = 1;
-	
-	
 	
 	/*
 	 * Determines the value of a given hand.
