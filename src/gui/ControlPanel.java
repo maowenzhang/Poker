@@ -12,9 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import poker.EvaluatorTOM;
 import pokerLauncher.GUIController;
 import pokerLauncher.GuiToGameLink;
-import pokerfork.Evaluator;
 import pokerLauncher.Poker;
 
 public class ControlPanel extends JPanel implements ActionListener {
@@ -104,8 +104,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 					"Another Round?",
 					JOptionPane.YES_NO_OPTION) == 0) {
 				// RESET GAME
-				int temp = 3;
-				temp=54;
+				//int temp = 3;
+				//temp=54;
 				PlayerHandPanel.setPlayerCardsToBack();
 				//PlayerHandPanel.
 				this.repaint();

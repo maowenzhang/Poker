@@ -2,7 +2,6 @@ package pokerLauncher;
 
 import java.util.logging.Logger;
 import pokerfork.Deck;
-import pokerfork.Evaluator;
 import pokerfork.Hand;
 
 public class GuiToGameLink {
@@ -11,7 +10,7 @@ public class GuiToGameLink {
 	static Hand dealerHand = new Hand(deck);
 
 	static int roundNumber = 0;
-	static int playerScore = 0;
+	private static int playerScore = 0;
 	private static int dealerScore = 0;
 	static boolean gameOver = false;
 
@@ -23,7 +22,7 @@ public class GuiToGameLink {
 		playerHand = new Hand(deck);
 		dealerHand = new Hand(deck);
 	}
-	
+
 	public static void initialise() {
 		printHand("player");
 		printHand("dealer");
@@ -70,78 +69,24 @@ public class GuiToGameLink {
 	}
 
 	public static String[] evaluateHands() {
-		int[] playerHandScore = Evaluator.getHandValue(GuiToGameLink.getPlayerHand());
-		int[] dealerHandScore = Evaluator.getHandValue(GuiToGameLink.getDealerHand());
+		int playerHandScore = playerHand.evaluate();
+		int dealerHandScore = dealerHand.evaluate();
 		String[] results = new String[3];
 
-		results[0] = "Player has: ";
-		//to be finished...
-		switch (playerHandScore[0]) {
-		case 0:
-			results[0] += "High Card";
-			break;
-		case 1:
-			results[0] += "One Pair (" + playerHandScore[1] + ")";
-			break;
-		case 2:
-			results[0] += "Two Pair (" + playerHandScore[1] + ")";
-			break;
-		case 4:
-			results[1] += "Straight (" + playerHandScore[1] + " high)";
-			break;
-		case 5:
-			results[1] += "Flush";
-			break;
-		case 6:
-			results[1] += "Full House (three " + playerHandScore[1] + "'s)";
-			break;
-		case 7:
-			results[1] += "Four of a kind (" + playerHandScore[1] + ")";
-			break;
-		case 8:
-			results[1] += "Straight Flush (" + playerHandScore[1] + " high)";
-			break;
-		default:
-			results[1] = "ERROR";
-			break;
-		}
+		results[0] = "Player has: " + playerHand.getHandDescription();
+		results[1] = "Dealer has: " + dealerHand.getHandDescription();
 
-		results[1] = "Dealer has: ";
-		//to be finished...
-		switch (dealerHandScore[0]) {
-		case 0:
-			results[1] += "High Card";
-			break;
-		case 1:
-			results[1] += "One Pair (" + dealerHandScore[1] + ")";
-			break;
-		case 2:
-			results[1] += "Two Pair (" + dealerHandScore[1] + ")";
-			break;
-		case 3:
-			results[1] += "Three of a kind (" + dealerHandScore[1] + ")";
-			break;
-		case 4:
-			results[1] += "Straight (" + dealerHandScore[1] + " high)";
-			break;
-		case 5:
-			results[1] += "Flush";
-			break;
-		case 6:
-			results[1] += "Full House (three " + dealerHandScore[1] + "'s)";
-			break;
-		case 7:
-			results[1] += "Four of a kind (" + dealerHandScore[1] + ")";
-			break;
-		case 8:
-			results[1] += "Straight Flush (" + dealerHandScore[1] + " high)";
-			break;
-		default:
-			results[1] = "ERROR";
-			break;
+		if (playerHandScore > dealerHandScore) {
+			setPlayerScore(getPlayerScore() + 1);
+			results[2] = "PLAYER";
+		} else {
+			setDealerScore(getDealerScore() + 1);
+			results[2] = "DEALER";
 		}
 
 
+
+		/*		//THIS TO BE MOVED ONCE EVALUATOR RETURNS DEFINITE WIN!
 		//need to make sure there is no way for scores to draw!
 		if (playerHandScore[0] < dealerHandScore[0]) {
 			results[2] = "DEALER";
@@ -184,16 +129,8 @@ public class GuiToGameLink {
 					}
 				}
 			}
-		}
+		}*/
 
-		if (results[2].equals("PLAYER")) {
-			setPlayerScore(getPlayerScore() + 1);
-		} else {
-			if (results[2].equals("DEALER")) {
-				setDealerScore(getDealerScore() + 1);
-			}
-		}
-		
 		return results;
 	}
 

@@ -1,6 +1,6 @@
 package pokerfork;
 
-public class PlayingCard implements Comparable<PlayingCard>{
+public class PlayingCard implements Comparable<PlayingCard> {
 	private int cardValue;
 	private int suit;
 	private String fullName;
@@ -9,7 +9,15 @@ public class PlayingCard implements Comparable<PlayingCard>{
 
 		/* ace treated as high card */
 		if(this.cardValue == 1 && card.cardValue == 1){
-			return 0;
+			
+			if(this.suit > card.suit){
+				
+				return 1;
+				
+			}
+			
+			else return -1;
+			
 		}
 
 		if(this.cardValue == 1){
@@ -28,9 +36,12 @@ public class PlayingCard implements Comparable<PlayingCard>{
 			return -1;
 		}
 
-		else{
-			return 0;
+		else if (this.suit > card.suit){
+			
+			return 1;
 		}
+			
+		else return -1;
 
 	}
 
@@ -48,69 +59,54 @@ public class PlayingCard implements Comparable<PlayingCard>{
 	}
 
 	public String getPlayingCardFullName() {
+		return getPlayingCardValueName() + " of " + getPlayingCardSuitName();
+	}
+
+	public String getPlayingCardValueName() {
 		switch (this.cardValue) {
 		case 1:
-			this.fullName = "Ace of ";
-			break;
+			return "Ace";
 		case 2:
-			this.fullName = "Two of ";
-			break;
+			return "Two";
 		case 3:
-			this.fullName = "Three of ";
-			break;
+			return "Three";
 		case 4:
-			this.fullName = "Four of ";
-			break;
+			return "Four";
 		case 5:
-			this.fullName = "Five of ";
-			break;
+			return "Five";
 		case 6:
-			this.fullName = "Six of ";
-			break;
+			return "Six";
 		case 7:
-			this.fullName = "Seven of ";
-			break;
+			return "Seven";
 		case 8:
-			this.fullName = "Eight of ";
-			break;
+			return "Eight";
 		case 9:
-			this.fullName = "Nine of ";
-			break;
+			return "Nine";
 		case 10:
-			this.fullName = "Ten of ";
-			break;
+			return "Ten";
 		case 11:
-			this.fullName = "Jack of ";
-			break;
+			return "Jack";
 		case 12:
-			this.fullName = "Queen of ";
-			break;
+			return "Queen";
 		case 13:
-			this.fullName = "King of ";
-			break;
+			return "King";
 		default:
-			this.fullName = "ERROR: invalid card value: " + this.cardValue + ".  ";
-			break;
+			return "ERROR: invalid card value";
 		}
+	}
 
+	public String getPlayingCardSuitName() {
 		switch (this.suit) {
 		case 1:
-			this.fullName = this.fullName + "Diamonds";
-			break;
+			return "Clubs";
 		case 2:
-			this.fullName = this.fullName + "Clubs";
-			break;
+			return "Diamonds";
 		case 3:
-			this.fullName = this.fullName + "Hearts";
-			break;
+			return "Hearts";
 		case 4:
-			this.fullName = this.fullName + "Spades";
-			break;
+			return "Spades";
 		default:
-			this.fullName = this.fullName + "ERROR: invalid suit value: " + this.suit;
-			break;
+			return "ERROR: invalid suit value";
 		}
-
-		return fullName;
 	}
 }

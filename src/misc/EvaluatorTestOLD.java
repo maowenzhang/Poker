@@ -1,14 +1,19 @@
-package pokerfork;
+package misc;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class EvaluatorTest {
+import poker.EvaluatorTOM;
+import pokerfork.Deck;
+import pokerfork.Hand;
+import pokerfork.PlayingCard;
+
+public class EvaluatorTestOLD {
 	
 	Deck testDeck = new Deck();
 	Hand testHand = new Hand(testDeck);
-	Evaluator testEvaluator = new Evaluator();
+	EvaluatorTOM testEvaluator = new EvaluatorTOM();
 
 	/*tests whether flush calculator works - accounting for both high and low aces */
 	@Test
@@ -49,9 +54,9 @@ public class EvaluatorTest {
 		testHand.add(3,jack);
 		testHand.add(4,ten);
 		
-		int handValue = Evaluator.getHandValue(testHand)[0];
+		int handValue = EvaluatorTOM.getHandValue(testHand)[0];
 		
-		assertEquals(Evaluator.STRAIGHT_FLUSH,handValue);
+		assertEquals(EvaluatorTOM.STRAIGHT_FLUSH,handValue);
 		
 		testHand.clear();
 		
@@ -61,9 +66,9 @@ public class EvaluatorTest {
 		testHand.add(3,three);
 		testHand.add(4,two);
 		
-		handValue = Evaluator.getHandValue(testHand)[0];
+		handValue = EvaluatorTOM.getHandValue(testHand)[0];
 		
-		assertEquals(Evaluator.STRAIGHT,handValue);
+		assertEquals(EvaluatorTOM.STRAIGHT,handValue);
 	}
 	
 	
