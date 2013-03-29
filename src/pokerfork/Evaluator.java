@@ -10,6 +10,7 @@ public class Evaluator{
 	public static final int THREEOFAKIND = 3;
 	public static final int TWOPAIR = 2;
 	public static final int ONEPAIR = 1;
+	public static final int HIGH_CARD = 0;
 
 	private  PlayingCard card1;
 	private  PlayingCard card2;
@@ -30,16 +31,21 @@ public class Evaluator{
 	private  int card5suit;
 
 	private  int handValue = 0;
-	//private static PlayingCard highCard;
-	private  PlayingCard highCard = new PlayingCard();
 
-	//private  int highCardWithin = 0;
-	private  int highCardWithin2 = 0;
-	private  int highCardWithout = 0;
-	private  int highCardWithout2 = 0;
-	private  int highCardWithout3 = 0;
-	private  int highCardWithout4 = 0;
+
+	//private static PlayingCard scoringCard1;
+	private  PlayingCard scoringCard1 = new PlayingCard();
+	//private  int scoringCard1 = 0;
+	private  PlayingCard scoringCard2 = new PlayingCard();
+	//private  int scoringCard2 = 0;
+	private  PlayingCard scoringCard3 = new PlayingCard();
+	//private  int highCardWithout = 0;
+	//private  int highCardWithout2 = 0;
+	//private  int highCardWithout3 = 0;
+	//private  int highCardWithout4 = 0;
 	//private  int highCardSuit = 0;
+	private PlayingCard scoringCard4 = new PlayingCard();
+	private PlayingCard scoringCard5 = new PlayingCard();
 
 
 	private int handScore = 0;
@@ -53,212 +59,199 @@ public class Evaluator{
 
 	public  void setHandValue(){
 
-
 		if(straightCalculator()){
 
 			handValue = STRAIGHT;
 
-			if(card1value == 1 && card2value == 5){
-				highCard.setPlayingCard(card2value, card2suit);
-			}
-
 			if(flushCalculator()){
 				handValue = STRAIGHT_FLUSH;	
+			}
 
-				if(card1value == 1 && card2value == 5){
-					highCard.setPlayingCard(card2value, card2suit);
-				}
+			// Straight 5432A - so 5 (2nd card in sort) is higher than ace - only incidence where A is not high
+			if(card1value == 1 && card2value == 5){
+				scoringCard1.setPlayingCard(card2value, card2suit);
 			}
 
 		} else {
 
 			if(fourCalculator()) {
+
 				handValue = FOUROFAKIND;
 
+				// if kicker is higher value than the other 4, then - 2nd card is part of 4, so may be used as high card
 				if(card1value != card2value) {
-					highCardWithout = card1value;
-				} else {
-					highCardWithout = card5value;
+					scoringCard1.setPlayingCard(card2value, card2suit);
 				}
 
 			} else {
 
-				if(fullHouseCaclulator()){
+				if(fullHouseCalculator()){
 
 					handValue = FULLHOUSE;
 
+					// if 2nd and 3rd cards in sort are not same face value, then 3ofKind must be lower value than Pair, so need to reset high card values
 					if(card2value != card3value){
-
-						highCard.setPlayingCard(card3value, card3suit);
-
+						scoringCard1.setPlayingCard(card3value, card3suit);
+						scoringCard2.setPlayingCard(card1value, card1suit);
+					} else {
+						scoringCard2.setPlayingCard(card4value, card4suit);
 					}
 
 				} else {
 
-					if(threeCalculator()){
+					if(flushCalculator()){
 
-						handValue = THREEOFAKIND;
+						handValue = FLUSH;
 
-						if(card1value == card3value){
+						scoringCard2.setPlayingCard(card2value, card2suit);
+						scoringCard3.setPlayingCard(card3value, card3suit);
+						scoringCard4.setPlayingCard(card4value, card4suit);
+						scoringCard5.setPlayingCard(card5value, card5suit);
 
-							highCardWithout = card4value;
+					} else {
 
-						} else {
+						if(threeCalculator()){
+
+							handValue = THREEOFAKIND;
 
 							if(card2value == card4value){
 
-								highCard.setPlayingCard(card2value, card2suit);
-								highCardWithout = card1value;
+								scoringCard1.setPlayingCard(card2value, card2suit);
 
 							} else {
 
 								if(card3value == card5value){
 
-									highCard.setPlayingCard(card3value, card3suit);
-									highCardWithout = card1value;
+									scoringCard1.setPlayingCard(card3value, card3suit);
 
 								}
-							}
-						}
-
-					} else {
-
-						if(twoTwoCalculator()) {
-
-							handValue = TWOPAIR;
-
-							// ERROR?!?!?!? ..........................................................................................
-
-							if(card1value == card2value) {
-
-								highCard.setPlayingCard(card1value, card1suit);
-
-								if(card3value!=card4value) {
-
-									highCardWithout = card3value;	
-									highCardWithin2 = card4value;
-
-								} else {
-
-									highCardWithout = card5value;
-									highCardWithin2 = card3value;
-
-								}
-
-							} else {
-
-								highCard.setPlayingCard(card2value, card2suit);
-								highCardWithin2 = card4value;
-								highCardWithout = card1value;
-
 							}
 
 						} else {
 
-							if(twoCalculator()){
+							if(twoTwoCalculator()) {
 
-								handValue = ONEPAIR;
+								handValue = TWOPAIR;
 
-								if (card1value == card2value) {
+								// ERROR?!?!?!? ... now cured???.......................................................................................
 
-									highCardWithout = card3value;
-									highCardWithout2  = card4value;
-									highCardWithout3 = card5value;
+								if(card1value == card2value) {
 
-								} else {
-									if(card2value == card3value){
-										highCard.setPlayingCard(card2value, card2suit);
-										highCardWithout = card1value;
-										highCardWithout2  = card4value;
-										highCardWithout3 = card5value;
+									if(card3value == card4value) {
+
+										scoringCard2.setPlayingCard(card3value, card3suit);
+										scoringCard3.setPlayingCard(card5value, card5suit);
 
 									} else {
 
-										if (card3value == card4value){
+										scoringCard2.setPlayingCard(card4value, card4suit);
+										scoringCard3.setPlayingCard(card3value, card3suit);
 
-											highCard.setPlayingCard(card3value, card3suit);
-											highCardWithout = card1value;
-											highCardWithout2  = card2value;
-											highCardWithout3 = card5value;
+									}
 
-										} else {
+								} else {
 
-											if (card4value == card5value){
+									scoringCard1.setPlayingCard(card2value, card2suit);
+									scoringCard2.setPlayingCard(card4value, card4suit);
+									scoringCard3.setPlayingCard(card1value, card1suit);
 
-												highCard.setPlayingCard(card4value, card4suit);
-												highCardWithout = card1value;
-												highCardWithout2  = card2value;
-												highCardWithout3 = card3value;
-
-											}
-
-										} 
-									} 
-								} 
+								}
 
 							} else {
 
-								//This is just a high card - hand value score defaults to 0
+								if(twoCalculator()){
 
-								highCardWithout = card2value;
-								highCardWithout2 = card3value;
-								highCardWithout3 = card4value;
-								highCardWithout4 = card5value;
+									handValue = ONEPAIR;
 
+									if (card1value == card2value) {
+
+										scoringCard2.setPlayingCard(card3value, card3suit);
+										scoringCard3.setPlayingCard(card4value, card4suit);
+										scoringCard4.setPlayingCard(card5value, card5suit);
+
+									} else {
+
+										if(card2value == card3value){
+
+											scoringCard1.setPlayingCard(card2value, card2suit);
+											scoringCard2.setPlayingCard(card1value, card1suit);
+											scoringCard3.setPlayingCard(card4value, card4suit);
+											scoringCard4.setPlayingCard(card5value, card5suit);
+
+										} else {
+
+											if (card3value == card4value){
+
+												scoringCard1.setPlayingCard(card3value, card3suit);
+												scoringCard2.setPlayingCard(card1value, card1suit);
+												scoringCard3.setPlayingCard(card2value, card2suit);
+												scoringCard4.setPlayingCard(card5value, card5suit);
+
+											} else {
+
+												scoringCard1.setPlayingCard(card4value, card4suit);
+												scoringCard2.setPlayingCard(card1value, card1suit);
+												scoringCard3.setPlayingCard(card2value, card2suit);
+												scoringCard4.setPlayingCard(card3value, card3suit);
+
+											} 
+										} 
+									} 
+
+								} else {
+
+									handValue = HIGH_CARD;
+
+									scoringCard1.setPlayingCard(card1value, card1suit);
+									scoringCard2.setPlayingCard(card2value, card2suit);
+									scoringCard3.setPlayingCard(card3value, card3suit);
+									scoringCard4.setPlayingCard(card4value, card4suit);
+									scoringCard5.setPlayingCard(card5value, card5suit);
+
+								}
 							}
 						}
 					}
 				}
 			}
 		}
-
 	}
 
 	private  boolean twoCalculator() {
 
 		return (card1value == card2value) ||
-				(card2value == card3value) ||
-				(card3value == card4value) ||
-				(card4value == card5value);
+		(card2value == card3value) ||
+		(card3value == card4value) ||
+		(card4value == card5value);
 
 	}
 
 	private  boolean twoTwoCalculator() {
 
-		return (card1value == card2value &&
-				card3value == card4value) ||
-
-				(card1value == card2value &&
-				card4value == card5value) ||
-
-				(card2value == card3value &&
-				card4value ==card5value);
+		return (card1value == card2value && card3value == card4value) ||
+		(card1value == card2value && card4value == card5value) ||
+		(card2value == card3value && card4value == card5value);
 	}
 
 	private  boolean threeCalculator() {
 
 		return (card1value == card3value) ||
-
-				(card2value == card4value) ||
-
-				(card3value == card5value);
+		(card2value == card4value) ||
+		(card3value == card5value);
 
 	}
 
-	private  boolean fullHouseCaclulator() {
+	private  boolean fullHouseCalculator() {
 
-		return (card1value == card3value &&
-				card4value == card5value) ||
-
-				(card1value == card2value &&
-				card3value == card5value);
+		return (card1value == card3value && card4value == card5value) ||
+		(card1value == card2value && card3value == card5value);
 	}
 
 	private  boolean fourCalculator() {
 
 		return (card1value == card4value) ||
+		(card2value == card5value);
 
-				(card2value == card5value);
 	}
 
 	private  boolean flushCalculator() {
@@ -277,25 +270,26 @@ public class Evaluator{
 	private boolean straightCalculator() {
 
 		return 
-				//normal straight
-				(card1value == card2value + 1 && 
+		//normal straight
+		(card1value == card2value + 1 && 
 				card2value == card3value + 1 && 
 				card3value == card4value + 1 && 
 				card4value == card5value + 1) ||
 
 				//straight 5432A
 				(card1value == 1 &&
-				card2value == 5 &&
-				card3value == 4 &&
-				card4value == 3 &&
-				card5value == 2) ||
+						card2value == 5 &&
+						card3value == 4 &&
+						card4value == 3 &&
+						card5value == 2) ||
 
-				//straight AKQJ10
-				card1value == 1 &&
-				card2value == 13 &&
-				card3value == 12 &&
-				card4value == 11 &&
-				card5value == 10;
+						//straight AKQJ10
+						(card1value == 1 &&
+								card2value == 13 &&
+								card3value == 12 &&
+								card4value == 11 &&
+								card5value == 10);
+
 	}
 
 
@@ -306,11 +300,11 @@ public class Evaluator{
 
 		hand.sort();
 
-		card1 = hand.get(0);
-		card2 = hand.get(1);
-		card3 = hand.get(2);
-		card4 = hand.get(3);
-		card5 = hand.get(4);
+		card1 = hand.getCard(0);
+		card2 = hand.getCard(1);
+		card3 = hand.getCard(2);
+		card4 = hand.getCard(3);
+		card5 = hand.getCard(4);
 
 		card1value = card1.getPlayingCardValue();
 		card2value = card2.getPlayingCardValue();
@@ -324,40 +318,81 @@ public class Evaluator{
 		card4suit = card4.getPlayingCardSuit();
 		card5suit = card5.getPlayingCardSuit();
 
-
-		highCard.setPlayingCard(card1value, card1suit);
-		//highCardWithin = highCard.getPlayingCardValue();
+		// Assume highest sorted card is most valuable for the moment
+		scoringCard1.setPlayingCard(card1value, card1suit);
+		// set other cards to 0 value
+		scoringCard2.setPlayingCard(0, 0);
+		scoringCard3.setPlayingCard(0, 0);
+		scoringCard4.setPlayingCard(0, 0);
+		scoringCard5.setPlayingCard(0, 0);
 
 		setHandValue();
 
-
-
 		/* treat aces as high */
 
-		if(highCard.getPlayingCardValue() == 1) {
-			highCard.setPlayingCard(14, highCard.getPlayingCardSuit());
+		if(scoringCard1.getPlayingCardValue() == 1) {
+			scoringCard1.setPlayingCard(14, scoringCard1.getPlayingCardSuit());
 		}
-		if(highCardWithin2 == 1){highCardWithin2 = 14;}
-		if(highCardWithout == 1){highCardWithout = 14;}
-		if(highCardWithout2 == 1){highCardWithout2 = 14;}
-		if(highCardWithout3 == 1){highCardWithout3 = 14;}
-		if(highCardWithout4 == 1){highCardWithout4 = 14;}
+		if(scoringCard2.getPlayingCardValue() == 1) {
+			scoringCard2.setPlayingCard(14, scoringCard2.getPlayingCardSuit());
+		}
+		if(scoringCard3.getPlayingCardValue() == 1) {
+			scoringCard2.setPlayingCard(14, scoringCard3.getPlayingCardSuit());
+		}
+		if(scoringCard4.getPlayingCardValue() == 1) {
+			scoringCard2.setPlayingCard(14, scoringCard4.getPlayingCardSuit());
+		}
+		if(scoringCard5.getPlayingCardValue() == 1) {
+			scoringCard2.setPlayingCard(14, scoringCard5.getPlayingCardSuit());
+		}
+
+		//if(highCardWithout == 1){highCardWithout = 14;}
+		//if(highCardWithout2 == 1){highCardWithout2 = 14;}
+		//if(highCardWithout3 == 1){highCardWithout3 = 14;}
+		//if(highCardWithout4 == 1){highCardWithout4 = 14;}
 
 
 		//		// NEED TO REORGANISE AND REMOVE THIS TEST CODE BLOCK
 		//		int tempCardValue;
-		//		if (highCard.getPlayingCardValue() == 1) {
+		//		if (scoringCard1.getPlayingCardValue() == 1) {
 		//			tempCardValue = 14;
 		//		} else {
-		//			tempCardValue = highCard.getPlayingCardValue();
+		//			tempCardValue = scoringCard1.getPlayingCardValue();
 		//		}
 
-		setHandScore(handValue + 1139 + highCard.getPlayingCardValue() + 563 + highCardWithin2 + 275 + highCardWithout + 131 + highCardWithout2 + 59 + highCardWithout3 + 23 + highCardWithout4 + 5 + highCard.getPlayingCardSuit());
+		//setHandScore(handValue + 1139 + scoringCard1.getPlayingCardValue() + 563 + scoringCard2.getPlayingCardValue() + 275 + highCardWithout + 131 + highCardWithout2 + 59 + highCardWithout3 + 23 + highCardWithout4 + 5 + scoringCard1.getPlayingCardSuit());
+		//setHandScore(handValue + scoringCard1.getPlayingCardValue() + 563 + scoringCard2.getPlayingCardValue() + 275 + scoringCard3.getPlayingCardValue() + 131 + scoringCard4.getPlayingCardValue() + 59 + scoringCard5.getPlayingCardValue() + 5 + scoringCard1.getPlayingCardSuit());
+
+		setHandScore(
+				(handValue * 2151296)
+				+ (scoringCard1.getPlayingCardValue() * 153664)
+				+ (scoringCard2.getPlayingCardValue() * 10976)
+				+ (scoringCard3.getPlayingCardValue() * 784)
+				+ (scoringCard4.getPlayingCardValue() * 56)
+				+ (scoringCard5.getPlayingCardValue() * 4)
+				+ scoringCard1.getPlayingCardSuit()
+		);
+		
+
+		if(scoringCard1.getPlayingCardValue() == 14) {
+			scoringCard1.setPlayingCard(1, scoringCard1.getPlayingCardSuit());
+		}
+		if(scoringCard2.getPlayingCardValue() == 14) {
+			scoringCard2.setPlayingCard(1, scoringCard2.getPlayingCardSuit());
+		}
+		if(scoringCard3.getPlayingCardValue() == 14) {
+			scoringCard2.setPlayingCard(1, scoringCard3.getPlayingCardSuit());
+		}
+		if(scoringCard4.getPlayingCardValue() == 14) {
+			scoringCard2.setPlayingCard(1, scoringCard4.getPlayingCardSuit());
+		}
+		if(scoringCard5.getPlayingCardValue() == 14) {
+			scoringCard2.setPlayingCard(1, scoringCard5.getPlayingCardSuit());
+		}
+		
 		setHandName();
 
 	}
-
-
 
 	public String getHandName() {
 		return this.handName;
@@ -367,30 +402,32 @@ public class Evaluator{
 		String handName = "";
 
 		switch (handValue) {
-		case 0:
-			handName = "High Card (" + highCard.getPlayingCardFullName() + ")";
+		case HIGH_CARD:
+			handName = "High Card (" + scoringCard1.getPlayingCardFullName() + ")";
 			break;
-		case 1:
-			handName = "One Pair (" + highCard.getPlayingCardValueName() + ")";
+		case ONEPAIR:
+			handName = "One Pair (" + scoringCard1.getPlayingCardValueNamePlural() + ")";
 			break;
-		case 2:
-			handName = "Two Pair (" + highCard.getPlayingCardValueName() + ")";
+		case TWOPAIR:
+			handName = "Two Pair (" + scoringCard1.getPlayingCardValueNamePlural() + " and " + scoringCard2.getPlayingCardValueNamePlural() + ")";
 			break;
-		case 4:
-			handName = "Straight (" + highCard.getPlayingCardValueName() + " high)";
+		case THREEOFAKIND:
+			handName = "Three of a kind (" + scoringCard1.getPlayingCardValueNamePlural() + ")";
 			break;
-		case 5:
-			handName = "Flush (" + highCard.getPlayingCardSuitName() + ")";
+		case STRAIGHT:
+			handName = "Straight (" + scoringCard1.getPlayingCardValueName() + " high)";
 			break;
-		case 6:
-			//SORT OUT HIGH CARD WITHIN 2 TO INSERT PAIR VALUE NAME
-			handName = "Full House (" + highCard.getPlayingCardValueName() + ")";
+		case FLUSH:
+			handName = "Flush (" + scoringCard1.getPlayingCardSuitName() + ")";
 			break;
-		case 7:
-			handName = "Four of a kind (" + highCard.getPlayingCardValueName() + ")";
+		case FULLHOUSE:
+			handName = "Full House (" + scoringCard1.getPlayingCardValueNamePlural() + " full of " + scoringCard2.getPlayingCardValueNamePlural() +  ")";
 			break;
-		case 8:
-			handName = "Straight Flush (" + highCard.getPlayingCardFullName() + " high)";
+		case FOUROFAKIND:
+			handName = "Four of a kind (" + scoringCard1.getPlayingCardValueNamePlural() + ")";
+			break;
+		case STRAIGHT_FLUSH:
+			handName = "Straight Flush (" + scoringCard1.getPlayingCardFullName() + " high)";
 			break;
 		default:
 			handName = "ERROR";

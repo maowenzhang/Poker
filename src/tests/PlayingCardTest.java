@@ -1,8 +1,10 @@
-package pokerfork;
+package tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+
+import pokerfork.PlayingCard;
 
 public class PlayingCardTest {
 

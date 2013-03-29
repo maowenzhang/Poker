@@ -28,22 +28,20 @@ public class Hand extends CardStack{
 	
 	/* Sorts the hand by card values - ace is high*/
 	public void sort(){
-	
 		Collections.sort(this);
 		Collections.reverse(this);
 	}
 
 
-	public void get() {
-		
+	public PlayingCard getCard(int handPosition) {
+		return this.get(handPosition);
 	}
-	
 	
 	/* 
 	 * Getter method for purpose of evaluating contents of hand
 	 * @return two dimensional array consisting of i)card values, ii) suits
 	 */
-	public int[][] getHandValue(){
+/*	public int[][] getHandValue(){
 		
 		int[][] handValue = new int[HANDSIZE][2];
 		
@@ -56,7 +54,7 @@ public class Hand extends CardStack{
 		
 		return handValue;
 		
-	}
+	}*/
 
 	/*
 	 * BECAUSE THIS HAS BEEN SUPERCEDED BY NEW JON VERSION

@@ -1,24 +1,26 @@
-package misc;
+package tests;
 
 import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import poker.EvaluatorTOM;
 import pokerfork.Deck;
+import pokerfork.Evaluator;
 import pokerfork.Hand;
 import pokerfork.PlayingCard;
 
-public class EvaluatorTestOLD {
+public class EvaluatorTest {
 	
 	Deck testDeck = new Deck();
-	Hand testHand = new Hand(testDeck);
-	EvaluatorTOM testEvaluator = new EvaluatorTOM();
+	Hand testHand1 = new Hand(testDeck);
+	Hand testHand2 = new Hand(testDeck);
+	Evaluator testEvaluator = new Evaluator();
 
 	/*tests whether flush calculator works - accounting for both high and low aces */
 	@Test
 	public void straightTest() {
 		
+
 		PlayingCard ace = testDeck.PlayingCardFactory();
 		ace.setPlayingCard(1, 1);
 		
@@ -30,9 +32,12 @@ public class EvaluatorTestOLD {
 		
 		PlayingCard jack = testDeck.PlayingCardFactory();
 		jack.setPlayingCard(11, 1);
-		
+
 		PlayingCard ten = testDeck.PlayingCardFactory();
 		ten.setPlayingCard(10, 1);
+		
+		PlayingCard nine = testDeck.PlayingCardFactory();
+		nine.setPlayingCard(9, 1);
 		
 		PlayingCard two = testDeck.PlayingCardFactory();
 		two.setPlayingCard(2, 2);
@@ -46,35 +51,27 @@ public class EvaluatorTestOLD {
 		PlayingCard five = testDeck.PlayingCardFactory();
 		five.setPlayingCard(5, 1);
 		
-		testHand.clear();
-			
-		testHand.add(0,ace);
-		testHand.add(1,king);
-		testHand.add(2,queen);
-		testHand.add(3,jack);
-		testHand.add(4,ten);
+
+		testHand1.clear();
+		testHand1.add(ace);
+		testHand1.add(king);
+		testHand1.add(queen);
+		testHand1.add(jack);
+		testHand1.add(ten);
+		testHand1.evaluate();
+		int testHand1Value = testHand1.getHandScore();
 		
-		int handValue = EvaluatorTOM.getHandValue(testHand)[0];
+		testHand2.clear();
+		testHand2.add(ace);
+		testHand2.add(king);
+		testHand2.add(queen);
+		testHand2.add(jack);
+		testHand2.add(nine);
+		testHand2.evaluate();
+		int testHand2Value = testHand2.getHandScore();
 		
-		assertEquals(EvaluatorTOM.STRAIGHT_FLUSH,handValue);
-		
-		testHand.clear();
-		
-		testHand.add(0,ace);
-		testHand.add(1,five);
-		testHand.add(2,four);
-		testHand.add(3,three);
-		testHand.add(4,two);
-		
-		handValue = EvaluatorTOM.getHandValue(testHand)[0];
-		
-		assertEquals(EvaluatorTOM.STRAIGHT,handValue);
-	}
-	
-	
-	@Test
-	public void straightFlushTest() {
-		
+		assertTrue("FAIL MESSAGE: " + testHand1Value + " NOT larger than " + testHand2Value + ". Difference is " + (testHand1Value - testHand2Value),testHand1Value > testHand2Value);
+
 	}
 
 }

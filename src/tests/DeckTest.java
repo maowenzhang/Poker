@@ -1,4 +1,4 @@
-package pokerfork;
+package tests;
 
 import static org.junit.Assert.*;
 
@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import pokerfork.Deck;
 import pokerfork.PlayingCard;
 
 public class DeckTest {

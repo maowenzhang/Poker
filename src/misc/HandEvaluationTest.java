@@ -1,4 +1,4 @@
-package tests;
+package misc;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,7 +26,7 @@ public class HandEvaluationTest {
 	public void straightFlushCheck() {
 		String handContents = "Test hand: ";
 		//for (int loopCount = 8; loopCount <= 12; loopCount++) {
-		//	testHand.takeNewCard(loopCount);
+		//	testHand1.takeNewCard(loopCount);
 		//	handContents = handContents + loopCount + ".";
 		//}
 
