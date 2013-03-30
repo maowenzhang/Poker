@@ -20,8 +20,9 @@ public class GameController extends Observable {
 
 	public void setDealHands(){
 		
-		dealHands = true;
-		
+		DealHands dealHands = new DealHands();
+		setChanged();
+		notifyObservers(dealHands);
 	}
 	
 	public void setexchangeCards(){
@@ -32,6 +33,7 @@ public class GameController extends Observable {
 	
 	public void setShowDealerHand(){
 		
+		isPlayerTurn = false;
 		showDealerHand = true;
 		
 	}

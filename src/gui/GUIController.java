@@ -18,6 +18,8 @@ public class GUIController implements Observer{
 	private final int RAISE_HEIGHT = 80;
 
 	private Hub hub;
+	
+	private boolean isPlayerGo;
 
 
 
@@ -77,6 +79,30 @@ public class GUIController implements Observer{
 	//	return playerCardsForExchange;
 	//}
 
+	/**
+	 * sets all cards as card back for given hand
+	 */
+	public void setCardDisplay(int cardToDisplay) {
+		//TODO
+		if (isPlayerGo){
+			playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + cardToDisplay + ".png",1);
+			playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + cardToDisplay + ".png",2);
+			playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + cardToDisplay + ".png",3);
+			playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + cardToDisplay + ".png",4);
+			playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + cardToDisplay + ".png",5);
+
+			playerHandPanel.setLabelBorders();
+		} else {
+			//hub.changePlayer();
+			dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(1) + ".png",1);
+			dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(2) + ".png",2);
+			dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(3) + ".png",3);
+			dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(4) + ".png",4);
+			dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(5) + ".png",5);
+		}
+	}
+	
+	
 	/**
 	 * asks the player hand panel to set its display
 	 */
@@ -262,7 +288,7 @@ public class GUIController implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		System.out.println("OBSERVED by " + o.countObservers() + o.hasChanged());
+		//System.out.println("OBSERVED by " + o.countObservers() + o.hasChanged());
 
 	}
 

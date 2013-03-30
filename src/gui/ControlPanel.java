@@ -81,7 +81,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 			btnDeal.setEnabled(false);
 			//btnCardExchange.setEnabled(true);
 
-			guiController.setPlayerCardDisplay();
+			gameController.setDealHands();
+			//guiController.setPlayerCardDisplay();
 
 			btnShowDealerHand.setEnabled(true);
 		}

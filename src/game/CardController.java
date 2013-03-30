@@ -3,6 +3,7 @@ package game;
 import java.util.Observable;
 import java.util.Observer;
 
+import pokerLauncher.DealHands;
 import pokerLauncher.Hub;
 
 import ai.DealerAI;
@@ -29,6 +30,7 @@ public class CardController implements Observer{
 
 
 	private Observable ov = null;
+	private boolean isPlayerTurn;
 
 	public void TextObserver(Observable ov)
 	{
@@ -98,6 +100,17 @@ public class CardController implements Observer{
 
 	}
 
+	
+	@Override
+	public void update(Observable obj, Object arg) {
+		if(arg instanceof DealHands){
+			getCardToDisplay();
+		}
+	}
+	
+	
+	
+	
 	/**
 	 * asks round which hand to look at, before asking this hand for the unique value (a number between 1 and 52) of a certain 
 	 * card
@@ -105,17 +118,14 @@ public class CardController implements Observer{
 	 * @return the unique value of a card within the hand
 	 */
 	//could this be an array of all the cards?
-	public int getCardToDisplay(String hand, int cardNumber) {
+	public void getCardToDisplay() {
 
-		int cardToDisplay = 0;
-
-		if(hand.equals("player")){
-
-			cardToDisplay = playerHand.getCardToDisplay(cardNumber);
+		if(isPlayerTurn){
+			cardToDisplay = playerHand.getCardToDisplay(1);
 
 		}
 
-		else if (hand.equals("dealer")){
+		else if (!isPlayerTurn){
 
 			cardToDisplay = dealerHand.getCardToDisplay(cardNumber);
 
@@ -179,15 +189,7 @@ public class CardController implements Observer{
 		return this.dealerSwapNum;
 	}
 
-	@Override
-	public void update(Observable obj, Object arg) {
-		Boolean test;
-		if (arg instanceof Boolean) {
-			test = (Boolean)arg;
-			System.out.println("BOSCH");
-			System.out.println("BOSCH" + obj.countObservers() + obj.hasChanged());
-		}
-	}
+	
 
 	public void setControl(Hub hub) {
 		this.hub = hub;

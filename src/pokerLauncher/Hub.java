@@ -13,11 +13,9 @@ public class Hub {
 	private int playerScore;
 	private int dealerScore;
 	public String[] results;
-	
+
 	private boolean gameOver;
-	private boolean playerGo;
-	
-	
+
 	private int dealerSwapNum;
 
 	private Logger log;
@@ -25,21 +23,20 @@ public class Hub {
 	private GUIController guiController;
 	//private GameController gameController;
 
-	
+
 	//chain of command interface with message sending and receiving would be really helpful! 
 
 	/**
 	 * constructs the first round with all scoring set to 0 and generates a game controller
 	 */
 	public Hub(){
-		
+
 		roundNumber = 0;
 		playerScore = 0;
 		dealerScore = 0;
-		
+
 		gameOver = false;
-		playerGo = true;
-		
+
 		log = Logger.getLogger("NewLogger");
 
 	}
@@ -50,18 +47,18 @@ public class Hub {
 	public void newRound(){
 
 		printHand();
-		
+
 		if (!gameOver){
-		
-			
+
+
 			roundNumber++;
-			
+
 			cardController.refreshGame();
-			
+
 		}
 
 		else{
-			
+
 			//sent message to GUI to say thanks for playing and give the score
 			System.exit(0);
 		}
@@ -70,9 +67,9 @@ public class Hub {
 	/**
 	 * asks the game controller to score each hand and compares the hands to determine the winner and winning hand
 	 */
-	
-public void scoreRound() {
-		
+
+	public void scoreRound() {
+
 		cardController.evaluateHands();
 
 		int playerHandScore = cardController.getHandScore("Player");
@@ -90,19 +87,19 @@ public void scoreRound() {
 			setDealerScore(getDealerScore() + 1);
 			results[2] = "DEALER";
 		}
-		
+
 		for(String result:results){
-			
+
 			log.info(result);
-			
+
 		}
 
 	}
 
-/**
- * setter method - sets the player's score
- * @param the player's score
- */
+	/**
+	 * setter method - sets the player's score
+	 * @param the player's score
+	 */
 	public void setPlayerScore(int newPlayerScore) {
 		playerScore = newPlayerScore;
 	}
@@ -136,14 +133,10 @@ public void scoreRound() {
 	 * @param a card within a hand (1 - 5)
 	 * @return the unique value of a card
 	 */
-	public int getCardToDisplay(int cardNumber) {
+	public void getCardToDisplay(int cardNumber) {
+
+		//
 		
-		if (playerGo){
-			return cardController.getCardToDisplay("player", cardNumber);
-		}
-		else{
-			return cardController.getCardToDisplay("dealer", cardNumber);
-		}
 	}
 
 	/**
@@ -160,12 +153,12 @@ public void scoreRound() {
 	 * @param the card position within the hand
 	 */
 	public void getNewCard(int cardPosition) {
-			
+
 		if (playerGo) {	
 			cardController.getNewCard("player",cardPosition);
-		
+
 		} 
-			
+
 		else {
 			cardController.getNewCard("dealer",cardPosition);
 		}
@@ -175,15 +168,15 @@ public void scoreRound() {
 	 * prints the player's and dealer's hands
 	 */
 	public void printHand() {
-		
+
 		//if(playerGo){
-			log.info("Player hand.....\n" + cardController.getPlayerHand() + "\n....................");
-		
-					
+		log.info("Player hand.....\n" + cardController.getPlayerHand() + "\n....................");
+
+
 		//}
-		
+
 		//else{
-			log.info("Dealer hand.....\n" + cardController.getDealerHand() + "\n....................");
+		log.info("Dealer hand.....\n" + cardController.getDealerHand() + "\n....................");
 		//}
 	}
 
@@ -191,7 +184,7 @@ public void scoreRound() {
 	 * changes the whose turn it is - from dealer to player and visa-versa
 	 */
 	public void changePlayer(){
-		
+
 		playerGo = !playerGo;
 	}
 
@@ -212,12 +205,12 @@ public void scoreRound() {
 		return this.dealerSwapNum;
 	}
 
-//	@Override
-//	public void update(Observable o, Object arg) {
-//		// TODO Auto-generated method stub
-//		
-//	}
-//	
+	//	@Override
+	//	public void update(Observable o, Object arg) {
+	//		// TODO Auto-generated method stub
+	//		
+	//	}
+	//	
 	public void setCardControl (CardController cardController){
 		this.cardController = cardController;
 	}
@@ -229,41 +222,41 @@ public void scoreRound() {
 
 	/*
 	public int getCardToDisplay(int card) {
-		
+
 		if (playerGo) {
 			return ((playerHand.get(card-1).getPlayingCardSuit()-1) * 13) + playerHand.get(card-1).getPlayingCardValue();
-		
+
 		} 
 		else {
 			return ((playerHand.get(card-1).getPlayingCardSuit()-1) * 13) + playerHand.get(card-1).getPlayingCardValue();
 		}
-		
+
 	}
 
 	public void getNewCard(int card) {
-		
+
 		if (playerGo) {	
 			playerHand.set(card-1, deck.dealCard());
 		} 
-		
+
 		else {
 			dealerHand.set(card-1, deck.dealCard());
 		}
 	}
 
 	public void printHand() {
-		
+
 		if(playerGo){
 			log.info("Player hand.....\n" + playerHand.get(0).getPlayingCardFullName() + "\n" + playerHand.get(1).getPlayingCardFullName() + "\n" + playerHand.get(2).getPlayingCardFullName() + "\n" + playerHand.get(3).getPlayingCardFullName() + "\n" + playerHand.get(4).getPlayingCardFullName() + "\n....................");
 		}
-		
+
 		else{
 			log.info("Dealer hand.....\n" + dealerHand.get(0).getPlayingCardFullName() + "\n" + dealerHand.get(1).getPlayingCardFullName() + "\n" + dealerHand.get(2).getPlayingCardFullName() + "\n" + dealerHand.get(3).getPlayingCardFullName() + "\n" + dealerHand.get(4).getPlayingCardFullName() + "\n....................");
 		}
 	}
 
-	*/
-	
+	 */
+
 
 }
 
