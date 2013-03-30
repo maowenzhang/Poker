@@ -3,7 +3,8 @@ package pokerfork;
 public class PlayingCard implements Comparable<PlayingCard> {
 	private int cardValue;
 	private int suit;
-	private String fullName;
+	//private int rankingInHand;
+	//private String fullName;
 
 	public int compareTo(PlayingCard card){
 
@@ -48,6 +49,7 @@ public class PlayingCard implements Comparable<PlayingCard> {
 	public void setPlayingCard (int cardValue, int suit) {
 		this.cardValue = cardValue;
 		this.suit = suit;
+		//this.rankingInHand = 0;
 	}
 
 	public int getPlayingCardValue() {
@@ -59,70 +61,38 @@ public class PlayingCard implements Comparable<PlayingCard> {
 	}
 
 	public String getPlayingCardFullName() {
-		return getPlayingCardValueName() + " of " + getPlayingCardSuitName();
+		boolean plural = false;
+		return getPlayingCardValueName(plural) + " of " + getPlayingCardSuitName();
 	}
 
-	public String getPlayingCardValueName() {
+	public String getPlayingCardValueName(boolean plural) {
 		switch (this.cardValue) {
 		case 1:
-			return "Ace";
+			if (plural) {return "Aces";} else {return "Ace";}
 		case 2:
-			return "Two";
+			if (plural) {return "Twos";} else {return "Two";}
 		case 3:
-			return "Three";
+			if (plural) {return "Threes";} else {return "Three";}
 		case 4:
-			return "Four";
+			if (plural) {return "Fours";} else {return "Four";}
 		case 5:
-			return "Five";
+			if (plural) {return "Fives";} else {return "Five";}
 		case 6:
-			return "Six";
+			if (plural) {return "Sixes";} else {return "Six";}
 		case 7:
-			return "Seven";
+			if (plural) {return "Sevens";} else {return "Seven";}
 		case 8:
-			return "Eight";
+			if (plural) {return "Eights";} else {return "Eight";}
 		case 9:
-			return "Nine";
+			if (plural) {return "Nines";} else {return "Nine";}
 		case 10:
-			return "Ten";
+			if (plural) {return "Tens";} else {return "Ten";}
 		case 11:
-			return "Jack";
+			if (plural) {return "Jacks";} else {return "Jack";}
 		case 12:
-			return "Queen";
+			if (plural) {return "Queens";} else {return "Queen";}
 		case 13:
-			return "King";
-		default:
-			return "ERROR: invalid card value";
-		}
-	}
-
-	public String getPlayingCardValueNamePlural() {
-		switch (this.cardValue) {
-		case 1:
-			return "Aces";
-		case 2:
-			return "Twos";
-		case 3:
-			return "Threes";
-		case 4:
-			return "Fours";
-		case 5:
-			return "Fives";
-		case 6:
-			return "Sixes";
-		case 7:
-			return "Sevens";
-		case 8:
-			return "Eights";
-		case 9:
-			return "Nines";
-		case 10:
-			return "Tens";
-		case 11:
-			return "Jacks";
-		case 12:
-			return "Queens";
-		case 13:
-			return "Kings";
+			if (plural) {return "Kings";} else {return "King";}
 		default:
 			return "ERROR: invalid card value";
 		}

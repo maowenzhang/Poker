@@ -1,5 +1,6 @@
 package pokerLauncher;
 
+
 import java.util.logging.Logger;
 import pokerfork.Deck;
 import pokerfork.Hand;
@@ -14,6 +15,9 @@ public class GuiToGameLink {
 	private static int dealerScore = 0;
 	static boolean gameOver = false;
 
+	//---------------------------------------------------------------------------------------------------------------------------------
+	DealerAI dealerAI;
+	//---------------------------------------------------------------------------------------------------------------------------------
 
 	private static Logger log = Logger.getLogger("NewLogger");
 
@@ -149,5 +153,12 @@ public class GuiToGameLink {
 	public static int getDealerScore() {
 		return dealerScore;
 	}
+
+	
+	//---------------------------------------------------------------------------------------------------------------------------------
+	public static void dealerExchange() {
+		DealerAI dealerAI = new DealerAI(dealerHand);
+	}
+	//---------------------------------------------------------------------------------------------------------------------------------
 
 }

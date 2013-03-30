@@ -16,11 +16,9 @@ public class EvaluatorTest {
 	Hand testHand2 = new Hand(testDeck);
 	Evaluator testEvaluator = new Evaluator();
 
-	/*tests whether flush calculator works - accounting for both high and low aces */
 	@Test
-	public void straightTest() {
-		
-
+	public void royalFlushVsAceHighTest() {
+	
 		PlayingCard ace = testDeck.PlayingCardFactory();
 		ace.setPlayingCard(1, 1);
 		
@@ -71,7 +69,70 @@ public class EvaluatorTest {
 		int testHand2Value = testHand2.getHandScore();
 		
 		assertTrue("FAIL MESSAGE: " + testHand1Value + " NOT larger than " + testHand2Value + ". Difference is " + (testHand1Value - testHand2Value),testHand1Value > testHand2Value);
+	}
+	
+	@Test
+	public void royalFlushTest() {
+	
+		PlayingCard ace = testDeck.PlayingCardFactory();
+		ace.setPlayingCard(1, 1);
+		
+		PlayingCard king = testDeck.PlayingCardFactory();
+		king.setPlayingCard(13, 1);
+		
+		PlayingCard queen = testDeck.PlayingCardFactory();
+		queen.setPlayingCard(12, 1);
+		
+		PlayingCard jack = testDeck.PlayingCardFactory();
+		jack.setPlayingCard(11, 1);
 
+		PlayingCard ten = testDeck.PlayingCardFactory();
+		ten.setPlayingCard(10, 1);
+		
+
+		testHand1.clear();
+		testHand1.add(ace);
+		testHand1.add(king);
+		testHand1.add(queen);
+		testHand1.add(jack);
+		testHand1.add(ten);
+		testHand1.evaluate();
+		
+		String testHand1Desc = testHand1.getHandDescription();
+		
+		assertEquals("Royal Flush (Ace of Clubs high)", testHand1Desc);
+	}
+	
+	@Test
+	public void fourOfAKindTest() {
+	
+		PlayingCard seven1 = testDeck.PlayingCardFactory();
+		seven1.setPlayingCard(7, 2);
+		
+		PlayingCard seven2 = testDeck.PlayingCardFactory();
+		seven2.setPlayingCard(7, 4);
+		
+		PlayingCard nine = testDeck.PlayingCardFactory();
+		nine.setPlayingCard(9, 2);
+		
+		PlayingCard seven3 = testDeck.PlayingCardFactory();
+		seven3.setPlayingCard(7, 3);
+
+		PlayingCard seven4 = testDeck.PlayingCardFactory();
+		seven4.setPlayingCard(7, 1);
+		
+
+		testHand1.clear();
+		testHand1.add(seven1);
+		testHand1.add(seven2);
+		testHand1.add(nine);
+		testHand1.add(seven3);
+		testHand1.add(seven4);
+		testHand1.evaluate();
+		
+		String testHand1Desc = testHand1.getHandDescription();
+		
+		assertEquals("Four of a kind (Sevens)", testHand1Desc);
 	}
 
 }

@@ -12,45 +12,54 @@ public class Evaluator{
 	public static final int ONEPAIR = 1;
 	public static final int HIGH_CARD = 0;
 
-	private  PlayingCard card1;
-	private  PlayingCard card2;
-	private  PlayingCard card3;
-	private  PlayingCard card4;
-	private  PlayingCard card5;
+	private PlayingCard card1;
+	private PlayingCard card2;
+	private PlayingCard card3;
+	private PlayingCard card4;
+	private PlayingCard card5;
 
-	private  int card1value;
-	private  int card2value;
-	private  int card3value;
-	private  int card4value;
-	private  int card5value;
+	private int card1value;
+	private int card2value;
+	private int card3value;
+	private int card4value;
+	private int card5value;
 
-	private  int card1suit;
-	private  int card2suit;
-	private  int card3suit;
-	private  int card4suit;
-	private  int card5suit;
+	private int card1suit;
+	private int card2suit;
+	private int card3suit;
+	private int card4suit;
+	private int card5suit;
 
-	private  int handValue = 0;
+	private int handType;
+	private PlayingCard scoringCard1;
+	private PlayingCard scoringCard2;
+	private PlayingCard scoringCard3;
+	private PlayingCard scoringCard4;
+	private PlayingCard scoringCard5;
 
+	/* 
+	 * These weightings designed to ensure that the hand score ultimately returns a unique
+	 * integer, which will correctly place the hand in the order of precedence.
+	 * Each element of the score is multiplied by the maximum value of the immediately lower
+	 * stage of the calculation after its own weighting. Accordingly, these factors are calculated backwards.
+	 * The last possible element is the suit value of the highest scoring card - being a suit, this is one of 4 values.
+	 * The penultimate element is the card face value of the 5th scoring card (range 2-14)
+	 *  - this is multiplied by the maximum value of the previous component (4), meaning that the maximum value is 4*14 (56).
+	 * The next element of the calculation is the face value of the 4th scoring card (range 2-14). This is multiplied by the
+	 * maximum value of the previous component (56), meaning that the maximum value is 56*14 (784).
+	 * This pattern is extended to all weightings. Possible value ranges displayed below for reference.
+	 */
+	private static final int HandTypeWeighting = 2151296; //range of values 0-8
+	private static final int ScoringCard1Weighting = 153664; //range of values 2-14
+	private static final int ScoringCard2Weighting = 10976; //range of values 2-14
+	private static final int ScoringCard3Weighting = 784; //range of values 2-14
+	private static final int ScoringCard4Weighting = 56; //range of values 2-14
+	private static final int ScoringCard5Weighting = 4; //range of values 2-14
 
-	//private static PlayingCard scoringCard1;
-	private  PlayingCard scoringCard1 = new PlayingCard();
-	//private  int scoringCard1 = 0;
-	private  PlayingCard scoringCard2 = new PlayingCard();
-	//private  int scoringCard2 = 0;
-	private  PlayingCard scoringCard3 = new PlayingCard();
-	//private  int highCardWithout = 0;
-	//private  int highCardWithout2 = 0;
-	//private  int highCardWithout3 = 0;
-	//private  int highCardWithout4 = 0;
-	//private  int highCardSuit = 0;
-	private PlayingCard scoringCard4 = new PlayingCard();
-	private PlayingCard scoringCard5 = new PlayingCard();
+	private int handScore;
+	private String handName;
 
-
-	private int handScore = 0;
-	private String handName = "";
-
+	private int[][] cardMatcher = {{1,0,0},{2,0,0},{3,0,0},{4,0,0},{5,0,0}};
 
 	/*
 	 * Arranges the hand in order from highest to lowest and sets records each card's suit and value
@@ -61,10 +70,10 @@ public class Evaluator{
 
 		if(straightCalculator()){
 
-			handValue = STRAIGHT;
+			setHandType(STRAIGHT);
 
 			if(flushCalculator()){
-				handValue = STRAIGHT_FLUSH;	
+				setHandType(STRAIGHT_FLUSH);	
 			}
 
 			// Straight 5432A - so 5 (2nd card in sort) is higher than ace - only incidence where A is not high
@@ -76,7 +85,7 @@ public class Evaluator{
 
 			if(fourCalculator()) {
 
-				handValue = FOUROFAKIND;
+				setHandType(FOUROFAKIND);
 
 				// if kicker is higher value than the other 4, then - 2nd card is part of 4, so may be used as high card
 				if(card1value != card2value) {
@@ -87,7 +96,7 @@ public class Evaluator{
 
 				if(fullHouseCalculator()){
 
-					handValue = FULLHOUSE;
+					setHandType(FULLHOUSE);
 
 					// if 2nd and 3rd cards in sort are not same face value, then 3ofKind must be lower value than Pair, so need to reset high card values
 					if(card2value != card3value){
@@ -101,7 +110,7 @@ public class Evaluator{
 
 					if(flushCalculator()){
 
-						handValue = FLUSH;
+						setHandType(FLUSH);
 
 						scoringCard2.setPlayingCard(card2value, card2suit);
 						scoringCard3.setPlayingCard(card3value, card3suit);
@@ -112,7 +121,7 @@ public class Evaluator{
 
 						if(threeCalculator()){
 
-							handValue = THREEOFAKIND;
+							setHandType(THREEOFAKIND);
 
 							if(card2value == card4value){
 
@@ -131,7 +140,7 @@ public class Evaluator{
 
 							if(twoTwoCalculator()) {
 
-								handValue = TWOPAIR;
+								setHandType(TWOPAIR);
 
 								// ERROR?!?!?!? ... now cured???.......................................................................................
 
@@ -161,7 +170,7 @@ public class Evaluator{
 
 								if(twoCalculator()){
 
-									handValue = ONEPAIR;
+									setHandType(ONEPAIR);
 
 									if (card1value == card2value) {
 
@@ -200,7 +209,7 @@ public class Evaluator{
 
 								} else {
 
-									handValue = HIGH_CARD;
+									setHandType(HIGH_CARD);
 
 									scoringCard1.setPlayingCard(card1value, card1suit);
 									scoringCard2.setPlayingCard(card2value, card2suit);
@@ -300,11 +309,11 @@ public class Evaluator{
 
 		hand.sort();
 
-		card1 = hand.getCard(0);
-		card2 = hand.getCard(1);
-		card3 = hand.getCard(2);
-		card4 = hand.getCard(3);
-		card5 = hand.getCard(4);
+		card1 = hand.get(0);
+		card2 = hand.get(1);
+		card3 = hand.get(2);
+		card4 = hand.get(3);
+		card5 = hand.get(4);
 
 		card1value = card1.getPlayingCardValue();
 		card2value = card2.getPlayingCardValue();
@@ -318,6 +327,14 @@ public class Evaluator{
 		card4suit = card4.getPlayingCardSuit();
 		card5suit = card5.getPlayingCardSuit();
 
+
+		scoringCard1 = new PlayingCard();
+		scoringCard2 = new PlayingCard();
+		scoringCard3 = new PlayingCard();
+		scoringCard4 = new PlayingCard();
+		scoringCard5 = new PlayingCard();
+
+
 		// Assume highest sorted card is most valuable for the moment
 		scoringCard1.setPlayingCard(card1value, card1suit);
 		// set other cards to 0 value
@@ -328,70 +345,65 @@ public class Evaluator{
 
 		setHandValue();
 
+		setHandName();
+
 		/* treat aces as high */
-
-		if(scoringCard1.getPlayingCardValue() == 1) {
-			scoringCard1.setPlayingCard(14, scoringCard1.getPlayingCardSuit());
-		}
-		if(scoringCard2.getPlayingCardValue() == 1) {
-			scoringCard2.setPlayingCard(14, scoringCard2.getPlayingCardSuit());
-		}
-		if(scoringCard3.getPlayingCardValue() == 1) {
-			scoringCard2.setPlayingCard(14, scoringCard3.getPlayingCardSuit());
-		}
-		if(scoringCard4.getPlayingCardValue() == 1) {
-			scoringCard2.setPlayingCard(14, scoringCard4.getPlayingCardSuit());
-		}
-		if(scoringCard5.getPlayingCardValue() == 1) {
-			scoringCard2.setPlayingCard(14, scoringCard5.getPlayingCardSuit());
-		}
-
-		//if(highCardWithout == 1){highCardWithout = 14;}
-		//if(highCardWithout2 == 1){highCardWithout2 = 14;}
-		//if(highCardWithout3 == 1){highCardWithout3 = 14;}
-		//if(highCardWithout4 == 1){highCardWithout4 = 14;}
-
-
-		//		// NEED TO REORGANISE AND REMOVE THIS TEST CODE BLOCK
-		//		int tempCardValue;
-		//		if (scoringCard1.getPlayingCardValue() == 1) {
-		//			tempCardValue = 14;
-		//		} else {
-		//			tempCardValue = scoringCard1.getPlayingCardValue();
-		//		}
-
-		//setHandScore(handValue + 1139 + scoringCard1.getPlayingCardValue() + 563 + scoringCard2.getPlayingCardValue() + 275 + highCardWithout + 131 + highCardWithout2 + 59 + highCardWithout3 + 23 + highCardWithout4 + 5 + scoringCard1.getPlayingCardSuit());
-		//setHandScore(handValue + scoringCard1.getPlayingCardValue() + 563 + scoringCard2.getPlayingCardValue() + 275 + scoringCard3.getPlayingCardValue() + 131 + scoringCard4.getPlayingCardValue() + 59 + scoringCard5.getPlayingCardValue() + 5 + scoringCard1.getPlayingCardSuit());
+		swapCardValues(1, 14);
 
 		setHandScore(
-				(handValue * 2151296)
-				+ (scoringCard1.getPlayingCardValue() * 153664)
-				+ (scoringCard2.getPlayingCardValue() * 10976)
-				+ (scoringCard3.getPlayingCardValue() * 784)
-				+ (scoringCard4.getPlayingCardValue() * 56)
-				+ (scoringCard5.getPlayingCardValue() * 4)
+				(getHandType() * getHandTypeWeighting())
+				+ (scoringCard1.getPlayingCardValue() * ScoringCard1Weighting)
+				+ (scoringCard2.getPlayingCardValue() * ScoringCard2Weighting)
+				+ (scoringCard3.getPlayingCardValue() * ScoringCard3Weighting)
+				+ (scoringCard4.getPlayingCardValue() * ScoringCard4Weighting)
+				+ (scoringCard5.getPlayingCardValue() * ScoringCard5Weighting)
 				+ scoringCard1.getPlayingCardSuit()
 		);
 		
-
-		if(scoringCard1.getPlayingCardValue() == 14) {
-			scoringCard1.setPlayingCard(1, scoringCard1.getPlayingCardSuit());
-		}
-		if(scoringCard2.getPlayingCardValue() == 14) {
-			scoringCard2.setPlayingCard(1, scoringCard2.getPlayingCardSuit());
-		}
-		if(scoringCard3.getPlayingCardValue() == 14) {
-			scoringCard2.setPlayingCard(1, scoringCard3.getPlayingCardSuit());
-		}
-		if(scoringCard4.getPlayingCardValue() == 14) {
-			scoringCard2.setPlayingCard(1, scoringCard4.getPlayingCardSuit());
-		}
-		if(scoringCard5.getPlayingCardValue() == 14) {
-			scoringCard2.setPlayingCard(1, scoringCard5.getPlayingCardSuit());
-		}
 		
-		setHandName();
+		//for testing!
+		setCardMatcher();
+	}
 
+	public int[][] getCardMatcher() {
+		return cardMatcher;
+	}
+
+
+	private void setCardMatcher(int cardNumber, int forDisposal) {
+		cardMatcher[cardNumber][1] = forDisposal;
+	}
+	
+		
+	//FOR TESTING
+	private void setCardMatcher() {
+		//TEST
+		for (int loopCounter = 0; loopCounter <= 4; loopCounter++) {
+			cardMatcher[loopCounter][0] = loopCounter;
+			if (loopCounter%2 == 0) {
+				cardMatcher[loopCounter][1] = 0;
+			} else {
+				cardMatcher[loopCounter][1] = 1;
+			}
+		}
+	}
+
+	private void swapCardValues(int swapThis, int forThat) {
+		if(scoringCard1.getPlayingCardValue() == swapThis) {
+			scoringCard1.setPlayingCard(forThat, scoringCard1.getPlayingCardSuit());
+		}
+		if(scoringCard2.getPlayingCardValue() == swapThis) {
+			scoringCard2.setPlayingCard(forThat, scoringCard2.getPlayingCardSuit());
+		}
+		if(scoringCard3.getPlayingCardValue() == swapThis) {
+			scoringCard2.setPlayingCard(forThat, scoringCard3.getPlayingCardSuit());
+		}
+		if(scoringCard4.getPlayingCardValue() == swapThis) {
+			scoringCard2.setPlayingCard(forThat, scoringCard4.getPlayingCardSuit());
+		}
+		if(scoringCard5.getPlayingCardValue() == swapThis) {
+			scoringCard2.setPlayingCard(forThat, scoringCard5.getPlayingCardSuit());
+		}
 	}
 
 	public String getHandName() {
@@ -400,34 +412,39 @@ public class Evaluator{
 
 	private void setHandName() {
 		String handName = "";
+		boolean plural = true;
 
-		switch (handValue) {
+		switch (getHandType()) {
 		case HIGH_CARD:
 			handName = "High Card (" + scoringCard1.getPlayingCardFullName() + ")";
 			break;
 		case ONEPAIR:
-			handName = "One Pair (" + scoringCard1.getPlayingCardValueNamePlural() + ")";
+			handName = "One Pair (" + scoringCard1.getPlayingCardValueName(plural) + ")";
 			break;
 		case TWOPAIR:
-			handName = "Two Pair (" + scoringCard1.getPlayingCardValueNamePlural() + " and " + scoringCard2.getPlayingCardValueNamePlural() + ")";
+			handName = "Two Pair (" + scoringCard1.getPlayingCardValueName(plural) + " and " + scoringCard2.getPlayingCardValueName(plural) + ")";
 			break;
 		case THREEOFAKIND:
-			handName = "Three of a kind (" + scoringCard1.getPlayingCardValueNamePlural() + ")";
+			handName = "Three of a kind (" + scoringCard1.getPlayingCardValueName(!plural) + ")";
 			break;
 		case STRAIGHT:
-			handName = "Straight (" + scoringCard1.getPlayingCardValueName() + " high)";
+			handName = "Straight (" + scoringCard1.getPlayingCardValueName(!plural) + " high)";
 			break;
 		case FLUSH:
 			handName = "Flush (" + scoringCard1.getPlayingCardSuitName() + ")";
 			break;
 		case FULLHOUSE:
-			handName = "Full House (" + scoringCard1.getPlayingCardValueNamePlural() + " full of " + scoringCard2.getPlayingCardValueNamePlural() +  ")";
+			handName = "Full House (" + scoringCard1.getPlayingCardValueName(plural) + " full of " + scoringCard2.getPlayingCardValueName(plural) +  ")";
 			break;
 		case FOUROFAKIND:
-			handName = "Four of a kind (" + scoringCard1.getPlayingCardValueNamePlural() + ")";
+			handName = "Four of a kind (" + scoringCard1.getPlayingCardValueName(plural) + ")";
 			break;
 		case STRAIGHT_FLUSH:
-			handName = "Straight Flush (" + scoringCard1.getPlayingCardFullName() + " high)";
+			if (scoringCard1.getPlayingCardValue() == 1) {
+				handName = "Royal Flush (" + scoringCard1.getPlayingCardFullName() + " high)";
+			} else {
+				handName = "Straight Flush (" + scoringCard1.getPlayingCardFullName() + " high)";
+			}
 			break;
 		default:
 			handName = "ERROR";
@@ -443,6 +460,18 @@ public class Evaluator{
 
 	private void setHandScore(int handScore) {
 		this.handScore = handScore;
+	}
+
+	public int getHandTypeWeighting() {
+		return HandTypeWeighting;
+	}
+
+	public void setHandType(int handType) {
+		this.handType = handType;
+	}
+
+	public int getHandType() {
+		return handType;
 	}
 
 

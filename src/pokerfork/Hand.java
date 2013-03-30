@@ -11,6 +11,11 @@ public class Hand extends CardStack{
 	public static final int HANDSIZE = 5;
 	private String handDescription;
 	private int handScore;
+	private int handType;
+	int[][] cardMatcher;
+	
+	//possibly delete
+	private int handTypeWeighting;
 	//private Evaluator handEvaluator;
 	Evaluator handEvaluator = new Evaluator();
 	
@@ -32,9 +37,14 @@ public class Hand extends CardStack{
 		Collections.reverse(this);
 	}
 
-
-	public PlayingCard getCard(int handPosition) {
-		return this.get(handPosition);
+////MAKE THIS OVERRIDE A REQUEST FOR -1 (SO THAT WE CAN CALL CARD'S 1-5, NOT 0-4)
+	public PlayingCard get(int cardPosition) {
+		return super.get(cardPosition);
+	}
+	
+////MAKE THIS OVERRIDE A REQUEST FOR -1 (SO THAT WE CAN CALL CARD'S 1-5, NOT 0-4)
+	public PlayingCard set(int position, PlayingCard newCard) {
+		return super.set(position, newCard);
 	}
 	
 	/* 
@@ -70,22 +80,51 @@ public class Hand extends CardStack{
 		handEvaluator.evaluate(this);
 		setHandDescription();
 		setHandScore();
+		setHandTypeWeighting();
+		setCardMatcher();
+	}
+
+	private void setCardMatcher() {
+		this.cardMatcher = new int[5][2];
+		this.cardMatcher = handEvaluator.getCardMatcher();
 	}
 	
+	public int[][] getCardMatcher() {
+		return this.cardMatcher;
+	}
+
 	private void setHandScore() {
-		handScore = handEvaluator.getHandScore();
+		this.handScore = handEvaluator.getHandScore();
 	}
 	
 	public int getHandScore() {
-		return handScore;
+		return this.handScore;
 	}
 
 	public void setHandDescription(){
-		handDescription = handEvaluator.getHandName();
+		this.handDescription = handEvaluator.getHandName();
 	}
 
 	public String getHandDescription() {
-		return handDescription;
+		return this.handDescription;
+	}
+	
+	public void setHandType(){
+		this.handType = handEvaluator.getHandType();
+	}
+
+	public int getHandType() {
+		return this.handType;
+	}
+	
+	/////possibly delete - may not be bneeded for AI
+	public void setHandTypeWeighting() {
+		this.handTypeWeighting = handEvaluator.getHandTypeWeighting();
+	}
+
+	/////possibly delete - may not be bneeded for AI
+	public int getHandTypeWeighting() {
+		return this.handTypeWeighting;
 	}
 	
 	

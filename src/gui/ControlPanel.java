@@ -58,7 +58,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 		if (actionEvent.getActionCommand().equals("Deal")) {
 			btnDeal.setEnabled(false);
-			btnCardExchange.setEnabled(true);
+			//btnCardExchange.setEnabled(false);
 			//System.out.println("test: " + this.p);
 
 			btnDeal.setEnabled(false);
@@ -76,6 +76,24 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 		if (actionEvent.getActionCommand().equals("Exchange Cards")) {
 			exchangePlayerCards();
+
+
+
+			//---------------------------------------------------------------------------------------------------------------------------------
+
+			JOptionPane.showMessageDialog(this,"Dealer will now exchange cards...",
+					"Dealer",
+					JOptionPane.OK_OPTION);
+
+			GuiToGameLink.dealerExchange();
+
+			try {
+				Thread.sleep(2000);
+			} catch(InterruptedException e) {
+			} 
+			//---------------------------------------------------------------------------------------------------------------------------------
+
+
 		}
 
 		if (actionEvent.getActionCommand().equals("Show Dealer Hand")) {
@@ -94,6 +112,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 
 		if (actionEvent.getActionCommand().equals("Score Hands")) {
+
 			String[] results = GuiToGameLink.evaluateHands();
 
 			JOptionPane.showMessageDialog(this, results[0] + "\n" + results[1] + "\n\n" + results[2] + " has won the round!",
@@ -118,7 +137,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	public static void setPlayerCardsToBack() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	private void showDealerHand() {
