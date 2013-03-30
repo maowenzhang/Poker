@@ -14,6 +14,8 @@ public class Round {
 	private boolean playerGo;
 	
 	private GameController gameController;
+	
+	private int dealerSwapNum;
 
 	private Logger log;
 	
@@ -145,6 +147,15 @@ public void scoreRound() {
 
 	public void dealerExchange() {
 		gameController.dealerExchange();
+		setDealerSwapNum(gameController.getDealerSwapNum());
+	}
+
+	private void setDealerSwapNum(int dealerSwapNum) {
+		this.dealerSwapNum = dealerSwapNum;
+	}
+
+	public int getDealerSwapNum() {
+		return this.dealerSwapNum;
 	}
 
 	/*

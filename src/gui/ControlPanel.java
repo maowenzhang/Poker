@@ -84,10 +84,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 			guiController.dealerExchange();
 
-			try {
-				Thread.sleep(2000);
-			} catch(InterruptedException e) {
-			} 
 			//---------------------------------------------------------------------------------------------------------------------------------
 
 		}
@@ -176,5 +172,11 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	public void exchangeBtnDisable() {
 		btnCardExchange.setEnabled(false);
+	}
+
+	public void dealerCardSwapMessage(int dealerSwapNum) {
+		JOptionPane.showMessageDialog(this, "Dealer will swap " + dealerSwapNum + " cards.",
+				"Dealer",
+				JOptionPane.OK_OPTION);
 	}
 }

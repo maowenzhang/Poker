@@ -5,11 +5,12 @@ import java.util.logging.Logger;
 
 import game.Hand;
 import game.GameController;
+import game.PlayingCard;
 
 public class DealerAI {
 
 	GameController gameController;
-	
+
 	public static final int STRAIGHT_FLUSH = 8;
 	public static final int FOUROFAKIND = 7;
 	public static final int FULLHOUSE = 6;
@@ -20,37 +21,49 @@ public class DealerAI {
 	public static final int ONEPAIR = 1;
 	public static final int HIGH_CARD = 0;
 
+	private int numOfCardsChanged;
+	private String aiFeedback;
 
 	private static Logger log = Logger.getLogger("NewLogger");
-	
+
 	public DealerAI(Hand hand) {
-		
+
+		gameController = new GameController();
+
 		hand.evaluate();
 		hand.getHandScore();
 
 		//To be used for smarter AI!
 		//int handType = hand.getHandType();
 
-		boolean randomAI = false;
+		boolean randomAI = true;
+
+		setNumOfCardsChanged(0);
 
 		if (randomAI) {
 			int[] cardsInHand = {1,2,3,4,5};
 
+			Random generator = new Random();
+			int numToChange = generator.nextInt(2)+1;
 			int loopCount = 1;
 			int cardToChange = 0;
-			do {
-				Random generator = new Random();
+
+			if (numToChange>0) {
 				do {
-					cardToChange = generator.nextInt(cardsInHand.length);
-				} while (cardsInHand[cardToChange] == 0);
+					do {
+						cardToChange = generator.nextInt(cardsInHand.length-1);
+					} while (cardsInHand[cardToChange] == 0);
 
-				if (generator.nextBoolean()) {
-					hand.set(cardToChange, gameController.dealCard());
-				}
+					hand.set(cardsInHand[cardToChange], gameController.dealCard());
+					setNumOfCardsChanged(getNumOfCardsChanged()+1);
 
-				cardsInHand[cardToChange] = 0;
-				loopCount++;
-			} while (loopCount <= 3);
+					cardsInHand[cardToChange] = 0;
+					loopCount++;
+				} while (loopCount <= numToChange);
+			}
+
+			setAiFeedback("RANDOM dealer intelligence");
+
 		} else {
 
 			int[][] cardMatcher = new int[5][2];
@@ -83,12 +96,28 @@ public class DealerAI {
 				break;
 			}
 
-
+			setAiFeedback("SMART dealer intelligence");
 
 		}
 
 
 		//GuiToGameLink.printHand("dealer");
+	}
+
+	private void setNumOfCardsChanged(int numOfCardsChanged) {
+		this.numOfCardsChanged = numOfCardsChanged;
+	}
+
+	public int getNumOfCardsChanged() {
+		return numOfCardsChanged;
+	}
+
+	private void setAiFeedback(String aiFeedback) {
+		this.aiFeedback = aiFeedback;
+	}
+
+	public String getAiFeedback() {
+		return aiFeedback;
 	}
 
 }

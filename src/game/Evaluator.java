@@ -59,7 +59,7 @@ public class Evaluator{
 	private int handScore;
 	private String handName;
 
-	private int[][] cardMatcher = {{1,0,0},{2,0,0},{3,0,0},{4,0,0},{5,0,0}};
+	private int[][] cardMatcher = {{0,0},{0,0},{0,0},{0,0},{0,0}};
 
 	/*
 	 * Arranges the hand in order from highest to lowest and sets records each card's suit and value
@@ -122,10 +122,17 @@ public class Evaluator{
 						if(threeCalculator()){
 
 							setHandType(THREEOFAKIND);
-
+							
 							if(card2value == card4value){
 
 								scoringCard1.setPlayingCard(card2value, card2suit);
+
+								//flags cards which aren't in the threesome for possible deletion
+								setCardMatcher(1, card1value, 1);
+								//setCardMatcher(2, card2value, 0);
+								//setCardMatcher(3, card3value, 0);
+								//setCardMatcher(4, card4value, 0);
+								setCardMatcher(5, card5value, 1);
 
 							} else {
 
@@ -133,6 +140,20 @@ public class Evaluator{
 
 									scoringCard1.setPlayingCard(card3value, card3suit);
 
+									//flags cards which aren't in the threesome for possible deletion
+									setCardMatcher(1, card1value, 1);
+									setCardMatcher(2, card2value, 1);
+									//setCardMatcher(3, card3value, 0);
+									//setCardMatcher(4, card4value, 0);
+									//setCardMatcher(5, card5value, 0);
+								} else {
+
+									//flags cards which aren't in the threesome for possible deletion
+									//setCardMatcher(1, card1value, 0);
+									//setCardMatcher(2, card2value, 0);
+									//setCardMatcher(3, card3value, 0);
+									setCardMatcher(4, card4value, 1);
+									setCardMatcher(5, card5value, 1);
 								}
 							}
 
@@ -151,11 +172,16 @@ public class Evaluator{
 										scoringCard2.setPlayingCard(card3value, card3suit);
 										scoringCard3.setPlayingCard(card5value, card5suit);
 
+										//flags card which isn't in the two pairs for possible deletion
+										setCardMatcher(5, card5value, 1);
+
 									} else {
 
 										scoringCard2.setPlayingCard(card4value, card4suit);
 										scoringCard3.setPlayingCard(card3value, card3suit);
 
+										//flags card which isn't in the two pairs for possible deletion
+										setCardMatcher(3, card3value, 1);
 									}
 
 								} else {
@@ -164,6 +190,8 @@ public class Evaluator{
 									scoringCard2.setPlayingCard(card4value, card4suit);
 									scoringCard3.setPlayingCard(card1value, card1suit);
 
+									//flags card which isn't in the two pairs for possible deletion
+									setCardMatcher(1, card1value, 1);
 								}
 
 							} else {
@@ -178,6 +206,10 @@ public class Evaluator{
 										scoringCard3.setPlayingCard(card4value, card4suit);
 										scoringCard4.setPlayingCard(card5value, card5suit);
 
+										//flags cards which aren't in the pair for possible deletion
+										setCardMatcher(3, card3value, 1);
+										setCardMatcher(4, card4value, 1);
+										setCardMatcher(5, card5value, 1);
 									} else {
 
 										if(card2value == card3value){
@@ -186,6 +218,11 @@ public class Evaluator{
 											scoringCard2.setPlayingCard(card1value, card1suit);
 											scoringCard3.setPlayingCard(card4value, card4suit);
 											scoringCard4.setPlayingCard(card5value, card5suit);
+
+											//flags cards which aren't in the pair for possible deletion
+											setCardMatcher(1, card1value, 1);
+											setCardMatcher(4, card4value, 1);
+											setCardMatcher(5, card5value, 1);
 
 										} else {
 
@@ -196,6 +233,10 @@ public class Evaluator{
 												scoringCard3.setPlayingCard(card2value, card2suit);
 												scoringCard4.setPlayingCard(card5value, card5suit);
 
+												//flags cards which aren't in the pair for possible deletion
+												setCardMatcher(1, card1value, 1);
+												setCardMatcher(2, card2value, 1);
+												setCardMatcher(5, card5value, 1);
 											} else {
 
 												scoringCard1.setPlayingCard(card4value, card4suit);
@@ -203,6 +244,10 @@ public class Evaluator{
 												scoringCard3.setPlayingCard(card2value, card2suit);
 												scoringCard4.setPlayingCard(card3value, card3suit);
 
+												//flags cards which aren't in the pair for possible deletion
+												setCardMatcher(1, card1value, 1);
+												setCardMatcher(2, card2value, 1);
+												setCardMatcher(3, card3value, 1);
 											} 
 										} 
 									} 
@@ -217,6 +262,10 @@ public class Evaluator{
 									scoringCard4.setPlayingCard(card4value, card4suit);
 									scoringCard5.setPlayingCard(card5value, card5suit);
 
+									//flags lowest 3 cards for possible deletion
+									setCardMatcher(3, card3value, 1);
+									setCardMatcher(4, card4value, 1);
+									setCardMatcher(5, card5value, 1);
 								}
 							}
 						}
@@ -370,8 +419,10 @@ public class Evaluator{
 	}
 
 
-	private void setCardMatcher(int cardNumber, int forDisposal) {
-		cardMatcher[cardNumber][1] = forDisposal;
+	private void setCardMatcher(int cardPos, int cardFaceValue, int forPossibleDisposal) {
+		//5*2 array, capturing the cards in order, and flagging with 0 for 'keep' and 1 for 'delete'
+		cardMatcher[cardPos-1][0] = cardFaceValue;
+		cardMatcher[cardPos-1][1] = forPossibleDisposal;
 	}
 	
 		

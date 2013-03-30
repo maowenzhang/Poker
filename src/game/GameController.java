@@ -11,14 +11,14 @@ public class GameController {
 	Hand dealerHand;
 	//---------------------------------------------------------------------------------------------------------------------------------
 	DealerAI dealerAI;
+	
+	private int dealerSwapNum;
 	//---------------------------------------------------------------------------------------------------------------------------------
 
 
 	public GameController(){
 		
-		deck = new Deck();
-		playerHand = new Hand(deck);
-		dealerHand = new Hand(deck);
+		refreshGame();
 	
 	}
 	
@@ -109,9 +109,18 @@ public class GameController {
 	//---tom new------------------------------------------------------------------------------------------------------------------------------
 	public void dealerExchange() {
 		DealerAI dealerAI = new DealerAI(dealerHand);
+		setDealerSwapNum(dealerAI.getNumOfCardsChanged());
 	}
-	//---------------------------------------------------------------------------------------------------------------------------------
+	
+	private void setDealerSwapNum(int dealerSwapNum) {
+		this.dealerSwapNum = dealerSwapNum;
+	}
+	
+	public int getDealerSwapNum() {
+		return this.dealerSwapNum;
+	}
 
+	//---------------------------------------------------------------------------------------------------------------------------------
 
 
 }
