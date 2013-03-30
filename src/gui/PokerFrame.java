@@ -127,6 +127,8 @@ public class PokerFrame extends JFrame{
 		
 		gameController.addObserver(guiController);
 		gameController.addObserver(cardController);
+		controlPanel.setControl(gameController);
+		//gameController.setScoreHands(true);
 		//System.out.println(gameController.countObservers());
 		
 	}

@@ -135,7 +135,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 				//PlayerHandPanel.
 				this.repaint();
 				
-				gameController.setScoreHands();
+				gameController.setScoreHands(true);
 			} else {
 				
 				//tell round to exit instead
@@ -208,5 +208,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 		JOptionPane.showMessageDialog(this, "Dealer will swap " + dealerSwapNum + " cards.",
 				"Dealer",
 				JOptionPane.OK_OPTION);
+	}
+
+	public void setControl(GameController gameController) {
+		this.gameController = gameController;
 	}
 }

@@ -15,7 +15,8 @@ public class GameController extends Observable {
 	boolean exchangeCards = false;
 	boolean showDealerHand = false;
 	boolean scoreHands = false;
-	
+
+
 
 	public void setDealHands(){
 		
@@ -35,11 +36,11 @@ public class GameController extends Observable {
 		
 	}
 	
-	public void setScoreHands(){
+	public void setScoreHands(boolean newValue){
 		
-		scoreHands = true;
+		scoreHands = newValue;
 		setChanged();
-		notifyObservers(new Boolean(this.scoreHands));
+		notifyObservers(newValue);
 		
 	}
 

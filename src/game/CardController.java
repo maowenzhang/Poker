@@ -27,6 +27,15 @@ public class CardController implements Observer{
 	private Hub hub;
 	//---------------------------------------------------------------------------------------------------------------------------------
 
+
+	private Observable ov = null;
+
+	public void TextObserver(Observable ov)
+	{
+		this.ov = ov;
+	}
+
+
 	/**
 	 * constructor generates the deck and player's and dealer's hands; using the deck to deal cards to both hands
 	 */
@@ -171,12 +180,12 @@ public class CardController implements Observer{
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable obj, Object arg) {
 		Boolean test;
 		if (arg instanceof Boolean) {
 			test = (Boolean)arg;
 			System.out.println("BOSCH");
-			System.out.println("BOSCH" + o.countObservers() + o.hasChanged());
+			System.out.println("BOSCH" + obj.countObservers() + obj.hasChanged());
 		}
 	}
 
