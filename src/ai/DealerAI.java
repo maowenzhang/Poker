@@ -2,30 +2,29 @@ package ai;
 
 import java.util.Random;
 import java.util.logging.Logger;
-
 import game.Hand;
 import game.GameController;
-import game.PlayingCard;
+import game.Evaluator;
 
+/**
+ * the dealer AI class evaluates its hand and decides which cards to exchange or not
+ * @author Tom & Jonathan
+ *
+ */
 public class DealerAI {
 
 	GameController gameController;
-
-	public static final int STRAIGHT_FLUSH = 8;
-	public static final int FOUROFAKIND = 7;
-	public static final int FULLHOUSE = 6;
-	public static final int FLUSH = 5;
-	public static final int STRAIGHT = 4;
-	public static final int THREEOFAKIND = 3;
-	public static final int TWOPAIR = 2;
-	public static final int ONEPAIR = 1;
-	public static final int HIGH_CARD = 0;
 
 	private int numOfCardsChanged;
 	private String aiFeedback;
 
 	private static Logger log = Logger.getLogger("NewLogger");
 
+	/**
+	 * constructor evaluates the dealer's hand
+	 * TOM ANNOTATE
+	 * @param the dealer's hand
+	 */
 	public DealerAI(Hand hand) {
 
 		gameController = new GameController();
@@ -74,23 +73,23 @@ public class DealerAI {
 			}
 
 			switch (hand.getHandType()) {
-			case HIGH_CARD:
+			case Evaluator.HIGH_CARD:
 				break;
-			case ONEPAIR:
+			case Evaluator.ONEPAIR:
 				break;
-			case TWOPAIR:
+			case Evaluator.TWOPAIR:
 				break;
-			case THREEOFAKIND:
+			case Evaluator.THREEOFAKIND:
 				break;
-			case STRAIGHT: //do nothing!
+			case Evaluator.STRAIGHT: //do nothing!
 				break;
-			case FLUSH: //do nothing!
+			case Evaluator.FLUSH: //do nothing!
 				break;
-			case FULLHOUSE: //do nothing!
+			case Evaluator.FULLHOUSE: //do nothing!
 				break;
-			case FOUROFAKIND: //do nothing!
+			case Evaluator.FOUROFAKIND: //do nothing!
 				break;
-			case STRAIGHT_FLUSH: //do nothing!
+			case Evaluator.STRAIGHT_FLUSH: //do nothing!
 				break;
 			default:
 				break;

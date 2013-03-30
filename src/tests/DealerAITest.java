@@ -1,7 +1,6 @@
 package tests;
 
 import org.junit.Test;
-
 import game.Deck;
 import game.Evaluator;
 import game.Hand;
@@ -15,6 +14,10 @@ public class DealerAITest {
 	DealerAI dealerAI;
 	
 	@Test
+	/**
+	 * tests to see if the sort method works correctly 
+	 * TOM ANNOTATE
+	 */
 	public void sortTest(){
 
 		PlayingCard nine = testDeck.PlayingCardFactory();

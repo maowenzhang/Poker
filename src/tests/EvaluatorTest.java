@@ -1,13 +1,11 @@
 package tests;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import pokerfork.Deck;
-import pokerfork.Evaluator;
-import pokerfork.Hand;
-import pokerfork.PlayingCard;
+import game.Deck;
+import game.Evaluator;
+import game.Hand;
+import game.PlayingCard;
 
 public class EvaluatorTest {
 	
@@ -17,6 +15,9 @@ public class EvaluatorTest {
 	Evaluator testEvaluator = new Evaluator();
 
 	@Test
+	/**
+	 * test to determine whether hand value system is scoring correctly
+	 */
 	public void royalFlushVsAceHighTest() {
 	
 		PlayingCard ace = testDeck.PlayingCardFactory();
@@ -72,6 +73,9 @@ public class EvaluatorTest {
 	}
 	
 	@Test
+	/**
+	 * test to determine whether evalutor can detect a royal flush
+	 */
 	public void royalFlushTest() {
 	
 		PlayingCard ace = testDeck.PlayingCardFactory();
@@ -104,6 +108,9 @@ public class EvaluatorTest {
 	}
 	
 	@Test
+	/**
+	 * test to determine whether evaluator can detect a four of a kind
+	 */
 	public void fourOfAKindTest() {
 	
 		PlayingCard seven1 = testDeck.PlayingCardFactory();

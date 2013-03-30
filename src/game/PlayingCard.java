@@ -1,11 +1,21 @@
 package game;
 
+/**
+ * the playing card class is the currency of the game and can be generated and passed around between different card stack classes. 
+ * Playing cards have suits and values which are comparable. The playing card class can relay its state to the hand class that
+ * contains it.
+ * @author Tom & Jonathan
+ *
+ */
 public class PlayingCard implements Comparable<PlayingCard> {
 	private int cardValue;
 	private int suit;
 	//private int rankingInHand;
 	//private String fullName;
 
+	/**
+	 * Compare method to allow the hand to sort. Aces are treated as high cards
+	 */
 	public int compareTo(PlayingCard card){
 
 		/* ace treated as high card */
@@ -45,26 +55,48 @@ public class PlayingCard implements Comparable<PlayingCard> {
 		else return -1;
 
 	}
-
+	
+	/** 
+	 * setter method - sets the suit and value of a playing card
+	 * @param the card value
+	 * @param the suit value
+	 */
 	public void setPlayingCard (int cardValue, int suit) {
 		this.cardValue = cardValue;
 		this.suit = suit;
 		//this.rankingInHand = 0;
 	}
-
+	
+	/**
+	 * getter method - gets the value of a card
+	 * @return the value of a card
+	 */
 	public int getPlayingCardValue() {
 		return this.cardValue;
 	}
 
+	/**
+	 * getter method - gets the suit of a card
+	 * @return the suit of a card
+	 */
 	public int getPlayingCardSuit() {
 		return this.suit;
 	}
-
+	
+	/**
+	 *  getter method - gets the full name of a playing card (e.g. Ace of Spades)
+	 * @return the full name of a playing card
+	 */
 	public String getPlayingCardFullName() {
 		boolean plural = false;
 		return getPlayingCardValueName(plural) + " of " + getPlayingCardSuitName();
 	}
 
+	/**
+	 * getter method - gets the value name of a playing card (e.g. Ace)
+	 * @param whether the card is plural or not
+	 * @return the value name of a playing card
+	 */
 	public String getPlayingCardValueName(boolean plural) {
 		switch (this.cardValue) {
 		case 1:
@@ -98,6 +130,10 @@ public class PlayingCard implements Comparable<PlayingCard> {
 		}
 	}
 
+	/**
+	 * getter method - gets the name of the playing card suit
+	 * @return the name of the playing card suit
+	 */
 	public String getPlayingCardSuitName() {
 		switch (this.suit) {
 		case 1:

@@ -2,20 +2,17 @@ package gui;
 
 
 import java.awt.FlowLayout;
-import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import pokerLauncher.Poker;
-import pokerLauncher.Round;
-
+/**
+ * the control panel class is where the human player can interact with the GUI 
+ * @author Tom & Jonathan
+ *
+ */
 public class ControlPanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
@@ -27,6 +24,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	private GUIController guiController;
 
+	/**
+	 * constructor adds buttons and actionlistener to the panel 
+	 */
 	public ControlPanel() {
 		FlowLayout controlPanelLayout = new FlowLayout(FlowLayout.CENTER,20,0);
 		setLayout(controlPanelLayout);
@@ -47,10 +47,20 @@ public class ControlPanel extends JPanel implements ActionListener {
 		add(btnScoreHands);
 	}
 
+	/**
+	 * setter method - enables panel to see the GUI controller
+	 * @param the guiControl reference
+	 */
 	public void setControl(GUIController guiControl) {
 		this.guiController = guiControl;
 	}
-
+	
+	/**
+	 * Logic determines which action to take place and passes orders to GUI controller
+	 * Deal - sends message to GUI controller to displayer player's hand
+	 * Exchange cards - sends message to GUI controller to exchange player cards and then dealer's cards
+	 * Score hands - sends request to GUI controller to find out score and displays score
+	 */
 	@Override
 	public void actionPerformed(ActionEvent actionEvent) {
 		//JButton clickedButton = (JButton)actionEvent.getSource();
@@ -127,14 +137,21 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 		}
 	}
-
+	
+	/**
+	 * Asks GUI controller to make dealer's hand visible
+	 */
 	private void showDealerHand() {
 		btnCardExchange.setEnabled(false);
 		btnShowDealerHand.setEnabled(false);
 		guiController.showDealerHand();
 		btnScoreHands.setEnabled(true);
 	}
-
+	
+	/**
+	 * Asks GUI controller which cards player has selected for exchange, then asks GUI to replace these with new cards.
+	 * Once this is done, asks GUI to update the card display
+	 */
 	private void exchangePlayerCards() {
 		btnCardExchange.setEnabled(false);
 		//btnDeal.setEnabled(true);
@@ -166,10 +183,16 @@ public class ControlPanel extends JPanel implements ActionListener {
 		guiController.printHand();
 	}
 
+	/**
+	 * enables exchange button
+	 */
 	public void exchangeBtnEnable() {
 		btnCardExchange.setEnabled(true);
 	}
 
+	/**
+	 * disables exchange button
+	 */
 	public void exchangeBtnDisable() {
 		btnCardExchange.setEnabled(false);
 	}

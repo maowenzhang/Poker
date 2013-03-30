@@ -2,11 +2,8 @@ package gui;
 
 
 import java.util.Random;
-
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-
 import pokerLauncher.Round;
 
 public class GUIController {
@@ -19,11 +16,17 @@ public class GUIController {
 	private final int RAISE_HEIGHT = 80;
 
 	private Round round;
-
+	
+	/**
+	 * generates the round object
+	 */
 	public void startRound(){
 		round = new Round();	
 	}
 
+	/**
+	 * asks dealer hand panel to display the dealer's hand
+	 */
 	public void showDealerHand() {
 		//presumably nulls ensure that it won't crash if objects don't exist. do we need?
 		if (playerHandPanel != null && dealerHandPanel != null) {
@@ -31,18 +34,34 @@ public class GUIController {
 		}
 	}
 
+	/**
+	 * setter method - enables GUI controller to see player hand panel
+	 * @param the player hand panel reference
+	 */
 	public void setPlayerHandPanel(PlayerHandPanel playerHandPanel) {
 		this.playerHandPanel = playerHandPanel;
 	}
-
+	
+	/**
+	 * setter method - enables GUI controller to see dealer hand panel
+	 * @param the dealer hand panel reference
+	 */
 	public void setDealerHandPanel(DealerHandPanel dealerHandPanel) {
 		this.dealerHandPanel = dealerHandPanel;
 	}
 
+	/**
+	 * setter method - enables GUI controller to see control panel
+	 * @param the control panel reference
+	 */
 	public void setControlPanel(ControlPanel controlPanel) {
 		this.controlPanel = controlPanel;
 	}
 
+	/**
+	 * setter method - asks control panel to disable exchange button if no cards are selected to exchange
+	 * @param the number of cards selected to exchange
+	 */
 	public void setPlayerCardsforExchange(int number) {
 		playerCardsForExchange = number;
 
@@ -61,6 +80,9 @@ public class GUIController {
 	//	return playerCardsForExchange;
 	//}
 
+	/**
+	 * asks the player hand panel to set its display
+	 */
 	public void setPlayerCardDisplay() {
 
 		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(1) + ".png",1);
@@ -73,6 +95,9 @@ public class GUIController {
 
 	}
 
+	/**
+	 * asks the dealer hand panel to set its display
+	 */
 	public void setDealerCardDisplay() {
 
 		round.changePlayer();
@@ -85,7 +110,14 @@ public class GUIController {
 		// should this be used like for player? 
 		//playerHandPanel.setLabelBorders();
 	}
-
+	
+	/**
+	 * determines if a card display shows a card raised for exchange
+	 * @param a card display
+	 * @return true if card display shows a raised card raised for exchange
+	 * 
+	 * I THINK WE'RE NOT USING THIS ANYMORE
+	 */
 	public boolean getCardRaisedStatus(JLabel cardDisplay) {
 		if (cardDisplay.getBorder().getBorderInsets(cardDisplay).top == RAISE_HEIGHT) {
 			return false;
@@ -94,6 +126,11 @@ public class GUIController {
 		}
 	}
 
+	/**
+	 * asks the player hand panel to determine if a card has been raised for exchange
+	 * @param the card display to check (1 - 5)
+	 * @return true if the card has been raised for exchange
+	 */
 	public boolean getCardRaisedStatus(int cardDisplay) {
 
 		boolean raisedStatus = false;
@@ -113,6 +150,9 @@ public class GUIController {
 
 	}
 
+	/**
+	 * asks player hand panel to show the backs of its cards 
+	 */
 	public void setPlayerCardsToBack() {
 		playerHandPanel.setPlayerCardsToBack();
 	}
@@ -204,19 +244,19 @@ public class GUIController {
 private void moveDealerCard(int cardToSwap) {
 	switch (cardToSwap) {
 	case 1:
-		dealerHandPanel.testCardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+		dealerHandPanel.CardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		break;
 	case 2:
-		dealerHandPanel.testCardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+		dealerHandPanel.CardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		break;
 	case 3:
-		dealerHandPanel.testCardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+		dealerHandPanel.CardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		break;
 	case 4:
-		dealerHandPanel.testCardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+		dealerHandPanel.CardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		break;
 	case 5:
-		dealerHandPanel.testCardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+		dealerHandPanel.CardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		break;
 	}
 

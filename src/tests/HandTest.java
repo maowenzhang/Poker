@@ -1,11 +1,9 @@
 package tests;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import pokerfork.Deck;
-import pokerfork.Hand;
+import game.Deck;
+import game.Hand;
 
 public class HandTest {
 	
@@ -14,6 +12,9 @@ public class HandTest {
 	Hand testHand2 = new Hand(deck);
 	
 	@Test
+	/**
+	 * test to determine whether sort functionality is working correctly
+	 */
 	public void sortTest(){
 		
 		testHand1.sort();

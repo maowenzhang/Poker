@@ -2,10 +2,18 @@ package game;
 
 import java.util.Random;
 
+/**
+ * the deck class deals playing cards to the hand class. It ensures integrity such that there are only ever 52 unique cards
+ * to play with. It inherits from the card stack class.
+ * @author Tom & Jonathan
+ *
+ */
 @SuppressWarnings("serial")
 public class Deck extends CardStack{
 	
-	/* constructor method builds a deck filled with 52 playing cards */
+	/**
+	 *  constructor method builds a deck filled with 52 playing cards 
+	 */
 	public Deck() {
 		clear();
 		for (int loopCountCardValue = 1; loopCountCardValue <= 13; loopCountCardValue++) {
@@ -17,7 +25,8 @@ public class Deck extends CardStack{
 		}
 	}
 	
-	/* method to randomly deal a card from the deck, and in doing so removing it from the deck.
+	/**
+	 *  method to randomly deal a card from the deck, and in doing so remote it from the deck.
 	 * @return a PlayingCard
 	 */
 	public PlayingCard dealCard() {

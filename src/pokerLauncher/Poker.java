@@ -4,6 +4,11 @@ import gui.PokerFrame;
 
 import javax.swing.JFrame;
 
+/**
+ * the main method which launches the game
+ * @author Tom and Jonathan
+ *
+ */
 public class Poker {
 	
 	public static void main(String[] args) {

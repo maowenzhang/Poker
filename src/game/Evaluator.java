@@ -1,5 +1,10 @@
 package game;
 
+/**
+ * the evaluator class contains all the logic needed to evaluate a hand and determine the scoring
+ * @author Tom & Jonathan
+ *
+ */
 public class Evaluator{
 
 	public static final int STRAIGHT_FLUSH = 8;
@@ -37,7 +42,7 @@ public class Evaluator{
 	private PlayingCard scoringCard4;
 	private PlayingCard scoringCard5;
 
-	/* 
+	/**
 	 * These weightings designed to ensure that the hand score ultimately returns a unique
 	 * integer, which will correctly place the hand in the order of precedence.
 	 * Each element of the score is multiplied by the maximum value of the immediately lower
@@ -64,6 +69,11 @@ public class Evaluator{
 	/*
 	 * Arranges the hand in order from highest to lowest and sets records each card's suit and value
 	 * 
+	 */
+	/**
+	 * With the hand now already set in order from highest to lowest (ace high), determines the hand value and what the scoring  
+	 * cards are. The system works by principle of elimination going from the best hand to the worst - once the hand value is 
+	 * found, the logic exits. Thus there is no confusion as to whether hand is a full house or a three of a kind or a pair etc.
 	 */
 
 	public  void setHandValue(){
@@ -275,6 +285,10 @@ public class Evaluator{
 		}
 	}
 
+	/**
+	 * Determines if hand is a pair
+	 * @return true if hand is a pair
+	 */
 	private  boolean twoCalculator() {
 
 		return (card1value == card2value) ||
@@ -284,6 +298,10 @@ public class Evaluator{
 
 	}
 
+	/**
+	 * Determines if hand is two pair
+	 * @return true if hand is two pair
+	 */
 	private  boolean twoTwoCalculator() {
 
 		return (card1value == card2value && card3value == card4value) ||
@@ -291,6 +309,10 @@ public class Evaluator{
 		(card2value == card3value && card4value == card5value);
 	}
 
+	/**
+	 * Determines if hand is a three of a kind
+	 * @return true if hand is a three of a kind
+	 */
 	private  boolean threeCalculator() {
 
 		return (card1value == card3value) ||
@@ -299,12 +321,20 @@ public class Evaluator{
 
 	}
 
+	/**
+	 * Determines if hand is a full house
+	 * @return true if hand is a full house
+	 */
 	private  boolean fullHouseCalculator() {
 
 		return (card1value == card3value && card4value == card5value) ||
 		(card1value == card2value && card3value == card5value);
 	}
 
+	/**
+	 * Determines if hand is a four of a kind
+	 * @return true if hand is a four of a kind
+	 */
 	private  boolean fourCalculator() {
 
 		return (card1value == card4value) ||
@@ -312,6 +342,10 @@ public class Evaluator{
 
 	}
 
+	/**
+	 * Determines if hand is a flush
+	 * @return true if hand is a flush
+	 */
 	private  boolean flushCalculator() {
 
 		return (card1suit == card2suit &&
@@ -325,6 +359,9 @@ public class Evaluator{
 	 * @return boolean: true if hand is a straight
 	 */
 
+	/** determines whether a hand is a straight - accounting for ace high or low
+	 * @return true if hand is a straight
+	 */
 	private boolean straightCalculator() {
 
 		return 
@@ -353,6 +390,10 @@ public class Evaluator{
 
 	//.................................................................................................................................................................
 
+	/**
+	 * Sorts the hand from highest to lowest... TOM ANNOTATE
+	 * @param player or dealer's hand to be evaluated
+	 */
 	public void evaluate(Hand hand) {
 
 
@@ -414,18 +455,28 @@ public class Evaluator{
 		setCardMatcher();
 	}
 
+	/**
+	 * TOM ANNOTATE
+	 * @return
+	 */
 	public int[][] getCardMatcher() {
 		return cardMatcher;
 	}
 
-
+	/**
+	 * TOM ANNOTATE
+	 * @param cardNumber
+	 * @param forDisposal
+	 */
 	private void setCardMatcher(int cardPos, int cardFaceValue, int forPossibleDisposal) {
 		//5*2 array, capturing the cards in order, and flagging with 0 for 'keep' and 1 for 'delete'
 		cardMatcher[cardPos-1][0] = cardFaceValue;
 		cardMatcher[cardPos-1][1] = forPossibleDisposal;
 	}
-	
-		
+
+	/**
+	 * TOM ANNOTATE	
+	 */
 	//FOR TESTING
 	private void setCardMatcher() {
 		//TEST
@@ -438,7 +489,12 @@ public class Evaluator{
 			}
 		}
 	}
-
+	
+	/**
+	 * TOM ANNOTATE
+	 * @param swapThis
+	 * @param forThat
+	 */
 	private void swapCardValues(int swapThis, int forThat) {
 		if(scoringCard1.getPlayingCardValue() == swapThis) {
 			scoringCard1.setPlayingCard(forThat, scoringCard1.getPlayingCardSuit());
@@ -457,10 +513,17 @@ public class Evaluator{
 		}
 	}
 
+	/**
+	 * getter method - returns the name of the hand (e.g. pair, three of a kind etc.)
+	 * @return the name of the hand
+	 */
 	public String getHandName() {
 		return this.handName;
 	}
 
+	/**
+	 * setter method - sets the name of the hand
+	 */
 	private void setHandName() {
 		String handName = "";
 		boolean plural = true;
@@ -505,22 +568,42 @@ public class Evaluator{
 		this.handName = handName;
 	}
 
+	/**
+	 * getter method - returns the hand score
+	 * @return the hand score 
+	 */
 	public int getHandScore() {
 		return handScore;
 	}
 
+	/**
+	 * setter method - sets the hand's score
+	 * @param the hand's score to set
+	 */
 	private void setHandScore(int handScore) {
 		this.handScore = handScore;
 	}
 
+	/** 
+	 * TOM ANNOTATE
+	 * @return
+	 */
 	public int getHandTypeWeighting() {
 		return HandTypeWeighting;
 	}
 
+	/**
+	 * ANNOTATE - BUT HAVENT WE ALREADY GOT A GETTER / SETTER THAT DOES THE SAME THING AS THIS??
+	 * @param handType
+	 */
 	public void setHandType(int handType) {
 		this.handType = handType;
 	}
 
+	/**
+	 * ANNOTATE - BUT HAVENT WE ALREADY GOT A GETTER / SETTER THAT DOES THE SAME THING AS THIS??
+	 * @return
+	 */
 	public int getHandType() {
 		return handType;
 	}

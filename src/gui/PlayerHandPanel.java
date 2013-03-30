@@ -5,25 +5,14 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.Random;
-
-import javax.imageio.ImageIO;
-import javax.management.timer.Timer;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-
-import pokerLauncher.Round;
 
 
 public class PlayerHandPanel extends JPanel implements MouseListener, ActionListener {
@@ -32,9 +21,6 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	//create observer so that when player hand panel raises cards
 	//the control panel knows to grey out the exchange button
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	
 	private static final int RAISE_HEIGHT = 80;
@@ -54,6 +40,9 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 	private GUIController guiController;
 	
+	/**
+	 * constructs the player hand panel with all its buttons and action listener and mouse listener
+	 */
 	public PlayerHandPanel() {
 		
 		btnDeal = new JButton("Deal");
@@ -114,6 +103,9 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 	}
 
+	/**
+	 * setter method - sets all the card displays to the image of the back of a card
+	 */
 	public void setPlayerCardsToBack() {
 		ImageIcon testCard = new ImageIcon("res/graphics/classic-cards/b2fv.png");
 		
@@ -145,6 +137,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	//		return cardSelector;
 	//	}
 
+	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		/*		g.drawImage(playingCard1, 0, 0, null);
@@ -154,6 +147,9 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		g.drawImage(playingCard5, 400, 0, null);*/
 	}
 
+	/**
+	 * Mouse release raises cards for exchange - only three cards can be raised
+	 */
 	public void mouseReleased(MouseEvent event) {
 		//System.out.println(event.getSource());
 		Boolean actionCarriedOut = false;
@@ -186,6 +182,11 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	}
 
 	@Override
+	/**
+	 * logic determines whether button click is to exchange cards or show dealer hand
+	 * exchange cards - asks GUI controller to exchange raised cards and reset display
+	 * show dealer hand - if no cards have been raised, player is asked to confirm they don't want to exchange any card
+	 */
 	public void actionPerformed(ActionEvent actionEvent) {
 
 /*		if (actionEvent.getActionCommand().equals("Deal")) {
@@ -255,6 +256,11 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		}
 	}
 
+	/**
+	 * getter method - determines whether the given card (1 - 5) has been raised to exchange
+	 * @param the number of the card requested
+	 * @return true if card has been raised to exchange
+	 */
 	public Boolean getCardRaisedStatus(int cardDisplay) {
 		
 		switch (cardDisplay){
@@ -276,19 +282,39 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	}
 	*/
 
+	/**
+	 * getter method - DO WE STILL USE THIS???
+	 * @param cardDisplay
+	 * @return
+	 */
 	public String getCardName(JLabel cardDisplay) {
 		return cardDisplay.getIcon().toString().substring(cardDisplay.getIcon().toString().lastIndexOf("/")+1,29);
 		//return "" + cardDisplay.getIcon().toString().lastIndexOf("/");
 	}
 
+	/**
+	 * getter method - gets the height of a card (i.e. to see if it has been raised for exchange)
+	 * @param the card display to check
+	 * @return the height of the card
+	 */
 	public int getCardHeight(JLabel cardDisplay) {
 		return cardDisplay.getBorder().getBorderInsets(cardDisplay).top;
 	}
 
+	/**
+	 * setter method - sets the height of a card
+	 * @param the card display
+	 * @param the new height of the display
+	 */
 	public void setCardHeight(JLabel cardDisplay, int newHeight) {
 		cardDisplay.getBorder().getBorderInsets(cardDisplay).top = newHeight;
 	}
 
+	/**
+	 *  getter method - determines whether a card has been raised for exchange
+	 * @param the card display to check
+	 * @return true if card has been raised
+	 */
 	public boolean getCardRaisedStatus(JLabel cardDisplay) {
 		if (cardDisplay.getBorder().getBorderInsets(cardDisplay).top == RAISE_HEIGHT) {
 			return false;
@@ -296,11 +322,20 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 			return true;
 		}
 	}
-
+	
+	/**
+	 * setter method - enables panel to see the GUI controller
+	 * @param the guiControl reference
+	 */
 	public void setControl(GUIController guiController) {
 		this.guiController = guiController;		
 	}
 
+	/**
+	 * setter method - sets the card display to the image of a card
+	 * @param location of the image of the card
+	 * @param the card display to update
+	 */
 	public void setCardDisplay(String iconName, int cardDisplay) {
 		
 		switch (cardDisplay){
@@ -314,6 +349,9 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		
 	}
 	
+	/**
+	 *  TOM ANNOTATE
+	 */
 	public void setLabelBorders() {
 		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		cardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
@@ -325,25 +363,21 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 

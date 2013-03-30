@@ -3,17 +3,20 @@ package gui;
 import java.awt.Graphics;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-
-import javax.imageio.ImageIO;
 import javax.swing.JComponent;
 
+/**
+ * the background component class draws the poker table and the logo onto the background panel class
+ * @author Tom & Jonathan
+ *
+ */
 @SuppressWarnings("serial")
 public class BackgroundComponent extends JComponent {
 
 	@Override
+	/**
+	 * Draws poker table and "T&J" logo
+	 */
 	public void paintComponent(Graphics g) {
 
 		g.setColor(new Color(102,51,0));

@@ -1,25 +1,16 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.IOException;
-
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
-import pokerLauncher.Round;
 
 
-@SuppressWarnings("serial")
 public class PokerFrame extends JFrame{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	final int FRAME_WIDTH = 1280;
 	final int FRAME_HEIGHT = 800;
 	
@@ -31,6 +22,9 @@ public class PokerFrame extends JFrame{
 	
 	GUIController guiController;
 
+	/**
+	 * constructs a poker frame with all the various panels on it and establishes visibility between the panels
+	 */
 	public PokerFrame(){
 		
 		basePane = new JLayeredPane();
@@ -45,7 +39,9 @@ public class PokerFrame extends JFrame{
 		
 	}
 
-
+	/**
+	 * arranges the frame layout and the dimensions of the panels
+	 */
 	private void drawGameLayout() {
 
 		setLayout(new BorderLayout());
@@ -95,6 +91,9 @@ public class PokerFrame extends JFrame{
 
 	}
 	
+	/**
+	 * establishes visibility between the various panels and the GUI controller
+	 */
 	public void establishController(){
 		
 		guiController = new GUIController();

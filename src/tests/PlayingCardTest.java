@@ -1,14 +1,14 @@
 package tests;
 
 import static org.junit.Assert.*;
-
 import org.junit.Test;
-
-import pokerfork.PlayingCard;
+import game.PlayingCard;
 
 public class PlayingCardTest {
 
-	/* testing the compareTo method */
+	/**
+	 *  testing whether the compareTo method works correctly
+	 */  
 	@Test
 	public void compareToTest() {
 		
@@ -23,7 +23,7 @@ public class PlayingCardTest {
 		testCard4.setPlayingCard(1, 4);
 		
 		int expectedResult1 = -1;
-		int expectedResult2 = 0;
+		int expectedResult2 = -1;
 		int expectedResult3 = 1;
 		int expectedResult4 = -1;
 		

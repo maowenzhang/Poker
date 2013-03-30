@@ -20,7 +20,10 @@ public class Round {
 	private Logger log;
 	
 	//chain of command interface with message sending and receiving would be really helpful! 
-	
+
+	/**
+	 * constructs the first round with all scoring set to 0 and generates a game controller
+	 */
 	public Round(){
 		
 		roundNumber = 0;
@@ -35,7 +38,10 @@ public class Round {
 		log = Logger.getLogger("NewLogger");
 
 	}
-	
+
+	/**
+	 * generates a new round or closes the game if the game is over
+	 */
 	public void newRound(){
 
 		printHand();
@@ -55,6 +61,10 @@ public class Round {
 			System.exit(0);
 		}
 	}
+
+	/**
+	 * asks the game controller to score each hand and compares the hands to determine the winner and winning hand
+	 */
 	
 public void scoreRound() {
 		
@@ -84,22 +94,43 @@ public void scoreRound() {
 
 	}
 
+/**
+ * setter method - sets the player's score
+ * @param the player's score
+ */
 	public void setPlayerScore(int newPlayerScore) {
 		playerScore = newPlayerScore;
 	}
 
+	/**
+	 * getter method - gets the player's score
+	 * @return the player's score
+	 */
 	public int getPlayerScore() {
 		return playerScore;
 	}
 
+	/**
+	 * setter method - sets the dealer's score
+	 * @param the player's score
+	 */
 	public void setDealerScore(int newDealerScore) {
 		dealerScore = newDealerScore;
 	}
 
+	/**
+	 * getter method - gets the player's score
+	 * @return the player's score
+	 */
 	public int getDealerScore() {
 		return dealerScore;
 	}
 
+	/**
+	 * asks the game controller to find the unique value of a certain card
+	 * @param a card within a hand (1 - 5)
+	 * @return the unique value of a card
+	 */
 	public int getCardToDisplay(int cardNumber) {
 		
 		if (playerGo){
@@ -110,11 +141,19 @@ public void scoreRound() {
 		}
 	}
 
+	/**
+	 * getter method - scores the round and updates the results
+	 * @return the results
+	 */
 	public String[] getResults() {
 		scoreRound();
 		return results;
 	}
-	
+
+	/**
+	 * asks the game controller to get a new card in a certain position within the hand
+	 * @param the card position within the hand
+	 */
 	public void getNewCard(int cardPosition) {
 			
 		if (playerGo) {	
@@ -127,6 +166,9 @@ public void scoreRound() {
 		}
 	}
 
+	/**
+	 * prints the player's and dealer's hands
+	 */
 	public void printHand() {
 		
 		//if(playerGo){
@@ -139,12 +181,19 @@ public void scoreRound() {
 			log.info("Dealer hand.....\n" + gameController.getDealerHand() + "\n....................");
 		//}
 	}
-	
+
+	/**
+	 * changes the whose turn it is - from dealer to player and visa-versa
+	 */
 	public void changePlayer(){
 		
 		playerGo = !playerGo;
 	}
 
+	/**
+	 * asks the game controller to exchange cards for the dealer
+	 * TOM ANNOTATE
+	 */
 	public void dealerExchange() {
 		gameController.dealerExchange();
 		setDealerSwapNum(gameController.getDealerSwapNum());

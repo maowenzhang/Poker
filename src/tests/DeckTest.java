@@ -1,13 +1,10 @@
 package tests;
 
 import static org.junit.Assert.*;
-
 import java.util.Random;
-
 import org.junit.Test;
-
-import pokerfork.Deck;
-import pokerfork.PlayingCard;
+import game.Deck;
+import game.PlayingCard;
 
 public class DeckTest {
 
@@ -16,7 +13,10 @@ public class DeckTest {
 	
 	int correctDeckSize = 52;
 	
-	/* test to determine whether deck has been constructed with 52 objects inside it */
+	
+	/**
+	 *  test to determine whether deck has been constructed with 52 objects inside it 
+	 */
 	@Test
 	public void generateTest() {
 		
@@ -25,7 +25,9 @@ public class DeckTest {
 		assertEquals(correctDeckSize,deckSize);
 	}
 
-	/* test to determine whether deck contains only exactly one copy of a randomly chosen card */
+	/** 
+	 * test to determine whether deck contains only exactly one copy of a randomly chosen card 
+	 */
 	@Test
 	public void dealTest(){
 		
