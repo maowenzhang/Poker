@@ -1,9 +1,13 @@
 package pokerLauncher;
 
-import game.GameController;
+import game.CardController;
+import gui.GUIController;
+
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Logger;
 
-public class Round {
+public class Hub {
 
 	private int roundNumber;
 	private int playerScore;
@@ -13,18 +17,21 @@ public class Round {
 	private boolean gameOver;
 	private boolean playerGo;
 	
-	private GameController gameController;
 	
 	private int dealerSwapNum;
 
 	private Logger log;
+	private CardController cardController;
+	private GUIController guiController;
+	//private GameController gameController;
+
 	
 	//chain of command interface with message sending and receiving would be really helpful! 
 
 	/**
 	 * constructs the first round with all scoring set to 0 and generates a game controller
 	 */
-	public Round(){
+	public Hub(){
 		
 		roundNumber = 0;
 		playerScore = 0;
@@ -32,8 +39,6 @@ public class Round {
 		
 		gameOver = false;
 		playerGo = true;
-		
-		gameController = new GameController();
 		
 		log = Logger.getLogger("NewLogger");
 
@@ -51,7 +56,7 @@ public class Round {
 			
 			roundNumber++;
 			
-			gameController.refreshGame();
+			cardController.refreshGame();
 			
 		}
 
@@ -68,14 +73,14 @@ public class Round {
 	
 public void scoreRound() {
 		
-		gameController.evaluateHands();
+		cardController.evaluateHands();
 
-		int playerHandScore = gameController.getHandScore("Player");
-		int dealerHandScore = gameController.getHandScore("Dealer");
+		int playerHandScore = cardController.getHandScore("Player");
+		int dealerHandScore = cardController.getHandScore("Dealer");
 		results = new String[3];
 
-		results[0] = "Player has: " + gameController.getHandDescription("player");
-		results[1] = "Dealer has: " + gameController.getHandDescription("dealer");
+		results[0] = "Player has: " + cardController.getHandDescription("player");
+		results[1] = "Dealer has: " + cardController.getHandDescription("dealer");
 
 		if (playerHandScore > dealerHandScore) {
 			setPlayerScore(getPlayerScore() + 1);
@@ -134,10 +139,10 @@ public void scoreRound() {
 	public int getCardToDisplay(int cardNumber) {
 		
 		if (playerGo){
-			return gameController.getCardToDisplay("player", cardNumber);
+			return cardController.getCardToDisplay("player", cardNumber);
 		}
 		else{
-			return gameController.getCardToDisplay("dealer", cardNumber);
+			return cardController.getCardToDisplay("dealer", cardNumber);
 		}
 	}
 
@@ -157,12 +162,12 @@ public void scoreRound() {
 	public void getNewCard(int cardPosition) {
 			
 		if (playerGo) {	
-			gameController.getNewCard("player",cardPosition);
+			cardController.getNewCard("player",cardPosition);
 		
 		} 
 			
 		else {
-			gameController.getNewCard("dealer",cardPosition);
+			cardController.getNewCard("dealer",cardPosition);
 		}
 	}
 
@@ -172,13 +177,13 @@ public void scoreRound() {
 	public void printHand() {
 		
 		//if(playerGo){
-			log.info("Player hand.....\n" + gameController.getPlayerHand() + "\n....................");
+			log.info("Player hand.....\n" + cardController.getPlayerHand() + "\n....................");
 		
 					
 		//}
 		
 		//else{
-			log.info("Dealer hand.....\n" + gameController.getDealerHand() + "\n....................");
+			log.info("Dealer hand.....\n" + cardController.getDealerHand() + "\n....................");
 		//}
 	}
 
@@ -195,8 +200,8 @@ public void scoreRound() {
 	 * TOM ANNOTATE
 	 */
 	public void dealerExchange() {
-		gameController.dealerExchange();
-		setDealerSwapNum(gameController.getDealerSwapNum());
+		cardController.dealerExchange();
+		setDealerSwapNum(cardController.getDealerSwapNum());
 	}
 
 	private void setDealerSwapNum(int dealerSwapNum) {
@@ -206,6 +211,21 @@ public void scoreRound() {
 	public int getDealerSwapNum() {
 		return this.dealerSwapNum;
 	}
+
+//	@Override
+//	public void update(Observable o, Object arg) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//	
+	public void setCardControl (CardController cardController){
+		this.cardController = cardController;
+	}
+
+	public void setGUIControl(GUIController guiController) {
+		this.guiController = guiController;
+	}
+
 
 	/*
 	public int getCardToDisplay(int card) {

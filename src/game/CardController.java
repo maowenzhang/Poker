@@ -1,8 +1,13 @@
 package game;
 
+import java.util.Observable;
+import java.util.Observer;
+
+import pokerLauncher.Hub;
+
 import ai.DealerAI;
 
-//QUESTION - SHOULDNT GameController have visibility of Evaluate to decouple it from Hand?
+//QUESTION - SHOULDNT CardController have visibility of Evaluate to decouple it from Hand?
 
 /**
  * the game controller class receives requests from the round class and in turn passes these on to the rest of the game engine
@@ -10,21 +15,22 @@ import ai.DealerAI;
  * @author Tom & Jonathan
  *
  */
-public class GameController {
-	
+public class CardController implements Observer{
+
 	Deck deck;
 	Hand playerHand;
 	Hand dealerHand;
 	//---------------------------------------------------------------------------------------------------------------------------------
 	DealerAI dealerAI;
-	
+
 	private int dealerSwapNum;
+	private Hub hub;
 	//---------------------------------------------------------------------------------------------------------------------------------
 
 	/**
 	 * constructor generates the deck and player's and dealer's hands; using the deck to deal cards to both hands
 	 */
-	public GameController(){
+	public CardController(){
 		refreshGame();
 	}
 
@@ -36,9 +42,9 @@ public class GameController {
 		deck = new Deck();
 		playerHand = new Hand(deck);
 		dealerHand = new Hand(deck);
-		
+
 	}
-	
+
 	/**
 	 * asks both player's and dealer's hands to evaluate
 	 */
@@ -46,7 +52,7 @@ public class GameController {
 		playerHand.evaluate();
 		dealerHand.evaluate();
 	}
-	
+
 	/**
 	 * asks round which hand to look at, before asking this hand to return its score
 	 * @return the value of the hand's score
@@ -58,31 +64,31 @@ public class GameController {
 			return dealerHand.getHandScore();
 		}
 	}
-	
+
 	/**
 	 * asks round which hand to look at, before asking this hand to return a description of itself
 	 * @return a description of the hand
 	 */
 	public String getHandDescription(String hand){
-		
+
 		String handDescription = "";
-		
+
 		if(hand.equals("player")){
-			
+
 			handDescription = playerHand.getHandDescription();
-			
+
 		}
-		
+
 		else if (hand.equals("dealer")){
-			
+
 			handDescription = dealerHand.getHandDescription();
-			
+
 		}
-		
+
 		return handDescription;
-		
+
 	}
-	
+
 	/**
 	 * asks round which hand to look at, before asking this hand for the unique value (a number between 1 and 52) of a certain 
 	 * card
@@ -91,25 +97,25 @@ public class GameController {
 	 */
 	//could this be an array of all the cards?
 	public int getCardToDisplay(String hand, int cardNumber) {
-		
+
 		int cardToDisplay = 0;
-		
+
 		if(hand.equals("player")){
-			
+
 			cardToDisplay = playerHand.getCardToDisplay(cardNumber);
-			
+
 		}
-		
+
 		else if (hand.equals("dealer")){
-			
+
 			cardToDisplay = dealerHand.getCardToDisplay(cardNumber);
-			
+
 		}
-		
+
 		return cardToDisplay;
-		
+
 	}
-	
+
 	/**
 	 * asks deck to deal a card
 	 * @return a playing card
@@ -129,7 +135,7 @@ public class GameController {
 		else if(player.equals("dealer")){
 			dealerHand.set(cardPosition-1, dealCard());
 		}
-		
+
 	}
 
 	//SHOULDNT WE DO THESE TWO METHODS IN ONE IN THE SAME STYLE AS ABOVE (REQUESTING INFO FROM ROUND)?
@@ -141,7 +147,7 @@ public class GameController {
 	public String getPlayerHand() {
 		return playerHand.get(0).getPlayingCardFullName() + "\n" + playerHand.get(1).getPlayingCardFullName() + "\n" + playerHand.get(2).getPlayingCardFullName() + "\n" + playerHand.get(3).getPlayingCardFullName() + "\n" + playerHand.get(4).getPlayingCardFullName();
 	}
-	
+
 	/**
 	 * asks the dealer hand to return the full names of each card within it
 	 * @return the full names of each of the dealer's card
@@ -149,19 +155,34 @@ public class GameController {
 	public String getDealerHand(){
 		return dealerHand.get(0).getPlayingCardFullName() + "\n" + dealerHand.get(1).getPlayingCardFullName() + "\n" + dealerHand.get(2).getPlayingCardFullName() + "\n" + dealerHand.get(3).getPlayingCardFullName() + "\n" + dealerHand.get(4).getPlayingCardFullName();
 	}
-	
+
 	//---tom new------------------------------------------------------------------------------------------------------------------------------
 	public void dealerExchange() {
 		DealerAI dealerAI = new DealerAI(dealerHand);
 		setDealerSwapNum(dealerAI.getNumOfCardsChanged());
 	}
-	
+
 	private void setDealerSwapNum(int dealerSwapNum) {
 		this.dealerSwapNum = dealerSwapNum;
 	}
-	
+
 	public int getDealerSwapNum() {
 		return this.dealerSwapNum;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		Boolean test;
+		if (arg instanceof Boolean) {
+			test = (Boolean)arg;
+			System.out.println("BOSCH");
+			System.out.println("BOSCH" + o.countObservers() + o.hasChanged());
+		}
+	}
+
+	public void setControl(Hub hub) {
+		this.hub = hub;
+
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------

@@ -8,6 +8,8 @@ import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import pokerLauncher.GameController;
+
 /**
  * the control panel class is where the human player can interact with the GUI 
  * @author Tom & Jonathan
@@ -23,6 +25,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private boolean playerHasExchangedCards = false;
 
 	private GUIController guiController;
+	private GameController gameController;
 
 	/**
 	 * constructor adds buttons and actionlistener to the panel 
@@ -30,6 +33,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 	public ControlPanel() {
 		FlowLayout controlPanelLayout = new FlowLayout(FlowLayout.CENTER,20,0);
 		setLayout(controlPanelLayout);
+
+		gameController = new GameController();
 
 		btnDeal.addActionListener(this);
 		add(btnDeal);
@@ -121,7 +126,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 					JOptionPane.OK_OPTION);
 
 			if (JOptionPane.showConfirmDialog(this, "Player score is: " + guiController.getPlayerScore() + "\nDealer score is: " + guiController.getDealerScore() + "\n\nDo you want to play another round?\nWell, do ya, punk?",
-					"Another Round?",
+					"Another Hub?",
 					JOptionPane.YES_NO_OPTION) == 0) {
 				// RESET GAME
 				//int temp = 3;
@@ -129,6 +134,8 @@ public class ControlPanel extends JPanel implements ActionListener {
 				guiController.setPlayerCardsToBack();
 				//PlayerHandPanel.
 				this.repaint();
+				
+				gameController.setScoreHands();
 			} else {
 				
 				//tell round to exit instead

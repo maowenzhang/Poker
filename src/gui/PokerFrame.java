@@ -1,8 +1,13 @@
 package gui;
 
+import game.CardController;
+
 import java.awt.BorderLayout;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+
+import pokerLauncher.GameController;
+import pokerLauncher.Hub;
 
 
 public class PokerFrame extends JFrame{
@@ -21,6 +26,9 @@ public class PokerFrame extends JFrame{
 	ControlPanel controlPanel;
 	
 	GUIController guiController;
+	Hub hub;
+	CardController cardController;
+	GameController gameController;
 
 	/**
 	 * constructs a poker frame with all the various panels on it and establishes visibility between the panels
@@ -107,7 +115,19 @@ public class PokerFrame extends JFrame{
 		guiController.setPlayerHandPanel(playerHandPanel);
 		guiController.setDealerHandPanel(dealerHandPanel);
 		
-		guiController.startRound();
+		hub = new Hub();
+		cardController = new CardController();
+		gameController = new GameController();
+		
+		hub.setCardControl(cardController);
+		hub.setGUIControl(guiController);
+		
+		cardController.setControl(hub);
+		guiController.setControl(hub);
+		
+		gameController.addObserver(guiController);
+		gameController.addObserver(cardController);
+		//System.out.println(gameController.countObservers());
 		
 	}
 

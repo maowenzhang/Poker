@@ -1,12 +1,14 @@
 package gui;
 
 
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Random;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import pokerLauncher.Round;
+import pokerLauncher.Hub;
 
-public class GUIController {
+public class GUIController implements Observer{
 
 	private PlayerHandPanel playerHandPanel;
 	private DealerHandPanel dealerHandPanel;
@@ -15,14 +17,9 @@ public class GUIController {
 	private int playerCardsForExchange = 0;
 	private final int RAISE_HEIGHT = 80;
 
-	private Round round;
-	
-	/**
-	 * generates the round object
-	 */
-	public void startRound(){
-		round = new Round();	
-	}
+	private Hub hub;
+
+
 
 	/**
 	 * asks dealer hand panel to display the dealer's hand
@@ -41,7 +38,7 @@ public class GUIController {
 	public void setPlayerHandPanel(PlayerHandPanel playerHandPanel) {
 		this.playerHandPanel = playerHandPanel;
 	}
-	
+
 	/**
 	 * setter method - enables GUI controller to see dealer hand panel
 	 * @param the dealer hand panel reference
@@ -85,11 +82,11 @@ public class GUIController {
 	 */
 	public void setPlayerCardDisplay() {
 
-		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(1) + ".png",1);
-		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(2) + ".png",2);
-		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(3) + ".png",3);
-		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(4) + ".png",4);
-		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(5) + ".png",5);
+		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(1) + ".png",1);
+		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(2) + ".png",2);
+		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(3) + ".png",3);
+		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(4) + ".png",4);
+		playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(5) + ".png",5);
 
 		playerHandPanel.setLabelBorders();
 
@@ -100,17 +97,17 @@ public class GUIController {
 	 */
 	public void setDealerCardDisplay() {
 
-		round.changePlayer();
-		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(1) + ".png",1);
-		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(2) + ".png",2);
-		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(3) + ".png",3);
-		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(4) + ".png",4);
-		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + round.getCardToDisplay(5) + ".png",5);
+		hub.changePlayer();
+		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(1) + ".png",1);
+		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(2) + ".png",2);
+		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(3) + ".png",3);
+		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(4) + ".png",4);
+		dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + hub.getCardToDisplay(5) + ".png",5);
 
 		// should this be used like for player? 
 		//playerHandPanel.setLabelBorders();
 	}
-	
+
 	/**
 	 * determines if a card display shows a card raised for exchange
 	 * @param a card display
@@ -158,28 +155,28 @@ public class GUIController {
 	}
 
 	public String[] getScore(){
-		return round.getResults();
+		return hub.getResults();
 	}
 
 	public int getPlayerScore() {
-		return round.getPlayerScore();
+		return hub.getPlayerScore();
 	}
 
 	public int getDealerScore() {
-		return round.getDealerScore();
+		return hub.getDealerScore();
 	}
 
 	public void getNewCard(int cardPosition) {
-		round.getNewCard(cardPosition);	
+		hub.getNewCard(cardPosition);	
 	}
 
 	public void printHand() {
-		round.printHand();
+		hub.printHand();
 	}
 
 	public void dealerExchange() {
-		round.dealerExchange();
-		controlPanel.dealerCardSwapMessage(round.getDealerSwapNum());
+		hub.dealerExchange();
+		controlPanel.dealerCardSwapMessage(hub.getDealerSwapNum());
 
 		//based on number of cards to change in dealer hand, build array of random number card backs to move
 		int cardToSwap1 = 0;
@@ -191,12 +188,12 @@ public class GUIController {
 
 		Random generator1 = new Random();
 
-		if (round.getDealerSwapNum() != 0) {
+		if (hub.getDealerSwapNum() != 0) {
 			cardToSwap1 = generator1.nextInt(4) + 1;
 
 			moveDealerCard(cardToSwap1);
 
-			if (round.getDealerSwapNum() >= 2) {
+			if (hub.getDealerSwapNum() >= 2) {
 				do {
 					tempCardValue = generator1.nextInt(4) + 1;
 				} while (tempCardValue == cardToSwap1);
@@ -205,7 +202,7 @@ public class GUIController {
 				moveDealerCard(cardToSwap2);
 			}
 
-			if (round.getDealerSwapNum() >= 3) {
+			if (hub.getDealerSwapNum() >= 3) {
 				do {
 					tempCardValue = generator1.nextInt(4) + 1;
 				} while (tempCardValue == cardToSwap1 || tempCardValue == cardToSwap2 );
@@ -215,51 +212,62 @@ public class GUIController {
 		}
 
 
-	//		try {
-	//			Thread.sleep(2000);
-	//		} catch(InterruptedException e) {
-	//		} 
+		//		try {
+		//			Thread.sleep(2000);
+		//		} catch(InterruptedException e) {
+		//		} 
 
-	//dealerHandPanel.testCardDisplay1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-	//dealerHandPanel.testCardDisplay2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-	//dealerHandPanel.testCardDisplay3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-	//dealerHandPanel.testCardDisplay4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-	//dealerHandPanel.testCardDisplay5.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		//dealerHandPanel.testCardDisplay1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		//dealerHandPanel.testCardDisplay2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		//dealerHandPanel.testCardDisplay3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		//dealerHandPanel.testCardDisplay4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		//dealerHandPanel.testCardDisplay5.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
 
 
-	//		while (loopCount <= round.getDealerSwapNum() && loopCount!=0) {
-	//
-	//			do {
-	//				Random generator1 = new Random();
-	//				int cardToSwap = generator1.nextInt(4);
-	//				cardsToSwap[loopCount] = cardToSwap;
-	//			} while (1!=1);
-	//
-	//			loopCount++;
-	//		}
+		//		while (loopCount <= hub.getDealerSwapNum() && loopCount!=0) {
+		//
+		//			do {
+		//				Random generator1 = new Random();
+		//				int cardToSwap = generator1.nextInt(4);
+		//				cardsToSwap[loopCount] = cardToSwap;
+		//			} while (1!=1);
+		//
+		//			loopCount++;
+		//		}
 
-	//dealerHandPanel.setCardDisplay
-}
-
-private void moveDealerCard(int cardToSwap) {
-	switch (cardToSwap) {
-	case 1:
-		dealerHandPanel.CardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		break;
-	case 2:
-		dealerHandPanel.CardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		break;
-	case 3:
-		dealerHandPanel.CardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		break;
-	case 4:
-		dealerHandPanel.CardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		break;
-	case 5:
-		dealerHandPanel.CardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		break;
+		//dealerHandPanel.setCardDisplay
 	}
 
-	dealerHandPanel.repaint();
-}
+	private void moveDealerCard(int cardToSwap) {
+		switch (cardToSwap) {
+		case 1:
+			dealerHandPanel.CardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+			break;
+		case 2:
+			dealerHandPanel.CardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+			break;
+		case 3:
+			dealerHandPanel.CardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+			break;
+		case 4:
+			dealerHandPanel.CardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+			break;
+		case 5:
+			dealerHandPanel.CardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+			break;
+		}
+
+		dealerHandPanel.repaint();
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println("OBSERVED by " + o.countObservers() + o.hasChanged());
+
+	}
+
+	public void setControl(Hub hub) {
+		this.hub = hub;
+	}
+
 }

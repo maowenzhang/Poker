@@ -3,17 +3,16 @@ package ai;
 import java.util.Random;
 import java.util.logging.Logger;
 import game.Hand;
-import game.GameController;
+import game.CardController;
 import game.Evaluator;
 
 /**
  * the dealer AI class evaluates its hand and decides which cards to exchange or not
  * @author Tom & Jonathan
  *
- */
-public class DealerAI {
+ */public class DealerAI {
 
-	GameController gameController;
+	CardController gameController;
 
 	private int numOfCardsChanged;
 	private String aiFeedback;
@@ -27,7 +26,7 @@ public class DealerAI {
 	 */
 	public DealerAI(Hand hand) {
 
-		gameController = new GameController();
+		gameController = new CardController();
 
 		hand.evaluate();
 		hand.getHandScore();
