@@ -1,4 +1,4 @@
-package gui;
+package guiOLD;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,35 +14,23 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
-import pokerLauncher.Round;
-
+import pokerLauncherOLD.GUIController;
 
 @SuppressWarnings("serial")
-public class PokerFrame extends JFrame{
+public class PokerFrame extends JFrame implements ActionListener{
 
 	final int FRAME_WIDTH = 1280;
 	final int FRAME_HEIGHT = 800;
-	
-	JLayeredPane basePane;
-	BackgroundPanel backgroundPanel;
-	PlayerHandPanel playerHandPanel;
-	DealerHandPanel dealerHandPanel;
-	ControlPanel controlPanel;
-	
-	GUIController guiController;
+	JLayeredPane basePane = new JLayeredPane();
+	BackgroundPanel backgroundPanel = new BackgroundPanel();
+	PlayerHandPanel playerHandPanel = new PlayerHandPanel();
+	DealerHandPanel dealerHandPanel = new DealerHandPanel();
+	ControlPanel controlPanel = new ControlPanel();
+	GUIController guiController = new GUIController();
+	GUIController guiController2 = new GUIController();
 
-	public PokerFrame(){
-		
-		basePane = new JLayeredPane();
-		backgroundPanel = new BackgroundPanel();
-		playerHandPanel = new PlayerHandPanel();
-		dealerHandPanel = new DealerHandPanel();
-		controlPanel = new ControlPanel();
-		
+	public PokerFrame(){		
 		drawGameLayout();
-		
-		establishController();
-		
 	}
 
 
@@ -73,6 +61,14 @@ public class PokerFrame extends JFrame{
 		basePane.add(dealerHandPanel, new Integer(2), 0);
 		basePane.add(controlPanel, new Integer(3), 0);
 
+		// THIS IS THE IMPORTANT LINE!!
+		controlPanel.setControl(guiController);
+		playerHandPanel.setControl(guiController2);
+		
+		guiController.setControlPanel(controlPanel);
+		guiController.setPlayerHandPanel(playerHandPanel);
+		guiController.setDealerHandPanel(dealerHandPanel);
+
 		pack();
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		setLocationRelativeTo(null);
@@ -94,22 +90,12 @@ public class PokerFrame extends JFrame{
 		//add(PlayerHandPanel);
 
 	}
-	
-	public void establishController(){
-		
-		guiController = new GUIController();
 
-		// THIS IS THE IMPORTANT LINE!!
-		controlPanel.setControl(guiController);
-		dealerHandPanel.setControl(guiController);
-		playerHandPanel.setControl(guiController);
-		
-		guiController.setControlPanel(controlPanel);
-		guiController.setPlayerHandPanel(playerHandPanel);
-		guiController.setDealerHandPanel(dealerHandPanel);
-		
-		guiController.startRound();
-		
+
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

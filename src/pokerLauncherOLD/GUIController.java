@@ -1,12 +1,12 @@
-package pokerLauncher;
+package pokerLauncherOLD;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import gui.ControlPanel;
-import gui.DealerHandPanel;
-import gui.PlayerHandPanel;
+import guiOLD.ControlPanel;
+import guiOLD.DealerHandPanel;
+import guiOLD.PlayerHandPanel;
 
 public class GUIController {
 	private static PlayerHandPanel playerHandPanel;

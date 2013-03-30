@@ -1,5 +1,4 @@
-package gui;
-
+package guiOLD;
 
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -21,44 +20,43 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
-import pokerLauncher.Round;
-
+import pokerLauncherOLD.GUIController;
+import pokerLauncherOLD.GuiToGameLink;
 
 public class PlayerHandPanel extends JPanel implements MouseListener, ActionListener {
-	
-	
-	//create observer so that when player hand panel raises cards
-	//the control panel knows to grey out the exchange button
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
 	private static final int RAISE_HEIGHT = 80;
-
-	private JButton btnDeal;
-	private JButton btnCardExchange;
-	private JButton btnShowDealerHand;
-
-	private JLabel cardDisplay1;
-	private JLabel cardDisplay2;
-	private JLabel cardDisplay3;
-	private JLabel cardDisplay4;
-	private JLabel cardDisplay5;
-	
 	private int numberOfCardsSelected = 0;
 	private boolean playerHasExchangedCards = false;
+	GUIController guiControl;
 
-	private GUIController guiController;
+	JButton btnDeal = new JButton("Deal");
+	JButton btnCardExchange = new JButton("Exchange Cards");
+	JButton btnShowDealerHand = new JButton("Show Dealer Hand");
+
+	static JLabel cardDisplay1;
+	static JLabel cardDisplay2;
+	static JLabel cardDisplay3;
+	static JLabel cardDisplay4;
+	static JLabel cardDisplay5;
+
+	//private GUIController guiControl;
+
+	/*	BufferedImage playingCard1;
+	BufferedImage playingCard2;
+	BufferedImage playingCard3;
+	BufferedImage playingCard4;
+	BufferedImage playingCard5;*/
+
+	//private final int PANEL_WIDTH = 250;
+	//private final int PANEL_HEIGHT = 300;
 	
 	public PlayerHandPanel() {
-		
-		btnDeal = new JButton("Deal");
-		btnCardExchange = new JButton("Exchange Cards");
-		btnShowDealerHand = new JButton("Show Dealer Hand");
 
 		FlowLayout playingCardLayout = new FlowLayout(FlowLayout.CENTER,20,0);
 		setLayout(playingCardLayout);
@@ -113,11 +111,15 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		 */
 
 	}
+	
+	public void repaintPlayerHand() {
+		this.repaint();
+	}
 
 	public void setPlayerCardsToBack() {
 		ImageIcon testCard = new ImageIcon("res/graphics/classic-cards/b2fv.png");
 		
-		cardDisplay1 = (new JLabel(testCard));
+		cardDisplay1 = new JLabel(testCard);
 		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		
 		cardDisplay2 = new JLabel(testCard);
@@ -132,7 +134,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		cardDisplay5 = new JLabel(testCard);
 		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		
-		repaint();
+		repaintPlayerHand();
 	}
 
 	//	public void exchangeCard(JLabel clickedCard) {
@@ -154,14 +156,43 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		g.drawImage(playingCard5, 400, 0, null);*/
 	}
 
+
+
+
+	public void setControl(GUIController guiControl) {
+		this.guiControl = guiControl;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event) {
+		// TODO Auto-generated method stub
+
+	}
+
 	public void mouseReleased(MouseEvent event) {
 		//System.out.println(event.getSource());
 		Boolean actionCarriedOut = false;
 
 		JLabel clickedCard = (JLabel)event.getSource();
 		///setCardDisplay(clickedCard);
-		
-		//if the image displayed is not the back of a card
 		if (!getCardName(clickedCard).contains("b")) {
 			if (!actionCarriedOut && numberOfCardsSelected <=2 && clickedCard.getBorder().getBorderInsets(clickedCard).top == RAISE_HEIGHT) {
 				clickedCard.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -175,7 +206,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 				actionCarriedOut = true;
 			}
 
-			guiController.setPlayerCardsforExchange(numberOfCardsSelected);
+			guiControl.setPlayerCardsforExchange(numberOfCardsSelected);
 			
 //			if (numberOfCardsSelected>0) {
 //				btnCardExchange.setEnabled(true);
@@ -206,31 +237,34 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 			btnDeal.setEnabled(true);
 
 			if (getCardRaisedStatus(cardDisplay1)) {
-				guiController.getNewCard(1);
+				GuiToGameLink.getNewCard("player", 1);
+				setCardDisplay(cardDisplay1, "player", 1);
 			}
 
 			if (getCardRaisedStatus(cardDisplay2)) {
-				guiController.getNewCard(2);
-			}
-			
-			if (getCardRaisedStatus(cardDisplay3)) {
-				guiController.getNewCard(3);
-			}
-			
-			if (getCardRaisedStatus(cardDisplay4)) {
-				guiController.getNewCard(4);
-			}
-			
-			if (getCardRaisedStatus(cardDisplay5)) {
-				guiController.getNewCard(5);
+				GuiToGameLink.getNewCard("player", 2);
+				setCardDisplay(cardDisplay2, "player", 2);
 			}
 
-			guiController.setPlayerCardDisplay();
-			
+			if (getCardRaisedStatus(cardDisplay3)) {
+				GuiToGameLink.getNewCard("player", 3);
+				setCardDisplay(cardDisplay3, "player", 3);
+			}
+
+			if (getCardRaisedStatus(cardDisplay4)) {
+				GuiToGameLink.getNewCard("player", 4);
+				setCardDisplay(cardDisplay4, "player", 4);
+			}
+
+			if (getCardRaisedStatus(cardDisplay5)) {
+				GuiToGameLink.getNewCard("player", 5);
+				setCardDisplay(cardDisplay5, "player", 5);
+			}
+
 			numberOfCardsSelected = 0;
 			playerHasExchangedCards = true;
 
-			guiController.printHand();
+			GuiToGameLink.printHand("player");
 
 			//Timer timer = new Timer();
 			/*		    try {
@@ -255,26 +289,11 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		}
 	}
 
-	public Boolean getCardRaisedStatus(int cardDisplay) {
-		
-		switch (cardDisplay){
-			case 1: return cardDisplay1.getBorder().getBorderInsets(cardDisplay1).top != RAISE_HEIGHT;
-			case 2: return cardDisplay2.getBorder().getBorderInsets(cardDisplay2).top != RAISE_HEIGHT;
-			case 3: return cardDisplay3.getBorder().getBorderInsets(cardDisplay3).top != RAISE_HEIGHT;
-			case 4: return cardDisplay4.getBorder().getBorderInsets(cardDisplay4).top != RAISE_HEIGHT;
-			case 5: return cardDisplay5.getBorder().getBorderInsets(cardDisplay5).top != RAISE_HEIGHT;
-			default: return null;
-			
-		}
-			
-	}
-	/* CHANGED
 	public void setCardDisplay(JLabel cardDisplay, String hand, int cardNumber) {
 		//exchangeCard(cardDisplay);
-		cardDisplay.setIcon(new ImageIcon("res/graphics/classic-cards/" + round.getCardToDisplay(hand, cardNumber) + ".png"));
+		cardDisplay.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay(hand, cardNumber) + ".png"));
 		cardDisplay.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 	}
-	*/
 
 	public String getCardName(JLabel cardDisplay) {
 		return cardDisplay.getIcon().toString().substring(cardDisplay.getIcon().toString().lastIndexOf("/")+1,29);
@@ -296,55 +315,4 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 			return true;
 		}
 	}
-
-	public void setControl(GUIController guiController) {
-		this.guiController = guiController;		
-	}
-
-	public void setCardDisplay(String iconName, int cardDisplay) {
-		
-		switch (cardDisplay){
-		case 1: cardDisplay1.setIcon(new ImageIcon(iconName));
-		case 2: cardDisplay2.setIcon(new ImageIcon(iconName));
-		case 3: cardDisplay3.setIcon(new ImageIcon(iconName));
-		case 4: cardDisplay4.setIcon(new ImageIcon(iconName));
-		case 5: cardDisplay5.setIcon(new ImageIcon(iconName));
-		
-		}
-		
-	}
-	
-	public void setLabelBorders() {
-		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		cardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		cardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		cardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		
-	}
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void mousePressed(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
 }

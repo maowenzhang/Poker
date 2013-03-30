@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import poker.Hand;
-import poker.PlayingCard;
+import pokerOLD.Hand;
+import pokerOLD.PlayingCard;
 
 public class HandEvaluationTest {
 

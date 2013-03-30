@@ -1,11 +1,10 @@
-package pokerfork;
+package game;
 
 import java.util.Collections;
 
-
 @SuppressWarnings("serial")
 public class Hand extends CardStack{
-	
+
 	public static final int HANDSIZE = 5;
 	private String handDescription;
 	private int handScore;
@@ -31,9 +30,15 @@ public class Hand extends CardStack{
 	
 	/* Sorts the hand by card values - ace is high*/
 	public void sort(){
+	
 		Collections.sort(this);
 		Collections.reverse(this);
 	}
+
+	/* 
+	 * Getter method for purpose of evaluating contents of hand
+	 * @return two dimensional array consisting of i)card values, ii) suits
+	 */
 
 ////MAKE THIS OVERRIDE A REQUEST FOR -1 (SO THAT WE CAN CALL CARD'S 1-5, NOT 0-4)
 	public PlayingCard get(int cardPosition) {
@@ -44,25 +49,6 @@ public class Hand extends CardStack{
 	public PlayingCard set(int position, PlayingCard newCard) {
 		return super.set(position, newCard);
 	}
-	
-	/* 
-	 * Getter method for purpose of evaluating contents of hand
-	 * @return two dimensional array consisting of i)card values, ii) suits
-	 */
-/*	public int[][] getHandValue(){
-		
-		int[][] handValue = new int[HANDSIZE][2];
-		
-		for(int i = 0; i < HANDSIZE; i++){
-			
-				handValue[i][0]= get(i).getPlayingCardValue();
-				handValue[i][1]= get(i).getPlayingCardSuit();
-						
-		}
-		
-		return handValue;
-		
-	}*/
 
 	/*
 	 * BECAUSE THIS HAS BEEN SUPERCEDED BY NEW JON VERSION
@@ -124,39 +110,46 @@ public class Hand extends CardStack{
 	public int getHandTypeWeighting() {
 		return this.handTypeWeighting;
 	}
-	
-	
-//
-//	public void setHandDescription(int[] evaluatedHand) {
-//		switch (evaluatedHand[0]) {
-//		case 0:
-//			this.handDescription+= "High Card";
-//			break;
-//		case 1:
-//			this.handDescription = "One Pair (" + evaluatedHand[1] + ")";
-//			break;
-//		case 2:
-//			this.handDescription = "Two Pair (" + evaluatedHand[1] + ")";
-//			break;
-//		case 4:
-//			this.handDescription = "Straight (" + evaluatedHand[1] + " high)";
-//			break;
-//		case 5:
-//			this.handDescription = "Flush";
-//			break;
-//		case 6:
-//			this.handDescription = "Full House (three " + evaluatedHand[1] + "'s)";
-//			break;
-//		case 7:
-//			this.handDescription = "Four of a kind (" + evaluatedHand[1] + ")";
-//			break;
-//		case 8:
-//			this.handDescription = "Straight Flush (" + evaluatedHand[1] + " high)";
-//			break;
-//		default:
-//			this.handDescription = "ERROR";
-//			break;
-//		}
-//	}
+
+	public void setHandDescription(int[] evaluatedHand) {
+		switch (evaluatedHand[0]) {
+		case 0:
+			this.handDescription+= "High Card";
+			break;
+		case 1:
+			this.handDescription = "One Pair (" + evaluatedHand[1] + ")";
+			break;
+		case 2:
+			this.handDescription = "Two Pair (" + evaluatedHand[1] + ")";
+			break;
+		case 4:
+			this.handDescription = "Straight (" + evaluatedHand[1] + " high)";
+			break;
+		case 5:
+			this.handDescription = "Flush";
+			break;
+		case 6:
+			this.handDescription = "Full House (three " + evaluatedHand[1] + "'s)";
+			break;
+		case 7:
+			this.handDescription = "Four of a kind (" + evaluatedHand[1] + ")";
+			break;
+		case 8:
+			this.handDescription = "Straight Flush (" + evaluatedHand[1] + " high)";
+			break;
+		default:
+			this.handDescription = "ERROR";
+			break;
+		}
+	}
+
+	public PlayingCard getCard(int cardPosition) {
+		return this.get(cardPosition);
+	}
+
+	public int getCardToDisplay(int cardNumber) {
+		int cardValue = ((getCard(cardNumber-1).getPlayingCardSuit()-1)*13) + getCard(cardNumber-1).getPlayingCardValue();
+		return cardValue;
+	}
 	
 }

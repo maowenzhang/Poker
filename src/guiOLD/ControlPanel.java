@@ -1,5 +1,4 @@
-package gui;
-
+package guiOLD;
 
 import java.awt.FlowLayout;
 import java.awt.Frame;
@@ -13,8 +12,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import pokerLauncher.Poker;
-import pokerLauncher.Round;
+import pokerLauncherOLD.GUIController;
+import pokerLauncherOLD.GuiToGameLink;
+import pokerLauncherOLD.Poker;
+import pokerOLD.EvaluatorTOM;
 
 public class ControlPanel extends JPanel implements ActionListener {
 
@@ -25,7 +26,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	JButton btnScoreHands = new JButton("Score Hands");
 	private boolean playerHasExchangedCards = false;
 
-	private GUIController guiController;
+	private GUIController guiControl;
 
 	public ControlPanel() {
 		FlowLayout controlPanelLayout = new FlowLayout(FlowLayout.CENTER,20,0);
@@ -48,7 +49,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 	}
 
 	public void setControl(GUIController guiControl) {
-		this.guiController = guiControl;
+		this.guiControl = guiControl;
 	}
 
 	@Override
@@ -56,17 +57,18 @@ public class ControlPanel extends JPanel implements ActionListener {
 		//JButton clickedButton = (JButton)actionEvent.getSource();
 
 		if (actionEvent.getActionCommand().equals("Deal")) {
-			
-			guiController.printHand();
-			
 			btnDeal.setEnabled(false);
-			//btnCardExchange.setEnabled(true);
+			//btnCardExchange.setEnabled(false);
 			//System.out.println("test: " + this.p);
 
 			btnDeal.setEnabled(false);
 			//btnCardExchange.setEnabled(true);
 
-			guiController.setPlayerCardDisplay();
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay1, "player", 1);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay2, "player", 2);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay3, "player", 3);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay4, "player", 4);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay5, "player", 5);
 
 			btnShowDealerHand.setEnabled(true);
 		}
@@ -74,21 +76,23 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 		if (actionEvent.getActionCommand().equals("Exchange Cards")) {
 			exchangePlayerCards();
-			
 
-			//-TOM NEW--------------------------------------------------------------------------------------------------------------------------------
+
+
+			//---------------------------------------------------------------------------------------------------------------------------------
 
 			JOptionPane.showMessageDialog(this,"Dealer will now exchange cards...",
 					"Dealer",
 					JOptionPane.OK_OPTION);
 
-			guiController.dealerExchange();
+			GuiToGameLink.dealerExchange();
 
 			try {
 				Thread.sleep(2000);
 			} catch(InterruptedException e) {
 			} 
 			//---------------------------------------------------------------------------------------------------------------------------------
+
 
 		}
 
@@ -108,34 +112,38 @@ public class ControlPanel extends JPanel implements ActionListener {
 		}
 
 		if (actionEvent.getActionCommand().equals("Score Hands")) {
-			String[] results = guiController.getScore();
+
+			String[] results = GuiToGameLink.evaluateHands();
 
 			JOptionPane.showMessageDialog(this, results[0] + "\n" + results[1] + "\n\n" + results[2] + " has won the round!",
 					"Results",
 					JOptionPane.OK_OPTION);
 
-			if (JOptionPane.showConfirmDialog(this, "Player score is: " + guiController.getPlayerScore() + "\nDealer score is: " + guiController.getDealerScore() + "\n\nDo you want to play another round?\nWell, do ya, punk?",
+			if (JOptionPane.showConfirmDialog(this, "Player score is: " + GuiToGameLink.getPlayerScore() + "\nDealer score is: " + GuiToGameLink.getDealerScore() + "\n\nDo you want to play another round?\nWell, do ya, punk?",
 					"Another Round?",
 					JOptionPane.YES_NO_OPTION) == 0) {
 				// RESET GAME
 				//int temp = 3;
 				//temp=54;
-				guiController.setPlayerCardsToBack();
+				guiControl.setPlayerCardsToBack();
 				//PlayerHandPanel.
 				this.repaint();
 			} else {
-				
-				//tell round to exit instead
 				System.exit(0);
 			}
 
 		}
 	}
 
+	public static void setPlayerCardsToBack() {
+		// TODO Auto-generated method stub
+
+	}
+
 	private void showDealerHand() {
 		btnCardExchange.setEnabled(false);
 		btnShowDealerHand.setEnabled(false);
-		guiController.showDealerHand();
+		guiControl.showDealerHand();
 		btnScoreHands.setEnabled(true);
 	}
 
@@ -143,31 +151,35 @@ public class ControlPanel extends JPanel implements ActionListener {
 		btnCardExchange.setEnabled(false);
 		//btnDeal.setEnabled(true);
 
-		if (guiController.getCardRaisedStatus(1)) {
-			guiController.getNewCard(1);
+		if (guiControl.getCardRaisedStatus(PlayerHandPanel.cardDisplay1)) {
+			GuiToGameLink.getNewCard("player", 1);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay1, "player", 1);
 		}
 
-		if (guiController.getCardRaisedStatus(2)) {
-			guiController.getNewCard(2);
+		if (guiControl.getCardRaisedStatus(PlayerHandPanel.cardDisplay2)) {
+			GuiToGameLink.getNewCard("player", 2);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay2, "player", 2);
 		}
 
-		if (guiController.getCardRaisedStatus(3)) {
-			guiController.getNewCard(3);
+		if (guiControl.getCardRaisedStatus(PlayerHandPanel.cardDisplay3)) {
+			GuiToGameLink.getNewCard("player", 3);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay3, "player", 3);
 		}
 
-		if (guiController.getCardRaisedStatus(4)) {
-			guiController.getNewCard(4);
+		if (guiControl.getCardRaisedStatus(PlayerHandPanel.cardDisplay4)) {
+			GuiToGameLink.getNewCard("player", 4);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay4, "player", 4);
 		}
 
-		if (guiController.getCardRaisedStatus(5)) {
-			guiController.getNewCard(5);
+		if (guiControl.getCardRaisedStatus(PlayerHandPanel.cardDisplay5)) {
+			GuiToGameLink.getNewCard("player", 5);
+			guiControl.setCardDisplay(PlayerHandPanel.cardDisplay5, "player", 5);
 		}
-		
-		guiController.setPlayerCardDisplay();
-		guiController.setPlayerCardsforExchange(0);
+
+		guiControl.setPlayerCardsforExchange(0);
 		playerHasExchangedCards = true;
 
-		guiController.printHand();
+		GuiToGameLink.printHand("player");
 	}
 
 	public void exchangeBtnEnable() {

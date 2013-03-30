@@ -1,4 +1,4 @@
-package gui;
+package guiOLD;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -36,7 +36,10 @@ public class BackgroundPanel extends JPanel {
 			table = new BackgroundComponent();
 			
 			table.setPreferredSize(new Dimension(PANEL_WIDTH,PANEL_HEIGHT));
-
+			//this.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
+			
+			//add(table);
+		
 		}
 	
 
@@ -45,11 +48,8 @@ public class BackgroundPanel extends JPanel {
 	
 	@Override
     public void paintComponent(Graphics g) {
-		
         super.paintComponent(g);
-        
         g.drawImage(carpet, 0, 0, null);
-        
     }
 
 }

@@ -1,10 +1,6 @@
-package pokerfork;
-
-
+package game;
 
 import java.util.Random;
-
-import pokerfork.PlayingCard;
 
 @SuppressWarnings("serial")
 public class Deck extends CardStack{

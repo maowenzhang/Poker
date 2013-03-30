@@ -1,5 +1,4 @@
-package gui;
-
+package guiOLD;
 
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -9,8 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import pokerLauncher.Round;
-
+import pokerLauncherOLD.GuiToGameLink;
 
 public class DealerHandPanel extends JPanel {
 
@@ -26,7 +24,6 @@ public class DealerHandPanel extends JPanel {
 	JLabel testCardDisplay3;
 	JLabel testCardDisplay4;
 	JLabel testCardDisplay5;
-	private GUIController guiController;
 
 	public DealerHandPanel() {
 
@@ -60,27 +57,10 @@ public class DealerHandPanel extends JPanel {
 	}
 
 	public void showDealerHand() {
-		
-		guiController.setDealerCardDisplay();
-
-	}
-
-	public void setControl(GUIController guiController) {
-		this.guiController = guiController;
-		
-	}
-
-	public void setCardDisplay(String iconName, int cardDisplay) {
-		
-			switch (cardDisplay){
-			case 1: testCardDisplay1.setIcon(new ImageIcon(iconName));
-			case 2: testCardDisplay2.setIcon(new ImageIcon(iconName));
-			case 3: testCardDisplay3.setIcon(new ImageIcon(iconName));
-			case 4: testCardDisplay4.setIcon(new ImageIcon(iconName));
-			case 5: testCardDisplay5.setIcon(new ImageIcon(iconName));
-			
-			
-			
-		}
+		testCardDisplay1.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 1) + ".png"));
+		testCardDisplay2.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 2) + ".png"));
+		testCardDisplay3.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 3) + ".png"));
+		testCardDisplay4.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 4) + ".png"));
+		testCardDisplay5.setIcon(new ImageIcon("res/graphics/classic-cards/" + GuiToGameLink.getCardToDisplay("dealer", 5) + ".png"));
 	}
 }

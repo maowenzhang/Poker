@@ -1,14 +1,16 @@
-package pokerLauncher;
+package pokerLauncherOLD;
 
-import gui.PokerFrame;
+import guiOLD.PokerFrame;
 
 import javax.swing.JFrame;
 
-public class Poker {
-	
-	public static void main(String[] args) {
 
-		PokerFrame frame = new PokerFrame();
+public class Poker {
+
+	public static void main(String[] args) {
+		GuiToGameLink.initialise();
+		
+		JFrame frame = new PokerFrame();
 		
 		frame.setTitle("Poker");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -16,5 +18,5 @@ public class Poker {
 		frame.setVisible(true);
 	
 	}
-	
+
 }
