@@ -5,8 +5,14 @@ import java.util.logging.Logger;
 
 /**
  * 
- * A "Smart" dealer AI, if we do say so ourselves. Depending on its hand value, it acts in different ways
- * - sometimes it will discard nothing, but then it will 
+ * A "Smart" dealer AI, if we do say so ourselves. Depending on its hand type, it acts in different ways
+ * - sometimes it will discard nothing, but at other points it looks at the CardMatcher (built by the Evaluator).
+ * The cardMatcher marks which cards are not being used in a scoring hand at present, and could be exchanged.
+ * It then weighs each of these against its "dealer aggression" weighting. This is the value of cards above which it will
+ * not exchange, making the dealer more or less conservative.
+ * 
+ * An extension of this project would be to make the dealeraggression factor load dynamically
+ * from the properties file (and be set-able by player)
  *
  */
 public class DealerAISmart extends DealerAI{
