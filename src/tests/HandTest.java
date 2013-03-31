@@ -26,7 +26,8 @@ public class HandTest {
 
 	}
 	
-/*	@Test
+/* DEPRECATED TEST
+ * @Test
 	public void getHandValueTest() {
 		
 		int [] expectedCardValues = new int[Hand.HANDSIZE];

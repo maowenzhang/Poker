@@ -9,21 +9,13 @@ public class GameController extends Observable {
 	private int roundNumber = 0;
 
 	IsPlayerTurn isPlayerTurn;
-	/*
-	boolean dealHands = false;
-	boolean exchangeCards = false;
-	boolean showDealerHand = false;
-	boolean scoreHands = false;
-	 */
-
+	
 	/**
-	 * Broadcasts that t
+	 * creates player turn object - will begin game set to player turn
 	 */
 	public GameController(){ 
 
 		isPlayerTurn = new IsPlayerTurn();
-		//setChanged();
-		//notifyObservers(isPlayerTurn);
 	}
 
 	public void displayHand(){
@@ -109,7 +101,6 @@ public class GameController extends Observable {
 		}
 
 		public ExchangeCards() {
-			//pretty much unnecessary but stops an error if isPlayerTurn is wrongly set on CardController
 			cardsToExchange = new boolean[1];
 			cardsToExchange[0] = false;
 		}

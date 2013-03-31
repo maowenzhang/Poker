@@ -7,7 +7,7 @@ import game.PlayingCard;
 public class PlayingCardTest {
 
 	/**
-	 *  testing whether the compareTo method works correctly
+	 *  testing whether the Playing Card compareTo method works correctly
 	 */  
 	@Test
 	public void compareToTest() {

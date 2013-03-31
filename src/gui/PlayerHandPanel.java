@@ -72,24 +72,12 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		add(cardDisplay4);
 		add(cardDisplay5);
 
-		//JLabel spacer = new JLabel(new ImageIcon("res/graphics/classic-cards/b2fv.png"));
-		//spacer.setSize(500, 50);
-		//spacer.setBorder(BorderFactory.createEmptyBorder(0, 200, 0, 200));
-		//spacer.setVisible(false);
-		//add(spacer);
-
 		btnDeal.addActionListener(this);
-		//btnDeal.setBorder(BorderFactory.createEmptyBorder(100, 50, 50, 50));
-		//add(btnDeal);
-
 		btnCardExchange.addActionListener(this);
-		//btnCardExchange.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		btnCardExchange.setEnabled(false);
-		//add(btnCardExchange);
 
 		btnShowDealerHand.addActionListener(this);
 		btnShowDealerHand.setEnabled(false);
-		//add(btnShowDealerHand);
 
 	}
 
@@ -132,13 +120,10 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	 * Mouse release raises cards for exchange - only three cards can be raised
 	 */
 
-	//CAN WE MAKE THIS A LITTLE CLEARER?
 	public void mouseReleased(MouseEvent event) {
-		//System.out.println(event.getSource());
 		Boolean actionCarriedOut = false;
 
 		JLabel clickedCard = (JLabel)event.getSource();
-		///setCardDisplay(clickedCard);
 
 		//if the image displayed is not the back of a card
 		if (!getCardName(clickedCard).contains("b")) {
@@ -187,7 +172,6 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 	public String getCardName(JLabel cardDisplay) {
 		return cardDisplay.getIcon().toString().substring(cardDisplay.getIcon().toString().lastIndexOf("/")+1,29);
-		//return "" + cardDisplay.getIcon().toString().lastIndexOf("/");
 	}
 
 	/**
@@ -217,7 +201,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	}
 
 	/**
-	 *  TOM ANNOTATE
+	 *  reset player card positions
 	 */
 	public void setLabelBorders() {
 		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));

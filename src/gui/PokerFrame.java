@@ -5,8 +5,6 @@ import game.CardController;
 import java.awt.BorderLayout;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Properties;
-
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JOptionPane;
@@ -90,19 +88,15 @@ public class PokerFrame extends JFrame{
 
 		backgroundPanel.setBackground(null);
 		backgroundPanel.setBounds(0, 0, FRAME_WIDTH, FRAME_HEIGHT);
-		//backgroundPanel.setOpaque(true);
 
-		//playerHandPanel.setBackground(Color.blue); // comment out line for proper display
 		playerHandPanel.setBounds(400, 340, 500, 500);
-		playerHandPanel.setOpaque(false); // change to "false" for proper display
-		//playerHandPanel.setCardDisplay1(cardDisplay);
+		playerHandPanel.setOpaque(false);
 
 		dealerHandPanel.setBounds(400, 190, 500, 200);
-		dealerHandPanel.setOpaque(false); // change to "false" for proper display
+		dealerHandPanel.setOpaque(false);
 
-		//controlPanel.setBackground(Color.green); // comment out line for proper display
 		controlPanel.setBounds(300, 650, 700, 30);
-		controlPanel.setOpaque(false); // change to "false" for proper display
+		controlPanel.setOpaque(false);
 
 		basePane.add(backgroundPanel, new Integer(0), 0);
 		basePane.add(playerHandPanel, new Integer(1), 0);
@@ -113,22 +107,7 @@ public class PokerFrame extends JFrame{
 		setSize(FRAME_WIDTH, FRAME_HEIGHT);
 		setLocationRelativeTo(null);
 		this.setResizable(false);
-		//Dimension screenDimension = Toolkit.getDefaultToolkit().getScreenSize();
-		//this.setLocation(screenDimension.width/2-this.getSize().width/2, screenDimension.height/2-this.getSize().height/2);
 		setVisible(true);
-
-
-
-		//setLayout(new FlowLayout());
-
-		//backgroundPanel = new BackgroundPanel();
-		//playerHandPanel = new PlayerHandPanel();
-		//(backgroundPanel);
-		//add(playerHandPanel);
-
-		//PlayerHandPanel = new PlayerHandPanel();
-		//add(PlayerHandPanel);
-
 	}
 
 	/**
@@ -138,7 +117,6 @@ public class PokerFrame extends JFrame{
 
 		guiController = new GUIController();
 
-		// THIS IS THE IMPORTANT LINE!!
 		controlPanel.setControl(guiController);
 		dealerHandPanel.setControl(guiController);
 		playerHandPanel.setControl(guiController);
@@ -159,8 +137,6 @@ public class PokerFrame extends JFrame{
 		cardController.setControl(guiController);
 
 		gameController.newRound();
-		//gameController.setScoreHands(true);
-		//System.out.println(gameController.countObservers());
 
 	}
 
