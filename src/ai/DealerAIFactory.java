@@ -3,13 +3,17 @@ package ai;
 import java.io.FileInputStream;
 import java.util.Properties;
 
+/**
+ * 
+ * Factory to construct DealerAI. Reads configuration file to determine at runtime which AI to use - loads appropriate class.
+ *
+ */
 public class DealerAIFactory {
 
 	private Properties aiType;
 	private DealerAI dealerAI = null;
 	private static DealerAIFactory me = null;
 
-	//MAKE THIS PRIVATE WHEN YOU'RE DONE WITH IT
 	private DealerAIFactory(){
 		aiType = new Properties();
 		try {
@@ -21,12 +25,15 @@ public class DealerAIFactory {
 			e.printStackTrace();
 		}	
 	}
+	
 	static{
 		me = new DealerAIFactory();
 	}
+	
 	public static DealerAIFactory getMe(){
 		return me;
 	}
+	
 	public DealerAI getDealerAI(){
 		return dealerAI;
 	}

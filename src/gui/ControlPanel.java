@@ -213,11 +213,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 		if (JOptionPane.showConfirmDialog(this, "Player score is: " + gameController.getPlayerPoints() + "\nDealer score is: " + gameController.getDealerPoints() + "\nDo you want to play another round?\nWell, do ya, punk?",
 				"Another Round?",
 				JOptionPane.YES_NO_OPTION) == 0) {
-			// RESET GAME
-			//int temp = 3;
-			//temp=54;
 			guiController.setPlayerCardsToBack();
-			//PlayerHandPanel.
 			this.repaint();
 			gameController.newRound();
 			}

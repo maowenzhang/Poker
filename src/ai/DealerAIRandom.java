@@ -2,6 +2,13 @@ package ai;
 
 import java.util.Random;
 
+/**
+ * 
+ * A Dealer "AI" which picks up to 3 cards entirely at random to exchange.
+ * 
+ * Not a worthy opponent.
+ *
+ */
 public class DealerAIRandom extends DealerAI{
 
 	@Override

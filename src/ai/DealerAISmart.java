@@ -1,9 +1,14 @@
 package ai;
 
 import game.Evaluator;
-
 import java.util.logging.Logger;
 
+/**
+ * 
+ * A "Smart" dealer AI, if we do say so ourselves. Depending on its hand value, it acts in different ways
+ * - sometimes it will discard nothing, but then it will 
+ *
+ */
 public class DealerAISmart extends DealerAI{
 
 	private int dealerAggression; //value under which smart dealer will swap cards. setting high makes dealer very conservative, setting low makes dealer very aggreesive (likely to change)
@@ -64,16 +69,4 @@ public class DealerAISmart extends DealerAI{
 			}
 		}
 	}
-	
-
-	//		public void setControl(CardController cardController) {
-	//			this.cardController = cardController;
-	//		}
-
-
-
-
 }
-
-
-
