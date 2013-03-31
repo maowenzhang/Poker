@@ -46,7 +46,7 @@ public class DealerAITest {
 
 		//GuiToGameLink.printHand("testHand");
 		
-		DealerAI dealerAI = new DealerAI(testHand);
+		DealerAI dealerAI = new DealerAI(testHand, testDeck);
 		
 		//GuiToGameLink.printHand("testHand");
 	}

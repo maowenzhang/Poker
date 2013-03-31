@@ -2,6 +2,8 @@ package ai;
 
 import java.util.Random;
 import java.util.logging.Logger;
+
+import game.Deck;
 import game.Hand;
 import game.CardController;
 import game.Evaluator;
@@ -12,7 +14,7 @@ import game.Evaluator;
  *
  */public class DealerAI {
 
-	CardController gameController;
+	//CardController cardController;
 
 	private int numOfCardsChanged;
 	private String aiFeedback;
@@ -22,12 +24,15 @@ import game.Evaluator;
 	/**
 	 * constructor evaluates the dealer's hand
 	 * TOM ANNOTATE
+	 * @param deck 
 	 * @param the dealer's hand
 	 */
-	public DealerAI(Hand hand) {
+	public DealerAI(Hand hand, Deck deck) {
 
-		gameController = new CardController();
-
+		//this.setControl(cardController);
+		//cardController = new CardController();
+		
+		
 		hand.evaluate();
 		hand.getHandScore();
 
@@ -52,7 +57,7 @@ import game.Evaluator;
 						cardToChange = generator.nextInt(cardsInHand.length-1);
 					} while (cardsInHand[cardToChange] == 0);
 
-					hand.set(cardsInHand[cardToChange], gameController.dealCard());
+					hand.set(cardsInHand[cardToChange], deck.dealCard());
 					setNumOfCardsChanged(getNumOfCardsChanged()+1);
 
 					cardsInHand[cardToChange] = 0;
@@ -102,6 +107,10 @@ import game.Evaluator;
 		//GuiToGameLink.printHand("dealer");
 	}
 
+//	public void setControl(CardController cardController) {
+//		this.cardController = cardController;
+//	}
+
 	private void setNumOfCardsChanged(int numOfCardsChanged) {
 		this.numOfCardsChanged = numOfCardsChanged;
 	}
@@ -117,5 +126,6 @@ import game.Evaluator;
 	public String getAiFeedback() {
 		return aiFeedback;
 	}
+
 
 }

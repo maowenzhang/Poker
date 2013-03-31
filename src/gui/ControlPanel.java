@@ -82,13 +82,13 @@ public class ControlPanel extends JPanel implements ActionListener {
 			//guiController.printHand();
 
 			btnDeal.setEnabled(false);
+			//game controller knows which hand to display, because at game start, it is set to 'player'.
 			gameController.displayHand();
 			btnShowDealerHand.setEnabled(true);
 		}
 
 
 		if (actionEvent.getActionCommand().equals("Exchange Cards")) {
-			
 			gameController.exchangeCards(exchangePlayerCards());
 			gameController.changeTurn();
 			
@@ -101,7 +101,7 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 
 			//---------------------------------------------------------------------------------------------------------------------------------
-
+			
 		}
 		//CHANGE OF TURN IS ASYNCHRONOUS (DEPENDING ON WHAT BUTTONS GET PRESSED
 		if (actionEvent.getActionCommand().equals("Show Dealer Hand")) {

@@ -18,7 +18,7 @@ public class GUIController implements Observer{
 	private int playerCardsForExchange = 0;
 	private final int RAISE_HEIGHT = 80;
 	
-	private boolean isPlayerTurn = true;
+	private boolean isPlayerTurn;
 
 	/**
 	 * setter method - enables GUI controller to see player hand panel
@@ -55,6 +55,7 @@ public class GUIController implements Observer{
 			controlPanel.exchangeBtnEnable();
 		} else {
 			controlPanel.exchangeBtnDisable();
+			playerHandPanel.setLabelBorders();
 		}
 	}
 
@@ -183,9 +184,7 @@ public class GUIController implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(arg instanceof IsPlayerTurn){
-			if(((IsPlayerTurn) arg).getIsPlayerTurn());{
-			isPlayerTurn = !isPlayerTurn;	
-			}
+			this.isPlayerTurn = ((IsPlayerTurn) arg).getIsPlayerTurn();
 		}
 	}
 

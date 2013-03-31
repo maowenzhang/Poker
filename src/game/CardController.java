@@ -34,14 +34,15 @@ public class CardController implements Observer{
 	//---------------------------------------------------------------------------------------------------------------------------------
 
 	private GameController gameController;
-	private boolean isPlayerTurn = true;
+	private boolean isPlayerTurn;
 
 	/**
 	 * constructor generates the deck and player's and dealer's hands; using the deck to deal cards to both hands
+	 * Sets local variable
 	 */
-	public CardController(){
-		refreshGame();
-	}
+//	public CardController(){
+//		refreshGame();
+//	}
 
 	/**
 	 * generates a new deck and player's and dealer's hands; using the deck to deal cards to both hands
@@ -51,7 +52,7 @@ public class CardController implements Observer{
 		deck = new Deck();
 		playerHand = new Hand(deck);
 		dealerHand = new Hand(deck);
-		
+
 	}
 
 	/**
@@ -85,7 +86,7 @@ public class CardController implements Observer{
 		if(player){
 
 			handDescription = playerHand.getHandDescription();
-			
+
 		}
 
 		else if (player){
@@ -97,48 +98,46 @@ public class CardController implements Observer{
 
 	}
 
-	
+
 	@Override
 	public void update(Observable obj, Object arg) {
 		if(arg instanceof DealHands){
 			getCardsToDisplay();
 		}
-		
+
 		if(arg instanceof ExchangeCards){
-				exchangeCards(((ExchangeCards) arg).getCardsToExchange());
+			exchangeCards(((ExchangeCards) arg).getCardsToExchange());
 		}
-		
+
 		if(arg instanceof IsPlayerTurn){
-			if(((IsPlayerTurn) arg).getIsPlayerTurn());{
-			isPlayerTurn = !isPlayerTurn;	
-			}
+			this.isPlayerTurn = ((IsPlayerTurn) arg).getIsPlayerTurn();
 		}
-		
+
 		if(arg instanceof ScoreHands){
 			scoreRound();
 		}
-		
+
 		if(arg instanceof Integer){
 			//send message to control panel to say begin round [+ new round number]??
 			refreshGame();
 			guiController.refreshGame();
 		}
-		
+
 		if(arg instanceof ShowDealerHand){
 			guiController.setCardDisplay(dealerHand.getCardsToDisplay());
 		}
 	}
-	
-	
+
+
 	public void scoreRound() {
 
 		String[] results = new String[3];
-		
+
 		evaluateHands();
 
 		int playerHandScore = getPlayerHandScore(true);
 		int dealerHandScore = getPlayerHandScore(false);
-		
+
 		results[0] = "Player has: " + getPlayerHandDescription(true);
 		results[1] = "Dealer has: " + getPlayerHandDescription(false);
 
@@ -157,7 +156,7 @@ public class CardController implements Observer{
 		if(isPlayerTurn){
 			int i = 0;
 			for (boolean element : cardsToExchange){
-				
+
 				if(element){
 					getNewCard(i);
 				}
@@ -165,15 +164,23 @@ public class CardController implements Observer{
 			}
 			guiController.setCardDisplay(playerHand.getCardsToDisplay());
 		}
-			else{
-				DealerAI dealerAI = new DealerAI(dealerHand);
-				setDealerSwapNum(dealerAI.getNumOfCardsChanged());
-				
-				guiController.setDealerSwapNum(getDealerSwapNum());
-				guiController.setDealerCardSwapMessage(getDealerSwapNum());
-			}
-		
+		else{
+			DealerAI dealerAI = new DealerAI(dealerHand, deck);
+			//this.setControl(dealerAI);
+			//dealerAI.setControl(this);
+			
+			
+			setDealerSwapNum(dealerAI.getNumOfCardsChanged());
+
+			guiController.setDealerSwapNum(getDealerSwapNum());
+			guiController.setDealerCardSwapMessage(getDealerSwapNum());
+		}
+
 	}
+
+//	private void setControl(DealerAI dealerAI) {
+//		this.dealerAI = dealerAI;
+//	}
 
 	/**
 	 * asks round which hand to look at, before asking this hand to replace a certain card with a new card from the deck
@@ -195,8 +202,8 @@ public class CardController implements Observer{
 	 * @param which card to look at within the hand (1-5)
 	 * @return the unique value of a card within the hand
 	 */
-	
-	
+
+
 	//NEW
 	//could this be an array of all the cards?
 	public void getCardsToDisplay() {
@@ -228,7 +235,7 @@ public class CardController implements Observer{
 
 	public void setControl(GUIController guiController) {
 		this.guiController = guiController;
-		
+
 	}
 
 
@@ -237,7 +244,5 @@ public class CardController implements Observer{
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------
-
-
 }
 
