@@ -3,8 +3,13 @@ package gui;
 import game.CardController;
 
 import java.awt.BorderLayout;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.util.Properties;
+
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
 
 import pokerLauncher.GameController;
 
@@ -18,13 +23,13 @@ public class PokerFrame extends JFrame{
 	private static final long serialVersionUID = 1L;
 	final int FRAME_WIDTH = 1280;
 	final int FRAME_HEIGHT = 800;
-	
+
 	JLayeredPane basePane;
 	BackgroundPanel backgroundPanel;
 	PlayerHandPanel playerHandPanel;
 	DealerHandPanel dealerHandPanel;
 	ControlPanel controlPanel;
-	
+
 	GUIController guiController;
 	CardController cardController;
 	GameController gameController;
@@ -33,17 +38,45 @@ public class PokerFrame extends JFrame{
 	 * constructs a poker frame with all the various panels on it and establishes visibility between the panels
 	 */
 	public PokerFrame(){
-		
+
 		basePane = new JLayeredPane();
 		backgroundPanel = new BackgroundPanel();
 		playerHandPanel = new PlayerHandPanel();
 		dealerHandPanel = new DealerHandPanel();
 		controlPanel = new ControlPanel();
-		
+
 		drawGameLayout();
-		
+
 		establishController();
-		
+
+		try {
+			infoBox();
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+
+	public void infoBox() throws IOException
+	{
+		String configSetting = "AI=DealerAISmart";
+
+		Object response = JOptionPane.showInputDialog(this,
+				"Which computer AI would you like to play against?",
+				"Select an intelligence:", JOptionPane.QUESTION_MESSAGE,
+				null, new String[] { "Smart Computer", "Random Computer"},"Smart Computer");
+
+		if (response != null){	
+			if(response.toString().equalsIgnoreCase("Random Computer")){
+				configSetting = "AI=DealerAIRandom";	
+			}
+
+		}
+		PrintStream configWriter = new PrintStream("properties/dealerAI.properties");
+		configWriter.print(configSetting);
+
 	}
 
 	/**
@@ -97,38 +130,38 @@ public class PokerFrame extends JFrame{
 		//add(PlayerHandPanel);
 
 	}
-	
+
 	/**
 	 * establishes visibility between the various panels and the GUI controller
 	 */
 	public void establishController(){
-		
+
 		guiController = new GUIController();
 
 		// THIS IS THE IMPORTANT LINE!!
 		controlPanel.setControl(guiController);
 		dealerHandPanel.setControl(guiController);
 		playerHandPanel.setControl(guiController);
-		
+
 		guiController.setControlPanel(controlPanel);
 		guiController.setPlayerHandPanel(playerHandPanel);
 		guiController.setDealerHandPanel(dealerHandPanel);
-		
+
 		cardController = new CardController();
 		gameController = new GameController();
-		
+
 		gameController.addObserver(guiController);
 		gameController.addObserver(cardController);
-		
+
 		controlPanel.setControl(gameController);
 		cardController.setControl(gameController);
-		
+
 		cardController.setControl(guiController);
-		
+
 		gameController.newRound();
 		//gameController.setScoreHands(true);
 		//System.out.println(gameController.countObservers());
-		
+
 	}
 
 }

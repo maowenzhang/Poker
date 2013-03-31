@@ -1,11 +1,12 @@
 package tests;
 
+import old.DealerAI;
+
 import org.junit.Test;
 import game.Deck;
 import game.Evaluator;
 import game.Hand;
 import game.PlayingCard;
-import ai.DealerAI;
 
 public class DealerAITest {
 

@@ -6,13 +6,15 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
+import ai.DealerAI;
+import ai.DealerAIFactory;
+
 import pokerLauncher.GameController;
 import pokerLauncher.GameController.DealHands;
 import pokerLauncher.GameController.ScoreHands;
 import pokerLauncher.GameController.IsPlayerTurn;
 import pokerLauncher.GameController.ShowDealerHand;
 import pokerLauncher.GameController.ExchangeCards;
-import ai.DealerAI;
 
 //QUESTION - SHOULDNT CardController have visibility of Evaluate to decouple it from Hand?
 
@@ -134,11 +136,15 @@ public class CardController implements Observer{
 			guiController.setCardDisplay(playerHand.getCardsToDisplay());
 		}
 		else{
-			DealerAI dealerAI = new DealerAI(dealerHand, deck);
+			DealerAIFactory dealerAIFactory = DealerAIFactory.getMe();
+			
+			dealerAI = (DealerAI) dealerAIFactory.getDealerAI();
+			dealerAI.setHand(dealerHand);
+			dealerAI.setDeck(deck);
+			dealerAI.evaluate();
+			
 			//this.setControl(dealerAI);
 			//dealerAI.setControl(this);
-
-
 			setDealerSwapNum(dealerAI.getNumOfCardsChanged());
 
 			guiController.setDealerCardSwapMessage(getDealerSwapNum());

@@ -20,6 +20,7 @@ public class DealerHandPanel extends JPanel {
 	JLabel CardDisplay3;
 	JLabel CardDisplay4;
 	JLabel CardDisplay5;
+	JLabel test;
 	private GUIController guiController;
 
 	/**
@@ -35,6 +36,8 @@ public class DealerHandPanel extends JPanel {
 		CardDisplay3 = new JLabel();
 		CardDisplay4 = new JLabel();
 		CardDisplay5 = new JLabel();
+		
+		test = new JLabel();
 		
 		resetDealerHandDisplay();
 
