@@ -42,7 +42,7 @@ public class DeckTest {
 		for(int i = 1; i<=correctDeckSize; i++){
 			
 			PlayingCard deckCard =  testDeck2.dealCard();
-			
+			System.out.println(deckCard.getPlayingCardFullName());
 			if(randomCard.getPlayingCardFullName().equals(deckCard.getPlayingCardFullName())){
 				
 				numberOfMatches++;

@@ -47,30 +47,6 @@ public class Hand extends CardStack{
 		Collections.reverse(this);
 	}
 
-	/** returns the card situated at the requested index 
-	 * @param the index of the card position
-	 * @return a playing card
-	 */
-////MAKE THIS OVERRIDE A REQUEST FOR -1 (SO THAT WE CAN CALL CARD'S 1-5, NOT 0-4)
-	public PlayingCard get(int cardPosition) {
-		return super.get(cardPosition);
-	}
-	/** 
-	 * TOM ANNOTATE
-	 */
-////MAKE THIS OVERRIDE A REQUEST FOR -1 (SO THAT WE CAN CALL CARD'S 1-5, NOT 0-4)
-	public PlayingCard set(int position, PlayingCard newCard) {
-		return super.set(position, newCard);
-	}
-
-	/*
-	 * BECAUSE THIS HAS BEEN SUPERCEDED BY NEW JON VERSION
-	 * 
-	 * public int[] evaluate() {
-		int[] evaluatedHand = EvaluatorTOM.getHandValue(this);
-		setHandDescription(evaluatedHand);
-		return evaluatedHand;
-	}*/
 
 	/**
 	 * asks evaluator to evaluate hand and calls methods to .... TOM ANNOTATE
@@ -211,10 +187,16 @@ public class Hand extends CardStack{
 	 * @param the index position within the hand
 	 * @return the unique value of the card
 	 */
-	public int getCardToDisplay(int cardNumber) {
+
+	public int[] getCardsToDisplay() {
+		int[] cardsToDisplay = new int[5];
 		//This calculation creates a unique numeric value that can be used by the GUI to determine which card to display
-		int cardValue = ((getCard(cardNumber-1).getPlayingCardSuit()-1)*13) + getCard(cardNumber-1).getPlayingCardValue();
-		return cardValue;
+		int i = 0;
+		for (PlayingCard element : this){
+			cardsToDisplay[i] = ((element.getPlayingCardSuit()-1)*13) + element.getPlayingCardValue();
+			i++;
+		}
+		return cardsToDisplay;
 	}
 	
 }

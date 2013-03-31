@@ -34,8 +34,6 @@ public class ControlPanel extends JPanel implements ActionListener {
 		FlowLayout controlPanelLayout = new FlowLayout(FlowLayout.CENTER,20,0);
 		setLayout(controlPanelLayout);
 
-		gameController = new GameController();
-
 		btnDeal.addActionListener(this);
 		add(btnDeal);
 
@@ -50,6 +48,16 @@ public class ControlPanel extends JPanel implements ActionListener {
 		btnScoreHands.addActionListener(this);
 		btnScoreHands.setEnabled(false);
 		add(btnScoreHands);
+		
+	}
+	
+	public void refresh(){
+		playerHasExchangedCards = false;
+		
+		btnDeal.setEnabled(true);
+		btnCardExchange.setEnabled(false);
+		btnShowDealerHand.setEnabled(false);
+		btnScoreHands.setEnabled(false);
 	}
 
 	/**
@@ -71,78 +79,53 @@ public class ControlPanel extends JPanel implements ActionListener {
 		//JButton clickedButton = (JButton)actionEvent.getSource();
 
 		if (actionEvent.getActionCommand().equals("Deal")) {
-			
-			guiController.printHand();
-			
-			btnDeal.setEnabled(false);
-			//btnCardExchange.setEnabled(true);
-			//System.out.println("test: " + this.p);
+			//guiController.printHand();
 
 			btnDeal.setEnabled(false);
-			//btnCardExchange.setEnabled(true);
-
-			gameController.setDealHands();
-			//guiController.setPlayerCardDisplay();
-
+			gameController.displayHand();
 			btnShowDealerHand.setEnabled(true);
 		}
 
 
 		if (actionEvent.getActionCommand().equals("Exchange Cards")) {
-			exchangePlayerCards();
 			
-
+			gameController.exchangeCards(exchangePlayerCards());
+			gameController.changeTurn();
+			
 			//-TOM NEW--------------------------------------------------------------------------------------------------------------------------------
 
 			JOptionPane.showMessageDialog(this,"Dealer will now exchange cards...",
 					"Dealer",
 					JOptionPane.OK_OPTION);
+			gameController.exchangeCards();
 
-			guiController.dealerExchange();
 
 			//---------------------------------------------------------------------------------------------------------------------------------
 
 		}
-
+		//CHANGE OF TURN IS ASYNCHRONOUS (DEPENDING ON WHAT BUTTONS GET PRESSED
 		if (actionEvent.getActionCommand().equals("Show Dealer Hand")) {
 			if (!playerHasExchangedCards) {
 				int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you don't want to exchange any cards?",
 						"Just checking...",
 						JOptionPane.YES_NO_OPTION);
-
 				//no = 1
 				if (confirm == 0) {
-					showDealerHand();
+					gameController.changeTurn();
+					gameController.exchangeCards();
+					btnShowDealerHand.setEnabled(false);
+					btnScoreHands.setEnabled(true);
 				}
 			} else {
+				gameController.exchangeCards();
 				showDealerHand();
 			}
 		}
 
 		if (actionEvent.getActionCommand().equals("Score Hands")) {
-			String[] results = guiController.getScore();
-
-			JOptionPane.showMessageDialog(this, results[0] + "\n" + results[1] + "\n\n" + results[2] + " has won the round!",
-					"Results",
-					JOptionPane.OK_OPTION);
-
-			if (JOptionPane.showConfirmDialog(this, "Player score is: " + guiController.getPlayerScore() + "\nDealer score is: " + guiController.getDealerScore() + "\n\nDo you want to play another round?\nWell, do ya, punk?",
-					"Another Hub?",
-					JOptionPane.YES_NO_OPTION) == 0) {
-				// RESET GAME
-				//int temp = 3;
-				//temp=54;
-				guiController.setPlayerCardsToBack();
-				//PlayerHandPanel.
-				this.repaint();
-				
-				gameController.setScoreHands(true);
-			} else {
-				
-				//tell round to exit instead
-				System.exit(0);
-			}
-
+			
+			gameController.scoreHands();
+			gameController.changeTurn();
 		}
 	}
 	
@@ -152,43 +135,47 @@ public class ControlPanel extends JPanel implements ActionListener {
 	private void showDealerHand() {
 		btnCardExchange.setEnabled(false);
 		btnShowDealerHand.setEnabled(false);
-		guiController.showDealerHand();
 		btnScoreHands.setEnabled(true);
+		
+		gameController.showDealerHand();
 	}
 	
 	/**
 	 * Asks GUI controller which cards player has selected for exchange, then asks GUI to replace these with new cards.
 	 * Once this is done, asks GUI to update the card display
 	 */
-	private void exchangePlayerCards() {
+	private boolean[] exchangePlayerCards() {
+
 		btnCardExchange.setEnabled(false);
-		//btnDeal.setEnabled(true);
+		
+		boolean[] cardsToExchange = new boolean[5];
 
 		if (guiController.getCardRaisedStatus(1)) {
-			guiController.getNewCard(1);
+			cardsToExchange[0] = true;
 		}
 
 		if (guiController.getCardRaisedStatus(2)) {
-			guiController.getNewCard(2);
+			cardsToExchange[1] = true;
 		}
 
 		if (guiController.getCardRaisedStatus(3)) {
-			guiController.getNewCard(3);
+			cardsToExchange[2] = true;
 		}
 
 		if (guiController.getCardRaisedStatus(4)) {
-			guiController.getNewCard(4);
+			cardsToExchange[3] = true;
 		}
 
 		if (guiController.getCardRaisedStatus(5)) {
-			guiController.getNewCard(5);
+			cardsToExchange[4] = true;
 		}
 		
-		guiController.setPlayerCardDisplay();
+		//guiController.setPlayerCardDisplay();
 		guiController.setPlayerCardsforExchange(0);
 		playerHasExchangedCards = true;
-
-		guiController.printHand();
+		
+		return cardsToExchange;
+		//guiController.printHand();
 	}
 
 	/**
@@ -213,5 +200,29 @@ public class ControlPanel extends JPanel implements ActionListener {
 
 	public void setControl(GameController gameController) {
 		this.gameController = gameController;
+	}
+
+	public void displayResults(String[] results) {
+
+		JOptionPane.showMessageDialog(this, results[0] + "\n" + results[1] + "\n\n" + results[2] + " has won the round!",
+				"Results",
+				JOptionPane.OK_OPTION);
+
+		if (JOptionPane.showConfirmDialog(this, "Player score is: " + gameController.getPlayerPoints() + "\nDealer score is: " + gameController.getDealerPoints() + "\nDo you want to play another round?\nWell, do ya, punk?",
+				"Another Round?",
+				JOptionPane.YES_NO_OPTION) == 0) {
+			// RESET GAME
+			//int temp = 3;
+			//temp=54;
+			guiController.setPlayerCardsToBack();
+			//PlayerHandPanel.
+			this.repaint();
+			gameController.newRound();
+			}
+		else {
+			JOptionPane.showMessageDialog(this,"Sayonara, sweetheart");
+			gameController.endGame();
+		}
+		
 	}
 }

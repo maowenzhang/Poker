@@ -52,9 +52,12 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		FlowLayout playingCardLayout = new FlowLayout(FlowLayout.CENTER,20,0);
 		setLayout(playingCardLayout);
 
-		//BoxLayout playingCardLayout = new BoxLayout(FlowLayout.CENTER,20,0);
-		//setLayout(playingCardLayout);
-
+		cardDisplay1 = new JLabel();
+		cardDisplay2 = new JLabel();
+		cardDisplay3 = new JLabel();
+		cardDisplay4 = new JLabel();
+		cardDisplay5 = new JLabel();
+		
 		setPlayerCardsToBack();
 
 		cardDisplay1.addMouseListener(this);
@@ -88,68 +91,48 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		btnShowDealerHand.setEnabled(false);
 		//add(btnShowDealerHand);
 
-		/*
-		try {
-			playingCard1 = ImageIO.read(new File("res/graphics/classic-cards/1.png"));
-			playingCard2 = ImageIO.read(new File("res/graphics/classic-cards/2.png"));
-			playingCard3 = ImageIO.read(new File("res/graphics/classic-cards/3.png"));
-			playingCard4 = ImageIO.read(new File("res/graphics/classic-cards/4.png"));
-			playingCard5 = ImageIO.read(new File("res/graphics/classic-cards/5.png"));
-		} catch (IOException exception) {
-			// TODO Auto-generated catch block
-			exception.printStackTrace();
-		}
-		 */
-
 	}
 
 	/**
 	 * setter method - sets all the card displays to the image of the back of a card
 	 */
 	public void setPlayerCardsToBack() {
-		ImageIcon testCard = new ImageIcon("res/graphics/classic-cards/b2fv.png");
+		ImageIcon cardBack = new ImageIcon("res/graphics/classic-cards/b2fv.png");
 		
-		cardDisplay1 = (new JLabel(testCard));
+		cardDisplay1.setIcon(cardBack);
 		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		
-		cardDisplay2 = new JLabel(testCard);
+		cardDisplay2.setIcon(cardBack);
 		cardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 
-		cardDisplay3 = new JLabel(testCard);
+		cardDisplay3.setIcon(cardBack);
 		cardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 
-		cardDisplay4 = new JLabel(testCard);
+		cardDisplay4.setIcon(cardBack);
 		cardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 
-		cardDisplay5 = new JLabel(testCard);
+		cardDisplay5.setIcon(cardBack);
 		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		
 		repaint();
 	}
-
-	//	public void exchangeCard(JLabel clickedCard) {
-	//		clickedCard.setIcon(new ImageIcon("res/graphics/classic-cards/" + randomCard() + ".png"));
-	//	}
-	//	
-	//	public int randomCard() {
-	//		Random generator = new Random();
-	//		int cardSelector = generator.nextInt(51) + 1;
-	//		return cardSelector;
-	//	}
+	
+	public void refresh(){
+		numberOfCardsSelected = 0;
+		playerHasExchangedCards = false;
+		setPlayerCardsToBack();
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
-		/*		g.drawImage(playingCard1, 0, 0, null);
-		g.drawImage(playingCard2, 100, 0, null);
-		g.drawImage(playingCard3, 200, 0, null);
-		g.drawImage(playingCard4, 300, 0, null);
-		g.drawImage(playingCard5, 400, 0, null);*/
 	}
 
 	/**
 	 * Mouse release raises cards for exchange - only three cards can be raised
 	 */
+	
+	//CAN WE MAKE THIS A LITTLE CLEARER?
 	public void mouseReleased(MouseEvent event) {
 		//System.out.println(event.getSource());
 		Boolean actionCarriedOut = false;
@@ -173,88 +156,9 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 			guiController.setPlayerCardsforExchange(numberOfCardsSelected);
 			
-//			if (numberOfCardsSelected>0) {
-//				btnCardExchange.setEnabled(true);
-//			} else {
-//				btnCardExchange.setEnabled(false);
-//			}
 		}
 	}
 
-	@Override
-	/**
-	 * logic determines whether button click is to exchange cards or show dealer hand
-	 * exchange cards - asks GUI controller to exchange raised cards and reset display
-	 * show dealer hand - if no cards have been raised, player is asked to confirm they don't want to exchange any card
-	 */
-	public void actionPerformed(ActionEvent actionEvent) {
-
-/*		if (actionEvent.getActionCommand().equals("Deal")) {
-			btnDeal.setEnabled(false);
-			//btnCardExchange.setEnabled(true);
-
-			setCardDisplay(cardDisplay1, "player", 1);
-			setCardDisplay(cardDisplay2, "player", 2);
-			setCardDisplay(cardDisplay3, "player", 3);
-			setCardDisplay(cardDisplay4, "player", 4);
-			setCardDisplay(cardDisplay5, "player", 5);
-
-			btnShowDealerHand.setEnabled(true);
-		}*/
-
-		if (actionEvent.getActionCommand().equals("Exchange Cards")) {
-			btnCardExchange.setEnabled(false);
-			btnDeal.setEnabled(true);
-
-			if (getCardRaisedStatus(cardDisplay1)) {
-				guiController.getNewCard(1);
-			}
-
-			if (getCardRaisedStatus(cardDisplay2)) {
-				guiController.getNewCard(2);
-			}
-			
-			if (getCardRaisedStatus(cardDisplay3)) {
-				guiController.getNewCard(3);
-			}
-			
-			if (getCardRaisedStatus(cardDisplay4)) {
-				guiController.getNewCard(4);
-			}
-			
-			if (getCardRaisedStatus(cardDisplay5)) {
-				guiController.getNewCard(5);
-			}
-
-			guiController.setPlayerCardDisplay();
-			
-			numberOfCardsSelected = 0;
-			playerHasExchangedCards = true;
-
-			guiController.printHand();
-
-			//Timer timer = new Timer();
-			/*		    try {
-		    	for (int loopCount = 1; loopCount<RAISE_HEIGHT; loopCount++) {
-					//timer.
-					setCardHeight(cardDisplay1,loopCount);
-		    	}
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-		}
-
-		if (actionEvent.getActionCommand().equals("Show Dealer Hand")) {
-			if (!playerHasExchangedCards) {
-				int confirm = JOptionPane.showConfirmDialog(this, "Are you sure you don't want to exchange any cards?",
-						"Just checking...",
-						JOptionPane.YES_NO_OPTION);
-			}
-			
-			//guiControl.showDealerHand();
-		}
-	}
 
 	/**
 	 * getter method - determines whether the given card (1 - 5) has been raised to exchange
@@ -269,58 +173,20 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 			case 3: return cardDisplay3.getBorder().getBorderInsets(cardDisplay3).top != RAISE_HEIGHT;
 			case 4: return cardDisplay4.getBorder().getBorderInsets(cardDisplay4).top != RAISE_HEIGHT;
 			case 5: return cardDisplay5.getBorder().getBorderInsets(cardDisplay5).top != RAISE_HEIGHT;
-			default: return null;
-			
-		}
-			
+			default: return null;	
+		}		
 	}
-	/* CHANGED
-	public void setCardDisplay(JLabel cardDisplay, String hand, int cardNumber) {
-		//exchangeCard(cardDisplay);
-		cardDisplay.setIcon(new ImageIcon("res/graphics/classic-cards/" + round.getCardToDisplay(hand, cardNumber) + ".png"));
-		cardDisplay.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-	}
-	*/
+
 
 	/**
-	 * getter method - DO WE STILL USE THIS???
+	 * getter method - ...
 	 * @param cardDisplay
 	 * @return
 	 */
+
 	public String getCardName(JLabel cardDisplay) {
 		return cardDisplay.getIcon().toString().substring(cardDisplay.getIcon().toString().lastIndexOf("/")+1,29);
 		//return "" + cardDisplay.getIcon().toString().lastIndexOf("/");
-	}
-
-	/**
-	 * getter method - gets the height of a card (i.e. to see if it has been raised for exchange)
-	 * @param the card display to check
-	 * @return the height of the card
-	 */
-	public int getCardHeight(JLabel cardDisplay) {
-		return cardDisplay.getBorder().getBorderInsets(cardDisplay).top;
-	}
-
-	/**
-	 * setter method - sets the height of a card
-	 * @param the card display
-	 * @param the new height of the display
-	 */
-	public void setCardHeight(JLabel cardDisplay, int newHeight) {
-		cardDisplay.getBorder().getBorderInsets(cardDisplay).top = newHeight;
-	}
-
-	/**
-	 *  getter method - determines whether a card has been raised for exchange
-	 * @param the card display to check
-	 * @return true if card has been raised
-	 */
-	public boolean getCardRaisedStatus(JLabel cardDisplay) {
-		if (cardDisplay.getBorder().getBorderInsets(cardDisplay).top == RAISE_HEIGHT) {
-			return false;
-		} else {
-			return true;
-		}
 	}
 	
 	/**
@@ -379,6 +245,10 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 		
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
 	}
 
 }

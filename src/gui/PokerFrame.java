@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 
 import pokerLauncher.GameController;
-import pokerLauncher.Hub;
+
 
 
 public class PokerFrame extends JFrame{
@@ -26,7 +26,6 @@ public class PokerFrame extends JFrame{
 	ControlPanel controlPanel;
 	
 	GUIController guiController;
-	Hub hub;
 	CardController cardController;
 	GameController gameController;
 
@@ -115,19 +114,17 @@ public class PokerFrame extends JFrame{
 		guiController.setPlayerHandPanel(playerHandPanel);
 		guiController.setDealerHandPanel(dealerHandPanel);
 		
-		hub = new Hub();
 		cardController = new CardController();
 		gameController = new GameController();
 		
-		hub.setCardControl(cardController);
-		hub.setGUIControl(guiController);
-		
-		cardController.setControl(hub);
-		guiController.setControl(hub);
-		
 		gameController.addObserver(guiController);
 		gameController.addObserver(cardController);
+		
 		controlPanel.setControl(gameController);
+		cardController.setControl(gameController);
+		
+		cardController.setControl(guiController);
+		
 		//gameController.setScoreHands(true);
 		//System.out.println(gameController.countObservers());
 		

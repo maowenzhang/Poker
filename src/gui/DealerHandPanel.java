@@ -14,7 +14,7 @@ public class DealerHandPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private static final int RAISE_HEIGHT = 80;
 
-	ImageIcon Card = new ImageIcon("res/graphics/classic-cards/b2fv.png");
+	
 	JLabel CardDisplay1;
 	JLabel CardDisplay2;
 	JLabel CardDisplay3;
@@ -30,41 +30,48 @@ public class DealerHandPanel extends JPanel {
 		FlowLayout playingCardLayout = new FlowLayout(FlowLayout.CENTER,20,0);
 		setLayout(playingCardLayout);
 
-		CardDisplay1 = new JLabel(Card);
-		CardDisplay1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		CardDisplay2 = new JLabel(Card);
-		CardDisplay2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		CardDisplay3 = new JLabel(Card);
-		CardDisplay3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		CardDisplay4 = new JLabel(Card);
-		CardDisplay4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
-		CardDisplay5 = new JLabel(Card);
-		CardDisplay5.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		CardDisplay1 = new JLabel();
+		CardDisplay2 = new JLabel();
+		CardDisplay3 = new JLabel();
+		CardDisplay4 = new JLabel();
+		CardDisplay5 = new JLabel();
+		
+		setDealerCardsToBack();
 
 		add(CardDisplay1);
 		add(CardDisplay2);
 		add(CardDisplay3);
 		add(CardDisplay4);
 		add(CardDisplay5);
+
 	}
 
+	public void setDealerCardsToBack(){
+		ImageIcon cardBack = new ImageIcon("res/graphics/classic-cards/b2fv.png");
+		
+		CardDisplay1.setIcon(cardBack);
+		CardDisplay1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		
+		CardDisplay2.setIcon(cardBack);
+		CardDisplay2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		CardDisplay3.setIcon(cardBack);
+		CardDisplay3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		CardDisplay4.setIcon(cardBack);
+		CardDisplay4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+
+		CardDisplay5.setIcon(cardBack);
+		CardDisplay5.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		
+		repaint();
+	}
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 	}
 
-	/**
-	 * asks GUI controller to set the dealer's hand display
-	 */
-	public void showDealerHand() {
-		
-		guiController.setDealerCardDisplay();
-
-	}
+	
 
 	/**
 	 * setter method - enables panel to see the GUI controller
@@ -90,5 +97,9 @@ public class DealerHandPanel extends JPanel {
 			case 5: CardDisplay5.setIcon(new ImageIcon(iconName));
 	
 		}
+	}
+
+	public void setPlayerCardsToBack() {
+		setDealerCardsToBack();
 	}
 }
