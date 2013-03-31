@@ -34,7 +34,7 @@ public class DeckTest {
 		Random random = new Random();
 		PlayingCard randomCard = testDeck2.PlayingCardFactory();
 		
-		randomCard.setPlayingCard(random.nextInt(13),random.nextInt(4));
+		randomCard.setPlayingCard(random.nextInt(13)+1,random.nextInt(4)+1);
 		
 		int numberOfMatches = 0;
 		int correctNumberOfMatches = 1;

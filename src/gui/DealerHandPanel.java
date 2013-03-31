@@ -36,7 +36,7 @@ public class DealerHandPanel extends JPanel {
 		CardDisplay4 = new JLabel();
 		CardDisplay5 = new JLabel();
 		
-		setDealerCardsToBack();
+		resetDealerHandDisplay();
 
 		add(CardDisplay1);
 		add(CardDisplay2);
@@ -46,23 +46,26 @@ public class DealerHandPanel extends JPanel {
 
 	}
 
-	public void setDealerCardsToBack(){
+	public void setDealerCardsToOriginalPosition(){
+		CardDisplay1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		CardDisplay2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		CardDisplay3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		CardDisplay4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		CardDisplay5.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		
+		repaint();
+	}
+	
+	public void resetDealerHandDisplay(){
 		ImageIcon cardBack = new ImageIcon("res/graphics/classic-cards/b2fv.png");
 		
 		CardDisplay1.setIcon(cardBack);
-		CardDisplay1.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		
 		CardDisplay2.setIcon(cardBack);
-		CardDisplay2.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
 		CardDisplay3.setIcon(cardBack);
-		CardDisplay3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
 		CardDisplay4.setIcon(cardBack);
-		CardDisplay4.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-
 		CardDisplay5.setIcon(cardBack);
-		CardDisplay5.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		
+		setDealerCardsToOriginalPosition();
 		
 		repaint();
 	}
@@ -97,9 +100,5 @@ public class DealerHandPanel extends JPanel {
 			case 5: CardDisplay5.setIcon(new ImageIcon(iconName));
 	
 		}
-	}
-
-	public void setPlayerCardsToBack() {
-		setDealerCardsToBack();
 	}
 }

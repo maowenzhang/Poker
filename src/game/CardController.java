@@ -4,6 +4,7 @@ import gui.GUIController;
 
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Logger;
 
 import pokerLauncher.GameController;
 import pokerLauncher.GameController.DealHands;
@@ -40,9 +41,9 @@ public class CardController implements Observer{
 	 * constructor generates the deck and player's and dealer's hands; using the deck to deal cards to both hands
 	 * Sets local variable
 	 */
-//	public CardController(){
-//		refreshGame();
-//	}
+	//	public CardController(){
+	//		refreshGame();
+	//	}
 
 	/**
 	 * generates a new deck and player's and dealer's hands; using the deck to deal cards to both hands
@@ -53,6 +54,9 @@ public class CardController implements Observer{
 		playerHand = new Hand(deck);
 		dealerHand = new Hand(deck);
 
+		Logger log = Logger.getLogger("NewLogger");
+		log.info("PLAYER HAND: \n" + playerHand.getCard(0).getPlayingCardFullName() + "\n" + playerHand.getCard(1).getPlayingCardFullName() + "\n" + playerHand.getCard(2).getPlayingCardFullName() + "\n" + playerHand.getCard(3).getPlayingCardFullName() + "\n" + playerHand.getCard(4).getPlayingCardFullName());
+		log.info("DEALER HAND: \n" + dealerHand.getCard(0).getPlayingCardFullName() + "\n" + dealerHand.getCard(1).getPlayingCardFullName() + "\n" + dealerHand.getCard(2).getPlayingCardFullName() + "\n" + dealerHand.getCard(3).getPlayingCardFullName() + "\n" + dealerHand.getCard(4).getPlayingCardFullName());
 	}
 
 	/**
@@ -61,41 +65,6 @@ public class CardController implements Observer{
 	public void evaluateHands() {
 		playerHand.evaluate();
 		dealerHand.evaluate();
-	}
-
-	/**
-	 * asks round which hand to look at, before asking this hand to return its score
-	 * @return the value of the hand's score
-	 */
-	public int getPlayerHandScore(boolean player) {
-		if(player){
-			return playerHand.getHandScore();
-		} else {
-			return dealerHand.getHandScore();
-		}
-	}
-
-	/**
-	 * asks round which hand to look at, before asking this hand to return a description of itself
-	 * @return a description of the hand
-	 */
-	public String getPlayerHandDescription(boolean player){
-
-		String handDescription = "";
-
-		if(player){
-
-			handDescription = playerHand.getHandDescription();
-
-		}
-
-		else if (player){
-			handDescription = dealerHand.getHandDescription();
-
-		}
-
-		return handDescription;
-
 	}
 
 
@@ -135,19 +104,19 @@ public class CardController implements Observer{
 
 		evaluateHands();
 
-		int playerHandScore = getPlayerHandScore(true);
-		int dealerHandScore = getPlayerHandScore(false);
+		int playerHandScore = playerHand.getHandScore();
+		int dealerHandScore = dealerHand.getHandScore();
 
-		results[0] = "Player has: " + getPlayerHandDescription(true);
-		results[1] = "Dealer has: " + getPlayerHandDescription(false);
+		results[0] = "Player has: " + playerHand.getHandDescription();
+		results[1] = "Dealer has: " + dealerHand.getHandDescription();
 
 		if (playerHandScore > dealerHandScore) {
-			results[2] = "PLAYER";
+			results[2] = "Player";
 			gameController.addPointPlayer(true);
 		} 
 		else {
 			gameController.addPointPlayer(false);
-			results[2] = "DEALER";
+			results[2] = "Dealer";
 		}
 		guiController.displayResults(results);
 	}
@@ -168,19 +137,19 @@ public class CardController implements Observer{
 			DealerAI dealerAI = new DealerAI(dealerHand, deck);
 			//this.setControl(dealerAI);
 			//dealerAI.setControl(this);
-			
-			
+
+
 			setDealerSwapNum(dealerAI.getNumOfCardsChanged());
 
-			guiController.setDealerSwapNum(getDealerSwapNum());
 			guiController.setDealerCardSwapMessage(getDealerSwapNum());
+			guiController.setDealerSwapNum(getDealerSwapNum());
 		}
 
 	}
 
-//	private void setControl(DealerAI dealerAI) {
-//		this.dealerAI = dealerAI;
-//	}
+	//	private void setControl(DealerAI dealerAI) {
+	//		this.dealerAI = dealerAI;
+	//	}
 
 	/**
 	 * asks round which hand to look at, before asking this hand to replace a certain card with a new card from the deck

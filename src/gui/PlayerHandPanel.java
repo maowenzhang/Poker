@@ -16,13 +16,13 @@ import javax.swing.JPanel;
 
 
 public class PlayerHandPanel extends JPanel implements MouseListener, ActionListener {
-	
-	
+
+
 	//create observer so that when player hand panel raises cards
 	//the control panel knows to grey out the exchange button
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final int RAISE_HEIGHT = 80;
 
 	private JButton btnDeal;
@@ -34,17 +34,17 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	private JLabel cardDisplay3;
 	private JLabel cardDisplay4;
 	private JLabel cardDisplay5;
-	
+
 	private int numberOfCardsSelected = 0;
 	private boolean playerHasExchangedCards = false;
 
 	private GUIController guiController;
-	
+
 	/**
 	 * constructs the player hand panel with all its buttons and action listener and mouse listener
 	 */
 	public PlayerHandPanel() {
-		
+
 		btnDeal = new JButton("Deal");
 		btnCardExchange = new JButton("Exchange Cards");
 		btnShowDealerHand = new JButton("Show Dealer Hand");
@@ -57,7 +57,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		cardDisplay3 = new JLabel();
 		cardDisplay4 = new JLabel();
 		cardDisplay5 = new JLabel();
-		
+
 		setPlayerCardsToBack();
 
 		cardDisplay1.addMouseListener(this);
@@ -65,7 +65,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		cardDisplay3.addMouseListener(this);
 		cardDisplay4.addMouseListener(this);
 		cardDisplay5.addMouseListener(this);
-		
+
 		add(cardDisplay1);
 		add(cardDisplay2);
 		add(cardDisplay3);
@@ -98,10 +98,10 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	 */
 	public void setPlayerCardsToBack() {
 		ImageIcon cardBack = new ImageIcon("res/graphics/classic-cards/b2fv.png");
-		
+
 		cardDisplay1.setIcon(cardBack);
 		cardDisplay1.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		
+
 		cardDisplay2.setIcon(cardBack);
 		cardDisplay2.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 
@@ -113,10 +113,10 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 		cardDisplay5.setIcon(cardBack);
 		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		
+
 		repaint();
 	}
-	
+
 	public void refresh(){
 		numberOfCardsSelected = 0;
 		playerHasExchangedCards = false;
@@ -131,7 +131,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	/**
 	 * Mouse release raises cards for exchange - only three cards can be raised
 	 */
-	
+
 	//CAN WE MAKE THIS A LITTLE CLEARER?
 	public void mouseReleased(MouseEvent event) {
 		//System.out.println(event.getSource());
@@ -139,23 +139,24 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 
 		JLabel clickedCard = (JLabel)event.getSource();
 		///setCardDisplay(clickedCard);
-		
+
 		//if the image displayed is not the back of a card
 		if (!getCardName(clickedCard).contains("b")) {
-			if (!actionCarriedOut && numberOfCardsSelected <=2 && clickedCard.getBorder().getBorderInsets(clickedCard).top == RAISE_HEIGHT) {
-				clickedCard.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-				numberOfCardsSelected += 1;
-				actionCarriedOut = true;
-			}
+			if (guiController.getIsPlayerTurn()) {
+				if (!actionCarriedOut && numberOfCardsSelected <=2 && clickedCard.getBorder().getBorderInsets(clickedCard).top == RAISE_HEIGHT) {
+					clickedCard.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+					numberOfCardsSelected += 1;
+					actionCarriedOut = true;
+				}
 
-			if (!actionCarriedOut && clickedCard.getBorder().getBorderInsets(clickedCard).top == 0) {
-				clickedCard.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-				numberOfCardsSelected -= 1;
-				actionCarriedOut = true;
-			}
+				if (!actionCarriedOut && clickedCard.getBorder().getBorderInsets(clickedCard).top == 0) {
+					clickedCard.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
+					numberOfCardsSelected -= 1;
+					actionCarriedOut = true;
+				}
 
-			guiController.setPlayerCardsforExchange(numberOfCardsSelected);
-			
+				guiController.setPlayerCardsforExchange(numberOfCardsSelected);
+			}
 		}
 	}
 
@@ -166,14 +167,14 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	 * @return true if card has been raised to exchange
 	 */
 	public Boolean getCardRaisedStatus(int cardDisplay) {
-		
+
 		switch (cardDisplay){
-			case 1: return cardDisplay1.getBorder().getBorderInsets(cardDisplay1).top != RAISE_HEIGHT;
-			case 2: return cardDisplay2.getBorder().getBorderInsets(cardDisplay2).top != RAISE_HEIGHT;
-			case 3: return cardDisplay3.getBorder().getBorderInsets(cardDisplay3).top != RAISE_HEIGHT;
-			case 4: return cardDisplay4.getBorder().getBorderInsets(cardDisplay4).top != RAISE_HEIGHT;
-			case 5: return cardDisplay5.getBorder().getBorderInsets(cardDisplay5).top != RAISE_HEIGHT;
-			default: return null;	
+		case 1: return cardDisplay1.getBorder().getBorderInsets(cardDisplay1).top != RAISE_HEIGHT;
+		case 2: return cardDisplay2.getBorder().getBorderInsets(cardDisplay2).top != RAISE_HEIGHT;
+		case 3: return cardDisplay3.getBorder().getBorderInsets(cardDisplay3).top != RAISE_HEIGHT;
+		case 4: return cardDisplay4.getBorder().getBorderInsets(cardDisplay4).top != RAISE_HEIGHT;
+		case 5: return cardDisplay5.getBorder().getBorderInsets(cardDisplay5).top != RAISE_HEIGHT;
+		default: return null;	
 		}		
 	}
 
@@ -188,7 +189,7 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		return cardDisplay.getIcon().toString().substring(cardDisplay.getIcon().toString().lastIndexOf("/")+1,29);
 		//return "" + cardDisplay.getIcon().toString().lastIndexOf("/");
 	}
-	
+
 	/**
 	 * setter method - enables panel to see the GUI controller
 	 * @param the guiControl reference
@@ -203,18 +204,18 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 	 * @param the card display to update
 	 */
 	public void setCardDisplay(String iconName, int cardDisplay) {
-		
+
 		switch (cardDisplay){
 		case 1: cardDisplay1.setIcon(new ImageIcon(iconName));
 		case 2: cardDisplay2.setIcon(new ImageIcon(iconName));
 		case 3: cardDisplay3.setIcon(new ImageIcon(iconName));
 		case 4: cardDisplay4.setIcon(new ImageIcon(iconName));
 		case 5: cardDisplay5.setIcon(new ImageIcon(iconName));
-		
+
 		}
-		
+
 	}
-	
+
 	/**
 	 *  TOM ANNOTATE
 	 */
@@ -224,27 +225,27 @@ public class PlayerHandPanel extends JPanel implements MouseListener, ActionList
 		cardDisplay3.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		cardDisplay4.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
 		cardDisplay5.setBorder(BorderFactory.createEmptyBorder(RAISE_HEIGHT, 0, 0, 0));
-		
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		
+
 	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
-		
+
 	}
 
 	@Override

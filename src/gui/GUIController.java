@@ -63,7 +63,7 @@ public class GUIController implements Observer{
 	 * sets all cards as card back for given hand
 	 */
 	public void setCardDisplay(int[] cardsToDisplay) {
-		if (isPlayerTurn){	
+		if (getIsPlayerTurn()){	
 			int i = 1;
 			for (int element : cardsToDisplay){
 				playerHandPanel.setCardDisplay("res/graphics/classic-cards/" + element + ".png",i);
@@ -77,6 +77,7 @@ public class GUIController implements Observer{
 				dealerHandPanel.setCardDisplay("res/graphics/classic-cards/" + element + ".png",i);
 				i++;
 			}
+			dealerHandPanel.setDealerCardsToOriginalPosition();
 		}
 	}
 	
@@ -136,7 +137,7 @@ public class GUIController implements Observer{
 	int tempCardValue = 0;
 	
 	if (dealerSwapNum != 0) {
-		cardToSwap1 = generator1.nextInt(4) + 1;
+		cardToSwap1 = generator1.nextInt(5) + 1;
 
 		moveDealerCard(cardToSwap1);
 
@@ -159,6 +160,7 @@ public class GUIController implements Observer{
 			}
 		}
 	}
+	
 	public void moveDealerCard(int cardToSwap) {
 		switch (cardToSwap) {
 		case 1:
@@ -184,7 +186,7 @@ public class GUIController implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		if(arg instanceof IsPlayerTurn){
-			this.isPlayerTurn = ((IsPlayerTurn) arg).getIsPlayerTurn();
+			setIsPlayerTurn(((IsPlayerTurn) arg).getIsPlayerTurn());
 		}
 	}
 
@@ -194,8 +196,16 @@ public class GUIController implements Observer{
 
 	public void refreshGame() {
 		playerHandPanel.refresh();
-		dealerHandPanel.setPlayerCardsToBack();
+		dealerHandPanel.resetDealerHandDisplay();
 		controlPanel.refresh();
+	}
+
+	public void setIsPlayerTurn(boolean isPlayerTurn) {
+		this.isPlayerTurn = isPlayerTurn;
+	}
+
+	public boolean getIsPlayerTurn() {
+		return isPlayerTurn;
 	}
 
 

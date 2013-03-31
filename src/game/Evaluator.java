@@ -1,5 +1,7 @@
 package game;
 
+import java.util.logging.Logger;
+
 /**
  * the evaluator class contains all the logic needed to evaluate a hand and determine the scoring
  * @author Tom & Jonathan
@@ -399,6 +401,10 @@ public class Evaluator{
 
 		hand.sort();
 
+		Logger log = Logger.getLogger("NewLogger");
+		log.info("HAND: \n" + hand.getCard(0).getPlayingCardFullName() + "\n" + hand.getCard(1).getPlayingCardFullName() + "\n" + hand.getCard(2).getPlayingCardFullName() + "\n" + hand.getCard(3).getPlayingCardFullName() + "\n" + hand.getCard(4).getPlayingCardFullName());
+		
+		
 		card1 = hand.get(0);
 		card2 = hand.get(1);
 		card3 = hand.get(2);
@@ -452,7 +458,7 @@ public class Evaluator{
 		
 		
 		//for testing!
-		setCardMatcher();
+		//setCardMatcher();
 	}
 
 	/**

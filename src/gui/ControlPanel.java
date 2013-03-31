@@ -111,13 +111,9 @@ public class ControlPanel extends JPanel implements ActionListener {
 						JOptionPane.YES_NO_OPTION);
 				//no = 1
 				if (confirm == 0) {
-					gameController.changeTurn();
-					gameController.exchangeCards();
-					btnShowDealerHand.setEnabled(false);
-					btnScoreHands.setEnabled(true);
+					showDealerHand();
 				}
 			} else {
-				gameController.exchangeCards();
 				showDealerHand();
 			}
 		}
@@ -133,6 +129,12 @@ public class ControlPanel extends JPanel implements ActionListener {
 	 * Asks GUI controller to make dealer's hand visible
 	 */
 	private void showDealerHand() {
+		
+		if (!playerHasExchangedCards) { // ie. player has exchanged cards 
+			gameController.changeTurn();
+			gameController.exchangeCards();
+		}
+		
 		btnCardExchange.setEnabled(false);
 		btnShowDealerHand.setEnabled(false);
 		btnScoreHands.setEnabled(true);
